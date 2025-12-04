@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade Terminal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        heading: ['Cinzel', 'serif'],
+                        body: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        obsidian: '#050505',
+                        emerald: {
+                            500: '#10b981',
+                            600: '#059669',
+                            900: '#064e3b',
+                        }
+                    },
+                    animation: {
+                        'pop-in': 'popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
+                        'slide-up': 'slideUp 0.4s ease-out forwards',
+                    },
+                    keyframes: {
+                        popIn: {
+                            '0%': { opacity: '0', transform: 'scale(0.9)' },
+                            '100%': { opacity: '1', transform: 'scale(1)' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { transition: background-color 0.4s ease, color 0.4s ease; }
+        
+        /* Glassmorphism Logic */
+        .glass-panel {
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        /* Dark Mode Specifics */
+        .dark .glass-panel {
+            background: rgba(20, 20, 20, 0.7);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Light Mode Specifics */
+        .light .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 20px 40px -10px rgba(16, 185, 129, 0.15); /* Soft Green Shadow */
+        }
+
+        /* Clean Inputs */
+        input, select { 
+            -webkit-appearance: none; 
+            appearance: none; 
+            background: transparent;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .dark ::-webkit-scrollbar-thumb { background: #334155; }
+    </style>
+</head>
+
+<body class="dark bg-obsidian text-white min-h-screen flex flex-col items-center justify-center p-4 relative overflow-hidden transition-colors duration-500">
+
+    <div class="fixed inset-0 pointer-events-none z-0">
+        <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-emerald-500/20 rounded-full blur-[100px]"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-blue-500/10 rounded-full blur-[100px]"></div>
+    </div>
+
+    <div class="absolute top-6 w-full max-w-lg flex justify-between px-2 z-50">
+        <button onclick="goBack()" id="back-btn" class="opacity-0 pointer-events-none p-2 rounded-full hover:bg-gray-200/20 transition-all text-current">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+        </button>
+
+        <button onclick="toggleTheme()" class="p-2 rounded-full hover:bg-gray-200/20 transition-all text-current">
+            <svg id="icon-sun" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+            <svg id="icon-moon" class="h-6 w-6 hidden text-emerald-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+        </button>
+    </div>
+
+    <div class="w-full max-w-md relative z-10">
+        <div class="glass-panel rounded-3xl p-8 shadow-2xl animate-pop-in min-h-[400px] flex flex-col relative">
+            
+            <div class="text-center mb-6">
+                <h1 class="text-3xl font-heading font-bold dark:text-white text-emerald-900 tracking-wider">Ayush Calculator</h1>
+                <p class="text-xs font-body uppercase tracking-[0.2em] opacity-60 mt-1 dark:text-gray-300 text-emerald-700">Grade Terminal</p>
+            </div>
+
+            <div id="app-root" class="flex-1 flex flex-col justify-center">
+                </div>
+
+        </div>
+
+        <div class="text-center mt-6 animate-slide-up opacity-60 hover:opacity-100 transition-opacity">
+            <p class="text-xs font-body tracking-wider text-current">
+                Crafted by Ayush | B.Tech AIML
+            </p>
+        </div>
+    </div>
+
+    <script>
+        const root = document.getElementById('app-root');
+        const backBtn = document.getElementById('back-btn');
+        let state = { mode: null, count: 0 };
+
+        // Grade Mapping (VIT/Standard Style)
+        const gradeMap = { 'S': 10, 'A': 9, 'B': 8, 'C': 7, 'D': 6, 'E': 5, 'F': 0, 'N': 0 };
+
+        // --- Theme Logic ---
+        function toggleTheme() {
+            const body = document.body;
+            body.classList.toggle('dark');
+            body.classList.toggle('light');
+            
+            if(body.classList.contains('light')) {
+                // Switch to Light Mode Styles
+                body.classList.remove('bg-obsidian', 'text-white');
+                body.classList.add('bg-gray-50', 'text-gray-800');
+                document.getElementById('icon-sun').classList.add('hidden');
+                document.getElementById('icon-moon').classList.remove('hidden');
+            } else {
+                // Switch to Dark Mode Styles
+                body.classList.add('bg-obsidian', 'text-white');
+                body.classList.remove('bg-gray-50', 'text-gray-800');
+                document.getElementById('icon-sun').classList.remove('hidden');
+                document.getElementById('icon-moon').classList.add('hidden');
+            }
+        }
+
+        // --- Navigation Logic ---
+        function toggleBackBtn(show) {
+            backBtn.classList.toggle('opacity-0', !show);
+            backBtn.classList.toggle('pointer-events-none', !show);
+        }
+
+        function goBack() {
+            // Simple history handling
+            if(document.getElementById('res-screen')) renderEntry(state.count);
+            else if(document.getElementById('entry-screen')) renderCountInput();
+            else renderHome();
+        }
+
+        // --- Screens ---
+
+        // 1. Home Screen
+        function renderHome() {
+            state.mode = null;
+            toggleBackBtn(false);
+            root.innerHTML = `
+                <div class="space-y-4 animate-slide-up">
+                    <p class="text-center text-sm opacity-70 mb-4 font-body">What are we calculating today?</p>
+                    <div class="grid grid-cols-2 gap-4">
+                        <button onclick="setMode('PERCENTAGE')" class="h-32 rounded-2xl border border-current/10 bg-current/5 hover:bg-emerald-500/10 hover:border-emerald-500/50 transition-all group flex flex-col items-center justify-center">
+                            <span class="text-3xl font-heading mb-2 group-hover:scale-110 transition-transform text-emerald-500">%</span>
+                            <span class="text-[10px] font-bold uppercase tracking-widest opacity-70">Percentage</span>
+                        </button>
+                        <button onclick="setMode('CGPA')" class="h-32 rounded-2xl border border-current/10 bg-current/5 hover:bg-emerald-500/10 hover:border-emerald-500/50 transition-all group flex flex-col items-center justify-center">
+                            <span class="text-3xl font-heading mb-2 group-hover:scale-110 transition-transform text-emerald-500">GPA</span>
+                            <span class="text-[10px] font-bold uppercase tracking-widest opacity-70">CGPA</span>
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function setMode(m) {
+            state.mode = m;
+            renderCountInput();
+        }
+
+        // 2. Count Input Screen
+        function renderCountInput() {
+            toggleBackBtn(true);
+            root.innerHTML = `
+                <div class="animate-slide-up flex flex-col items-center space-y-6">
+                    <div class="text-center">
+                        <h2 class="text-xl font-body font-bold text-emerald-600 dark:text-emerald-400">${state.mode}</h2>
+                        <p class="text-sm opacity-60">How many subjects do you have?</p>
+                    </div>
+                    
+                    <div class="relative w-full">
+                        <input type="number" id="sub-count" 
+                            class="w-full bg-transparent border-b-2 border-gray-300 dark:border-gray-700 focus:border-emerald-500 text-center text-4xl py-2 font-heading transition-colors focus:outline-none" 
+                            placeholder="0" onkeydown="if(event.key==='Enter') startEntry()">
+                    </div>
+
+                    <button onclick="startEntry()" class="w-full py-4 rounded-xl font-bold tracking-wide shadow-lg transform transition active:scale-95 bg-emerald-600 text-white hover:bg-emerald-700">
+                        Let's Go
+                    </button>
+                </div>
+            `;
+            setTimeout(() => document.getElementById('sub-count').focus(), 100);
+        }
+
+        function startEntry() {
+            const val = parseInt(document.getElementById('sub-count').value);
+            if (!val || val < 1 || val > 15) {
+                // Simple shake animation or alert could go here
+                return; 
+            }
+            state.count = val;
+            renderEntry(val);
+        }
+
+        // 3. Data Entry Screen
+        function renderEntry(val) {
+            toggleBackBtn(true);
+            let fields = '';
+            
+            for(let i=1; i<=val; i++) {
+                if(state.mode === 'PERCENTAGE') {
+                    // Percentage Inputs
+                    fields += `
+                        <div class="flex items-center justify-between p-3 rounded-lg bg-current/5 border border-transparent focus-within:border-emerald-500/50 transition-colors">
+                            <span class="text-sm font-semibold opacity-70">Subject ${i}</span>
+                            <div class="flex items-center gap-1">
+                                <input id="v-${i}" type="number" class="w-16 text-right bg-transparent focus:outline-none font-bold text-lg" placeholder="0">
+                                <span class="text-xs opacity-50">/100</span>
+                            </div>
+                        </div>`;
+                } else {
+                    // CGPA Inputs (Dropdown + Credit)
+                    fields += `
+                        <div class="p-3 rounded-lg bg-current/5 mb-3 border border-transparent focus-within:border-emerald-500/50">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-xs font-bold opacity-50 uppercase tracking-wide">Subject ${i}</span>
+                            </div>
+                            <div class="flex gap-4">
+                                <input id="c-${i}" type="number" class="w-full bg-transparent border-b border-current/20 focus:border-emerald-500 focus:outline-none text-sm py-1" placeholder="Credits (e.g. 4)">
+                                <select id="g-${i}" class="w-full bg-transparent border-b border-current/20 focus:border-emerald-500 focus:outline-none text-sm py-1 cursor-pointer">
+                                    <option value="" class="dark:bg-obsidian bg-white">Grade</option>
+                                    <option value="S" class="dark:bg-obsidian bg-white font-bold text-emerald-500">S (Superb)</option>
+                                    <option value="A" class="dark:bg-obsidian bg-white">A</option>
+                                    <option value="B" class="dark:bg-obsidian bg-white">B</option>
+                                    <option value="C" class="dark:bg-obsidian bg-white">C</option>
+                                    <option value="D" class="dark:bg-obsidian bg-white">D</option>
+                                    <option value="E" class="dark:bg-obsidian bg-white">E</option>
+                                    <option value="F" class="dark:bg-obsidian bg-white text-red-500">F (Fail)</option>
+                                    <option value="P" class="dark:bg-obsidian bg-white text-blue-400">P (Pass)</option>
+                                </select>
+                            </div>
+                        </div>`;
+                }
+            }
+
+            root.innerHTML = `
+                <div id="entry-screen" class="animate-slide-up flex flex-col h-full">
+                    <div class="flex-1 overflow-y-auto max-h-[350px] pr-2 custom-scrollbar space-y-3 mb-4">
+                        ${fields}
+                    </div>
+                    <button onclick="calc()" class="w-full py-4 rounded-xl font-bold tracking-wide shadow-lg transform transition active:scale-95 bg-emerald-600 text-white hover:bg-emerald-700">
+                        Calculate Result
+                    </button>
+                    <p id="err-msg" class="text-center text-xs text-red-400 mt-2 h-4 opacity-0 transition-opacity">Oops! Check your inputs.</p>
+                </div>
+            `;
+        }
+
+        // --- Logic ---
+        function calc() {
+            let total = 0, div = 0, valid = true;
+            
+            for(let i=1; i<=state.count; i++) {
+                if(state.mode === 'PERCENTAGE') {
+                    let v = parseFloat(document.getElementById(`v-${i}`).value);
+                    if(isNaN(v) || v<0 || v>100) valid=false;
+                    total += v;
+                    div = state.count * 100;
+                } else {
+                    let c = parseFloat(document.getElementById(`c-${i}`).value);
+                    let g = document.getElementById(`g-${i}`).value;
+
+                    if(isNaN(c) || g === "") { valid = false; break; }
+                    if(g === 'P') continue; // Pass grade ignored
+
+                    total += (c * gradeMap[g]);
+                    div += c;
+                }
+            }
+
+            const err = document.getElementById('err-msg');
+            if(!valid) { 
+                err.innerText = "Please fill all fields correctly!";
+                err.classList.remove('opacity-0'); 
+                return; 
+            }
+            if(state.mode === 'CGPA' && div === 0) {
+                err.innerText = "Only 'P' grades? No GPA to calculate.";
+                err.classList.remove('opacity-0'); 
+                return;
+            }
+            
+            let res = state.mode === 'PERCENTAGE' ? (total/div)*100 : (total/div);
+            showRes(res);
+        }
+
+        // 4. Result Screen
+        function showRes(val) {
+            toggleBackBtn(true);
+            let formatted = val.toFixed(2);
+            let scale = state.mode === 'CGPA' ? val*10 : val;
+            
+            // Student-friendly remarks
+            let msg = "Keep working hard!";
+            if(scale >= 90) msg = "Absolutely Crushed It! 🔥";
+            else if(scale >= 80) msg = "Great Job! Keep it up. 🚀";
+            else if(scale >= 70) msg = "Solid Performance. 👍";
+            else if(scale >= 60) msg = "You passed! On to the next. 📚";
+            else msg = "Time to focus and bounce back. 💪";
+
+            // Determine ring color
+            let ringColor = scale >= 50 ? 'border-emerald-500' : 'border-red-500';
+            let textColor = scale >= 50 ? 'text-emerald-500' : 'text-red-500';
+
+            root.innerHTML = `
+                <div id="res-screen" class="animate-pop-in flex flex-col items-center justify-center h-full py-8 text-center">
+                    
+                    <div class="relative w-48 h-48 flex items-center justify-center rounded-full border-4 ${ringColor} bg-current/5 shadow-2xl mb-6">
+                        <div class="text-center">
+                            <span class="block text-5xl font-heading font-bold ${textColor}">${formatted}</span>
+                            <span class="text-xs uppercase opacity-50 tracking-widest">${state.mode}</span>
+                        </div>
+                    </div>
+
+                    <p class="text-lg font-medium opacity-90 mb-8">"${msg}"</p>
+
+                    <button onclick="renderHome()" class="px-6 py-2 rounded-full border border-current/20 hover:bg-current/10 text-xs font-bold uppercase tracking-widest transition-all">
+                        New Calculation
+                    </button>
+                </div>
+            `;
+        }
+
+        // Start App
+        renderHome();
+    </script>
+</body>
+</html>
