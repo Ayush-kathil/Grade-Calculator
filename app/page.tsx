@@ -31,10 +31,11 @@ const gradePoints: { [key: string]: number } = {
   N: 0,
 };
 
-export default function Dashboard() {
+export default function Platform() {
+  const [isDark, setIsDark] = useState<boolean>(false);
   const [mode, setMode] = useState<Mode>("PERCENTAGE");
   const [subjects, setSubjects] = useState<Subject[]>([
-    { id: 1, name: "Course 1", credits: "4", grade: "S", marks: "" },
+    { id: 1, name: "Module 1", credits: "4", grade: "S", marks: "" },
   ]);
   const [prevCgpa, setPrevCgpa] = useState<string>("");
   const [prevCredits, setPrevCredits] = useState<string>("");
@@ -49,12 +50,12 @@ export default function Dashboard() {
   const [showFormula, setShowFormula] = useState<boolean>(false);
 
   useEffect(() => {
-    const savedHistory = localStorage.getItem("app_history_performance");
+    const savedHistory = localStorage.getItem("platform_history");
     if (savedHistory) {
       try {
         setHistory(JSON.parse(savedHistory));
       } catch (e) {
-        localStorage.removeItem("app_history_performance");
+        localStorage.removeItem("platform_history");
       }
     }
   }, []);
@@ -69,19 +70,19 @@ export default function Dashboard() {
     };
     const updated = [newItem, ...history].slice(0, 4);
     setHistory(updated);
-    localStorage.setItem("app_history_performance", JSON.stringify(updated));
+    localStorage.setItem("platform_history", JSON.stringify(updated));
   };
 
   const clearHistory = () => {
     setHistory([]);
-    localStorage.removeItem("app_history_performance");
+    localStorage.removeItem("platform_history");
   };
 
   const addSubject = () => {
     const newId = subjects.length ? Math.max(...subjects.map((s) => s.id)) + 1 : 1;
     setSubjects([
       ...subjects,
-      { id: newId, name: `Course ${newId}`, credits: "4", grade: "A", marks: "" },
+      { id: newId, name: `Module ${newId}`, credits: "4", grade: "A", marks: "" },
     ]);
   };
 
@@ -122,7 +123,7 @@ export default function Dashboard() {
       }
 
       if (!valid) {
-        setError("Enter valid marks from 0 to 100.");
+        setError("Please enter valid marks between 0 and 100.");
         return;
       }
 
@@ -132,7 +133,7 @@ export default function Dashboard() {
         const percent = (totalMarks / (subjects.length * 100)) * 100;
         const formatted = `${percent.toFixed(2)}%`;
         setResult(formatted);
-        saveToHistory(`${subjects.length} Subjects`, mode, formatted);
+        saveToHistory(`${subjects.length} Modules`, mode, formatted);
       }, 550);
     } else if (mode === "SGPA") {
       let totalGradePoints = 0;
@@ -162,7 +163,7 @@ export default function Dashboard() {
         const sgpa = totalGradePoints / totalCredits;
         const formatted = sgpa.toFixed(2);
         setResult(formatted);
-        saveToHistory(`${subjects.length} Courses SGPA`, mode, formatted);
+        saveToHistory(`${subjects.length} Modules SGPA`, mode, formatted);
       }, 550);
     } else if (mode === "CGPA") {
       const pCgpa = parseFloat(prevCgpa);
@@ -235,31 +236,31 @@ export default function Dashboard() {
         const avgGradePointRequired = pointsRequired / remCredits;
 
         if (avgGradePointRequired > 10) {
-          setError("Goal over 10.00 avg required. Impracticable goal.");
+          setError("Mathematically impossible goal.");
           return;
         }
         if (avgGradePointRequired < 0) {
-          setResult("Goal Achieved!");
+          setResult("Goal Surpassed!");
           setConfidence("Zero Risk");
-          setWhatIfBreakdown("Goal achieved. Maintain any passing grades.");
+          setWhatIfBreakdown("Target achieved. Maintain any passing performance.");
           return;
         }
 
-        const formatted = `Avg SGPA: ${avgGradePointRequired.toFixed(2)}`;
+        const formatted = `Required Average: ${avgGradePointRequired.toFixed(2)}`;
         setResult(formatted);
 
         let breakdown = "";
         let conf = "Low Difficulty";
 
         if (avgGradePointRequired >= 9.0) {
-          breakdown = "Requires high performance. Target S (10) for upcoming courses.";
-          conf = "High Difficulty";
+          breakdown = "Requires exceptional focus. Target S (10) grades across modules.";
+          conf = "Significant";
         } else if (avgGradePointRequired >= 8.0) {
-          breakdown = "Standard focus required. Target A (9) and B (8) grades.";
+          breakdown = "Aim for high performance A (9) or B (8) grades.";
           conf = "Moderate";
         } else {
-          breakdown = "Maintain C (7) or B (8) across your upcoming modules.";
-          conf = "Easy";
+          breakdown = "Maintain steady B (8) or C (7) grades to stay aligned.";
+          conf = "Standard";
         }
 
         setConfidence(conf);
@@ -271,18 +272,26 @@ export default function Dashboard() {
 
   const copyToClipboard = () => {
     if (result) {
-      navigator.clipboard.writeText(`Performance result: ${result}`);
+      navigator.clipboard.writeText(`Performance outcome: ${result}`);
       alert("Performance result copied!");
     }
   };
 
   return (
-    <main className="min-h-screen bg-white text-black flex flex-col items-center justify-start py-8 px-4 sm:px-16 smooth-entry select-none font-sans select-none">
-      <div className="w-full max-w-5xl flex flex-col flex-1 gap-8 bg-transparent select-none">
-        <header className="flex flex-col sm:flex-row items-center justify-between border-b-4 border-black pb-6 gap-4">
-          <div className="flex items-center gap-4">
+    <div className={`min-h-screen flex flex-col items-center justify-start py-6 px-4 sm:px-12 smooth-entry transition-colors duration-300 select-none ${
+      isDark ? "bg-[#09090b] text-[#f4f4f5]" : "bg-[#fcfcfd] text-[#111111]"
+    }`}>
+      <div className="w-full max-w-5xl flex flex-col flex-1 gap-6 bg-transparent select-none">
+        
+        {/* Elite Top Navigation Bar */}
+        <nav className={`flex items-center justify-between border-b pb-4 gap-4 select-none ${
+          isDark ? "border-[#27272a]" : "border-[#e4e4e7]"
+        }`}>
+          <div className="flex items-center gap-3">
             <svg
-              className="w-12 h-12 stroke-current stroke-[3] text-black flex-shrink-0"
+              className={`w-8 h-8 stroke-current stroke-2 flex-shrink-0 transition-colors ${
+                isDark ? "text-white" : "text-black"
+              }`}
               viewBox="0 0 24 24"
               fill="none"
             >
@@ -291,37 +300,56 @@ export default function Dashboard() {
               <line x1="9" y1="21" x2="9" y2="9" />
             </svg>
             <div>
-              <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-black leading-none">
-                Academic Performance
+              <h1 className="text-xl font-bold tracking-tight leading-none">
+                Academic Hub
               </h1>
-              <p className="text-sm font-medium text-black mt-1 uppercase tracking-wide">
-                Track and plan academic calculations
+              <p className={`text-[10px] font-normal mt-0.5 select-none ${
+                isDark ? "text-[#a1a1aa]" : "text-[#71717a]"
+              }`}>
+                Platform for performance metrics and goal models
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-4">
+          
+          <div className="flex items-center gap-3">
             <button
               onClick={() => setShowFormula(!showFormula)}
-              className="text-xs sm:text-sm bg-white border-2 border-black hover:bg-black hover:text-white text-black font-extrabold px-6 py-3 rounded-full transition-all h-[46px] flex items-center justify-center select-none"
+              className={`text-[11px] font-medium px-4 py-2 rounded-full border transition-all h-[36px] flex items-center justify-center select-none ${
+                isDark
+                  ? "bg-[#18181b] border-[#27272a] text-[#f4f4f5] hover:bg-[#27272a]"
+                  : "bg-white border-[#e4e4e7] text-[#1c1d20] hover:bg-[#f4f4f5]"
+              }`}
             >
-              {showFormula ? "Hide formulas" : "View formulas"}
+              {showFormula ? "Hide Formula" : "Formulas"}
+            </button>
+            <button
+              onClick={() => setIsDark(!isDark)}
+              className={`text-[11px] font-medium px-4 py-2 rounded-full border transition-all h-[36px] flex items-center justify-center select-none ${
+                isDark
+                  ? "bg-[#18181b] border-[#27272a] text-[#f4f4f5] hover:bg-[#27272a]"
+                  : "bg-white border-[#e4e4e7] text-[#1c1d20] hover:bg-[#f4f4f5]"
+              }`}
+            >
+              {isDark ? "Light theme" : "Dark theme"}
             </button>
           </div>
-        </header>
+        </nav>
 
         {showFormula && (
-          <div className="border-2 border-black rounded-3xl p-5 bg-white mb-2 text-sm text-black smooth-entry select-none">
-            <h3 className="font-extrabold text-black uppercase tracking-wider text-xs mb-3">
-              Formulas
+          <div className={`border rounded-2xl p-4 mb-2 text-xs transition-colors smooth-entry select-none ${
+            isDark ? "border-[#27272a] bg-[#18181b] text-[#f4f4f5]" : "border-[#e4e4e7] bg-white text-[#111111]"
+          }`}>
+            <h3 className="font-bold uppercase tracking-wide text-[9px] mb-2">
+              Formula Reference
             </h3>
-            <ul className="space-y-1 list-disc list-inside font-bold">
+            <ul className="space-y-1 list-disc list-inside">
               <li>
                 <strong>Percentage:</strong>{" "}
-                <code>(Sum of Subject Scores / Total Possible Base Scores) × 100</code>
+                <code>(Sum of Module Scores / Total Base Scores) × 100</code>
               </li>
               <li>
                 <strong>SGPA:</strong>{" "}
-                <code>Σ(Course Credits × Grade Points) / Σ(Total Course Credits)</code>
+                <code>Σ(Course Credits × Grade Points) / Σ(Total Module Credits)</code>
               </li>
               <li>
                 <strong>CGPA:</strong>{" "}
@@ -329,13 +357,14 @@ export default function Dashboard() {
               </li>
               <li>
                 <strong>What-If:</strong>{" "}
-                <code>(Goal CGPA × Net Credits - Prior Points) / Remaining Credits</code>
+                <code>(Goal CGPA × Net Target Credits - Prior Points Balance) / Module Credits</code>
               </li>
             </ul>
           </div>
         )}
 
-        <div className="flex flex-wrap gap-3 border-b-4 border-black pb-6 select-none">
+        {/* Agency Navigation Modes */}
+        <div className="flex flex-wrap gap-1.5 border-b pb-4 select-none border-transparent">
           {(["PERCENTAGE", "SGPA", "CGPA", "WHAT_IF"] as Mode[]).map((m) => (
             <button
               key={m}
@@ -346,76 +375,105 @@ export default function Dashboard() {
                 setConfidence(null);
                 setError(null);
               }}
-              className={`py-3 px-6 rounded-full text-xs sm:text-sm font-black tracking-wide uppercase transition-all flex items-center justify-center border-2 border-black select-none ${
+              className={`py-2 px-4 rounded-full text-[11px] font-semibold tracking-wide transition-all border select-none ${
                 mode === m
-                  ? "bg-black text-white"
-                  : "bg-white text-black hover:bg-black/5"
+                  ? isDark
+                    ? "bg-[#f4f4f5] text-[#09090b] border-[#f4f4f5]"
+                    : "bg-[#111111] text-[#fcfcfd] border-[#111111]"
+                  : isDark
+                    ? "bg-[#18181b] border-[#27272a] text-[#a1a1aa] hover:bg-[#27272a] hover:text-[#f4f4f5]"
+                    : "bg-[#f4f4f5] border-[#e4e4e7] text-[#71717a] hover:bg-[#e4e4e7] hover:text-[#111111]"
               }`}
             >
-              {m === "WHAT_IF" ? "What-If" : m}
+              {m === "WHAT_IF" ? "What-If Model" : `${m} Tracker`}
             </button>
           ))}
         </div>
 
+        {/* Dynamic Dual columns layout */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="md:col-span-2 flex flex-col justify-between">
             <div className="mb-4">
-              <h2 className="text-xs sm:text-sm font-black tracking-widest uppercase text-black border-b-2 border-black pb-2 mb-5 select-none">
-                Data input
+              <h2 className={`text-[10px] font-bold tracking-wider uppercase border-b pb-1 mb-4 select-none ${
+                isDark ? "text-[#71717a] border-[#27272a]" : "text-[#a1a1aa] border-[#e4e4e7]"
+              }`}>
+                Calculation Data
               </h2>
 
+              {/* Advanced Context Data */}
               {(mode === "CGPA" || mode === "WHAT_IF") && (
-                <div className="grid grid-cols-2 gap-5 border-b-2 border-dashed border-black pb-5 mb-5 select-none">
+                <div className={`grid grid-cols-2 gap-4 border-b border-dashed pb-4 mb-4 select-none ${
+                  isDark ? "border-[#27272a]" : "border-[#e4e4e7]"
+                }`}>
                   <div>
-                    <label className="text-xs font-black uppercase tracking-wide text-black block mb-2">
+                    <label className={`text-[9px] font-bold uppercase tracking-wide block mb-1 ${
+                      isDark ? "text-[#a1a1aa]" : "text-[#71717a]"
+                    }`}>
                       Current CGPA
                     </label>
                     <input
                       type="number"
                       value={prevCgpa}
                       onChange={(e) => setPrevCgpa(e.target.value)}
-                      className="w-full text-base font-bold p-3.5 rounded-full border-2 border-black bg-white"
+                      className={`w-full text-sm font-semibold p-2.5 rounded-full border transition-colors bg-transparent ${
+                        isDark ? "border-[#27272a] focus:border-[#f4f4f5]" : "border-[#e4e4e7] focus:border-[#111111]"
+                      }`}
                       placeholder="e.g. 8.4"
                     />
                   </div>
                   <div>
-                    <label className="text-xs font-black uppercase tracking-wide text-black block mb-2">
+                    <label className={`text-[9px] font-bold uppercase tracking-wide block mb-1 ${
+                      isDark ? "text-[#a1a1aa]" : "text-[#71717a]"
+                    }`}>
                       Current Credits
                     </label>
                     <input
                       type="number"
                       value={prevCredits}
                       onChange={(e) => setPrevCredits(e.target.value)}
-                      className="w-full text-base font-bold p-3.5 rounded-full border-2 border-black bg-white"
+                      className={`w-full text-sm font-semibold p-2.5 rounded-full border transition-colors bg-transparent ${
+                        isDark ? "border-[#27272a] focus:border-[#f4f4f5]" : "border-[#e4e4e7] focus:border-[#111111]"
+                      }`}
                       placeholder="e.g. 72"
                     />
                   </div>
                 </div>
               )}
 
+              {/* Goal metrics specifically for What-If planner */}
               {mode === "WHAT_IF" && (
-                <div className="grid grid-cols-2 gap-5 border-b-2 border-dashed border-black pb-5 mb-5 select-none">
+                <div className={`grid grid-cols-2 gap-4 border-b border-dashed pb-4 mb-4 select-none ${
+                  isDark ? "border-[#27272a]" : "border-[#e4e4e7]"
+                }`}>
                   <div>
-                    <label className="text-xs font-black uppercase tracking-wide text-black block mb-2">
+                    <label className={`text-[9px] font-bold uppercase tracking-wide block mb-1 ${
+                      isDark ? "text-[#a1a1aa]" : "text-[#71717a]"
+                    }`}>
                       Target CGPA Goal
                     </label>
                     <input
                       type="number"
                       value={targetCgpa}
                       onChange={(e) => setTargetCgpa(e.target.value)}
-                      className="w-full text-base font-bold p-3.5 rounded-full border-2 border-black bg-white"
+                      className={`w-full text-sm font-semibold p-2.5 rounded-full border transition-colors bg-transparent ${
+                        isDark ? "border-[#27272a] focus:border-[#f4f4f5]" : "border-[#e4e4e7] focus:border-[#111111]"
+                      }`}
                       placeholder="e.g. 9.0"
                     />
                   </div>
                   <div>
-                    <label className="text-xs font-black uppercase tracking-wide text-black block mb-2">
+                    <label className={`text-[9px] font-bold uppercase tracking-wide block mb-1 ${
+                      isDark ? "text-[#a1a1aa]" : "text-[#71717a]"
+                    }`}>
                       Remaining Credits
                     </label>
                     <input
                       type="number"
                       value={remainingCredits}
                       onChange={(e) => setRemainingCredits(e.target.value)}
-                      className="w-full text-base font-bold p-3.5 rounded-full border-2 border-black bg-white"
+                      className={`w-full text-sm font-semibold p-2.5 rounded-full border transition-colors bg-transparent ${
+                        isDark ? "border-[#27272a] focus:border-[#f4f4f5]" : "border-[#e4e4e7] focus:border-[#111111]"
+                      }`}
                       placeholder="e.g. 18"
                     />
                   </div>
@@ -423,15 +481,19 @@ export default function Dashboard() {
               )}
 
               {mode !== "WHAT_IF" && (
-                <div className="space-y-4 max-h-[360px] overflow-y-auto pr-1 select-none">
+                <div className="space-y-3 max-h-[310px] overflow-y-auto pr-1 select-none">
                   {subjects.map((sub, idx) => (
                     <div
                       key={sub.id}
-                      className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 border-b-2 border-black/10 pb-4"
+                      className={`flex flex-col sm:flex-row items-stretch sm:items-center gap-3 border-b pb-3 ${
+                        isDark ? "border-[#27272a]" : "border-[#f4f4f5]"
+                      }`}
                     >
                       <div className="flex-1">
-                        <label className="text-xs font-black uppercase tracking-wider block mb-2 text-black">
-                          Course name
+                        <label className={`text-[9px] font-bold uppercase tracking-wider block mb-1 ${
+                          isDark ? "text-[#a1a1aa]" : "text-[#71717a]"
+                        }`}>
+                          Module Title
                         </label>
                         <input
                           type="text"
@@ -439,14 +501,18 @@ export default function Dashboard() {
                           onChange={(e) =>
                             handleSubjectChange(sub.id, "name", e.target.value)
                           }
-                          className="w-full text-base font-bold p-3.5 rounded-full border-2 border-black select-none bg-white"
+                          className={`w-full text-sm font-semibold p-2.5 rounded-full border transition-colors bg-transparent select-none ${
+                            isDark ? "border-[#27272a] focus:border-[#f4f4f5]" : "border-[#e4e4e7] focus:border-[#111111]"
+                          }`}
                         />
                       </div>
 
                       {mode === "PERCENTAGE" ? (
                         <div className="flex flex-col justify-end">
-                          <label className="text-xs font-black uppercase tracking-wider block mb-2 text-black">
-                            Marks
+                          <label className={`text-[9px] font-bold uppercase tracking-wider block mb-1 ${
+                            isDark ? "text-[#a1a1aa]" : "text-[#71717a]"
+                          }`}>
+                            Marks (/100)
                           </label>
                           <input
                             type="number"
@@ -454,14 +520,18 @@ export default function Dashboard() {
                             onChange={(e) =>
                               handleSubjectChange(sub.id, "marks", e.target.value)
                             }
-                            className="w-full sm:w-28 text-base font-bold p-3.5 rounded-full border-2 border-black text-center bg-white"
+                            className={`w-full sm:w-24 text-sm font-semibold p-2.5 rounded-full border transition-colors text-center bg-transparent ${
+                              isDark ? "border-[#27272a] focus:border-[#f4f4f5]" : "border-[#e4e4e7] focus:border-[#111111]"
+                            }`}
                             placeholder="88"
                           />
                         </div>
                       ) : (
                         <>
                           <div className="flex flex-col justify-end">
-                            <label className="text-xs font-black uppercase tracking-wider block mb-2 text-black">
+                            <label className={`text-[9px] font-bold uppercase tracking-wider block mb-1 ${
+                              isDark ? "text-[#a1a1aa]" : "text-[#71717a]"
+                            }`}>
                               Credits
                             </label>
                             <input
@@ -470,12 +540,16 @@ export default function Dashboard() {
                               onChange={(e) =>
                                 handleSubjectChange(sub.id, "credits", e.target.value)
                               }
-                              className="w-full sm:w-24 text-base font-bold p-3.5 rounded-full border-2 border-black text-center bg-white"
+                              className={`w-full sm:w-20 text-sm font-semibold p-2.5 rounded-full border transition-colors text-center bg-transparent ${
+                                isDark ? "border-[#27272a] focus:border-[#f4f4f5]" : "border-[#e4e4e7] focus:border-[#111111]"
+                              }`}
                               placeholder="4"
                             />
                           </div>
                           <div className="flex flex-col justify-end">
-                            <label className="text-xs font-black uppercase tracking-wider block mb-2 text-black">
+                            <label className={`text-[9px] font-bold uppercase tracking-wider block mb-1 ${
+                              isDark ? "text-[#a1a1aa]" : "text-[#71717a]"
+                            }`}>
                               Grade
                             </label>
                             <select
@@ -483,7 +557,9 @@ export default function Dashboard() {
                               onChange={(e) =>
                                 handleSubjectChange(sub.id, "grade", e.target.value)
                               }
-                              className="w-full sm:w-32 text-base font-bold p-3.5 rounded-full border-2 border-black bg-white cursor-pointer select-none"
+                              className={`w-full sm:w-28 text-sm font-semibold p-2.5 rounded-full border transition-colors cursor-pointer select-none bg-transparent ${
+                                isDark ? "border-[#27272a] focus:border-[#f4f4f5] text-white bg-[#18181b]" : "border-[#e4e4e7] focus:border-[#111111] text-black bg-white"
+                              }`}
                             >
                               <option value="S">S (10)</option>
                               <option value="A">A (9)</option>
@@ -501,8 +577,12 @@ export default function Dashboard() {
                       <div className="flex items-end justify-end sm:pt-4">
                         <button
                           onClick={() => removeSubject(sub.id)}
-                          className="border-2 border-black hover:bg-black hover:text-white p-2 font-black text-base select-none h-[54px] w-[54px] transition-all rounded-full flex items-center justify-center bg-white text-black"
-                          title="Remove course"
+                          className={`border p-2 font-bold text-xs select-none h-[42px] w-[42px] transition-colors rounded-full flex items-center justify-center ${
+                            isDark
+                              ? "border-[#27272a] hover:bg-[#27272a] text-[#a1a1aa]"
+                              : "border-[#e4e4e7] hover:bg-[#f4f4f5] text-[#71717a]"
+                          }`}
+                          title="Remove Entry"
                         >
                           ✕
                         </button>
@@ -515,9 +595,13 @@ export default function Dashboard() {
               {mode !== "WHAT_IF" && (
                 <button
                   onClick={addSubject}
-                  className="w-full border-2 border-dashed border-black rounded-full hover:bg-black/5 p-3.5 font-black text-xs uppercase text-black transition-colors my-5 select-none"
+                  className={`w-full border border-dashed rounded-full p-2.5 font-bold tracking-wide text-[11px] uppercase transition-colors my-4 select-none ${
+                    isDark
+                      ? "border-[#27272a] hover:bg-[#18181b] text-[#a1a1aa]"
+                      : "border-[#e4e4e7] hover:bg-[#f4f4f5] text-[#71717a]"
+                  }`}
                 >
-                  + Add Course
+                  + Add module entry
                 </button>
               )}
             </div>
@@ -525,12 +609,16 @@ export default function Dashboard() {
             <div>
               <button
                 onClick={calculateResult}
-                className="w-full bg-black text-white hover:bg-black/90 p-4 font-black rounded-full tracking-wider uppercase transition-all text-sm border-2 border-black shadow flex items-center justify-center select-none"
+                className={`w-full p-3.5 font-bold rounded-full tracking-wider uppercase transition-all text-[11px] border flex items-center justify-center select-none ${
+                  isDark
+                    ? "bg-[#f4f4f5] border-[#f4f4f5] text-[#09090b] hover:bg-white"
+                    : "bg-[#111111] border-[#111111] text-[#fcfcfd] hover:bg-black"
+                }`}
               >
                 {isProcessing ? (
                   <>
-                    <div className="w-5 h-5 mr-3 rounded-full border-2 border-white/30 border-t-white animate-spin"></div>
-                    Processing...
+                    <div className="w-4 h-4 mr-2 rounded-full border-2 border-white/30 border-t-white animate-spin"></div>
+                    Executing metrics...
                   </>
                 ) : (
                   "Calculate"
@@ -538,94 +626,136 @@ export default function Dashboard() {
               </button>
 
               {error && (
-                <div className="border-2 border-black bg-white rounded-full p-4 mt-4 text-center text-xs font-black text-black">
+                <div className={`border rounded-full p-3 mt-3 text-center text-xs font-semibold ${
+                  isDark ? "border-[#27272a] bg-[#18181b] text-red-400" : "border-[#e4e4e7] bg-[#fdf2f2] text-red-600"
+                }`}>
                   {error}
                 </div>
               )}
             </div>
           </div>
 
+          {/* Performance Summary Columns */}
           <div className="flex flex-col justify-between select-none">
             <div>
-              <h2 className="text-xs sm:text-sm font-black tracking-widest uppercase text-black border-b-2 border-black pb-2 mb-5 select-none">
-                Analytics
+              <h2 className={`text-[10px] font-bold tracking-wider uppercase border-b pb-1 mb-4 select-none ${
+                isDark ? "text-[#71717a] border-[#27272a]" : "text-[#a1a1aa] border-[#e4e4e7]"
+              }`}>
+                Analysis Outcome
               </h2>
 
               {isProcessing ? (
-                <div className="border-2 border-black bg-white p-6 text-center my-4 select-none rounded-3xl flex flex-col items-center justify-center min-h-[160px] smooth-entry">
-                  <div className="w-9 h-9 border-4 border-black spinner-round rounded-full mb-4"></div>
-                  <span className="text-xs font-black uppercase">
-                    Analyzing
+                <div className={`border p-5 text-center my-3 select-none rounded-2xl flex flex-col items-center justify-center min-h-[140px] smooth-entry ${
+                  isDark ? "border-[#27272a] bg-[#18181b]" : "border-[#e4e4e7] bg-white"
+                }`}>
+                  <div className={`w-8 h-8 border-4 spinner-round rounded-full mb-3 ${
+                    isDark ? "border-[#27272a]" : "border-[#e4e4e7]"
+                  }`}></div>
+                  <span className="text-[10px] font-bold uppercase tracking-wide">
+                    Calculating
                   </span>
                 </div>
               ) : result ? (
-                <div className="border-2 border-black bg-white p-6 text-center my-4 select-none smooth-entry rounded-3xl flex flex-col justify-between min-h-[180px] shadow">
+                <div className={`border p-5 text-center my-3 select-none smooth-entry rounded-2xl flex flex-col justify-between min-h-[150px] ${
+                  isDark ? "border-[#27272a] bg-[#18181b]" : "border-[#e4e4e7] bg-white"
+                }`}>
                   <div>
-                    <span className="text-xs font-black uppercase tracking-widest text-black/60">
-                      Outcome
+                    <span className="text-[10px] font-bold uppercase tracking-widest">
+                      Performance Summary
                     </span>
-                    <div className="text-4xl sm:text-5xl font-black text-black tracking-tight mt-2 select-none">
+                    <div className={`text-4xl font-extrabold tracking-tight mt-1 select-none ${
+                      isDark ? "text-white" : "text-[#111111]"
+                    }`}>
                       {result}
                     </div>
                     {confidence && (
-                      <div className="text-xs font-black uppercase text-black bg-black/5 px-4 py-1.5 mt-3 rounded-full border-2 border-black inline-block">
-                        Risk Level: {confidence}
+                      <div className={`text-[9px] font-bold uppercase px-3 py-1 mt-2.5 rounded-full border inline-block ${
+                        isDark ? "border-[#27272a] bg-[#18181b] text-[#a1a1aa]" : "border-[#e4e4e7] bg-[#f4f4f5] text-[#71717a]"
+                      }`}>
+                        Difficulty: {confidence}
                       </div>
                     )}
                     {whatIfBreakdown && (
-                      <p className="text-xs font-bold text-black leading-relaxed mt-4 border-t-2 border-black pt-4 border-dashed select-none">
+                      <p className={`text-[11px] font-medium leading-relaxed mt-3 border-t pt-3 border-dashed select-none ${
+                        isDark ? "border-[#27272a]" : "border-[#e4e4e7]"
+                      }`}>
                         {whatIfBreakdown}
                       </p>
                     )}
                   </div>
                   <button
                     onClick={copyToClipboard}
-                    className="text-xs border-2 border-black bg-white hover:bg-black/5 text-black font-black px-5 py-2.5 rounded-full mt-5 transition-all self-center select-none"
+                    className={`text-[10px] border font-bold px-4 py-2 rounded-full mt-4 transition-all self-center select-none ${
+                      isDark
+                        ? "bg-[#18181b] border-[#27272a] text-[#f4f4f5] hover:bg-[#27272a]"
+                        : "bg-white border-[#e4e4e7] text-[#111111] hover:bg-[#f4f4f5]"
+                    }`}
                   >
-                    Copy output
+                    Copy performance
                   </button>
                 </div>
               ) : (
-                <div className="border-2 border-dashed border-black p-6 text-center text-black font-black uppercase text-xs my-4 select-none flex flex-col items-center justify-center min-h-[160px] rounded-3xl">
-                  <span>No data</span>
+                <div className={`border border-dashed p-5 text-center font-bold uppercase text-[10px] my-3 select-none flex flex-col items-center justify-center min-h-[140px] rounded-2xl ${
+                  isDark ? "border-[#27272a] text-[#71717a]" : "border-[#e4e4e7] text-[#a1a1aa]"
+                }`}>
+                  <span>No active calculations</span>
                 </div>
               )}
 
-              <div className="mt-5">
-                <div className="flex justify-between items-center border-b-2 border-black pb-2 mb-3">
-                  <h3 className="text-xs font-black uppercase tracking-wide text-black select-none">
-                    Session history
+              {/* Advanced History logs */}
+              <div className="mt-4">
+                <div className={`flex justify-between items-center border-b pb-1 mb-2.5 ${
+                  isDark ? "border-[#27272a]" : "border-[#e4e4e7]"
+                }`}>
+                  <h3 className={`text-[9px] font-bold uppercase tracking-wide select-none ${
+                    isDark ? "text-[#71717a]" : "text-[#a1a1aa]"
+                  }`}>
+                    Calculation Logs
                   </h3>
                   {history.length > 0 && (
                     <button
                       onClick={clearHistory}
-                      className="text-xs bg-white hover:bg-black/5 border-2 border-black px-4 py-1.5 rounded-full font-black text-black transition-all select-none h-[34px] flex items-center justify-center"
+                      className={`text-[9px] font-bold px-3 py-1 rounded-full border transition-all h-[26px] flex items-center justify-center select-none ${
+                        isDark
+                          ? "bg-[#18181b] border-[#27272a] text-[#f4f4f5] hover:bg-[#27272a]"
+                          : "bg-white border-[#e4e4e7] text-[#1c1d20] hover:bg-[#f4f4f5]"
+                      }`}
                     >
                       Clear
                     </button>
                   )}
                 </div>
 
-                <div className="space-y-2 select-none h-[120px] overflow-y-auto pr-1">
+                <div className="space-y-1.5 select-none h-[110px] overflow-y-auto pr-0.5">
                   {history.length === 0 ? (
-                    <span className="text-xs text-black italic font-bold">
-                      No records.
+                    <span className={`text-[10px] italic font-medium ${
+                      isDark ? "text-[#71717a]" : "text-[#a1a1aa]"
+                    }`}>
+                      No recorded logs.
                     </span>
                   ) : (
                     history.map((item) => (
                       <div
                         key={item.id}
-                        className="border-2 border-black p-3 bg-white rounded-2xl flex items-center justify-between text-xs font-bold shadow"
+                        className={`border p-2.5 rounded-xl flex items-center justify-between text-xs transition-colors ${
+                          isDark ? "border-[#27272a] bg-[#18181b]" : "border-[#f4f4f5] bg-white"
+                        }`}
                       >
                         <div className="flex flex-col">
-                          <span className="font-black text-xs uppercase text-black">
+                          <span className={`font-bold text-[10px] uppercase ${
+                            isDark ? "text-[#f4f4f5]" : "text-[#1c1d20]"
+                          }`}>
                             {item.title}
                           </span>
-                          <span className="text-xs text-black/60">
+                          <span className={`text-[8px] ${
+                            isDark ? "text-[#71717a]" : "text-[#a1a1aa]"
+                          }`}>
                             {item.mode} • {item.date}
                           </span>
                         </div>
-                        <span className="font-extrabold text-black text-sm">{item.result}</span>
+                        <span className={`font-bold ${
+                          isDark ? "text-[#f4f4f5]" : "text-[#1c1d20]"
+                        }`}>{item.result}</span>
                       </div>
                     ))
                   )}
@@ -633,12 +763,14 @@ export default function Dashboard() {
               </div>
             </div>
 
-            <footer className="text-xs border-t-2 border-black pt-4 mt-5 text-center text-black font-black tracking-widest uppercase select-none">
-              Performance Tracker
+            <footer className={`text-[9px] border-t pt-3 mt-4 text-center font-bold tracking-widest uppercase ${
+              isDark ? "border-[#27272a] text-[#71717a]" : "border-[#e4e4e7] text-[#a1a1aa]"
+            }`}>
+              Performance Analytics
             </footer>
           </div>
         </div>
       </div>
-    </main>
+    </div>
   );
 }
