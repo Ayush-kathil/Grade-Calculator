@@ -279,22 +279,22 @@ export default function Platform() {
   };
 
   return (
-    <div className={`min-h-screen flex flex-col items-center justify-start py-4 sm:py-8 px-3 sm:px-16 smooth-entry transition-colors duration-300 select-none ${
+    <div className={`min-h-screen flex flex-col items-center justify-start py-4 sm:py-6 px-3 sm:px-16 smooth-entry transition-colors duration-300 select-none font-normal ${
       isDark ? "bg-[#09090b] text-[#f4f4f5]" : "bg-[#fcfcfd] text-[#111111]"
     }`}>
-      <div className="w-full max-w-6xl flex flex-col flex-1 gap-4 sm:gap-8 bg-transparent select-none">
+      <div className="w-full max-w-6xl flex flex-col flex-1 gap-4 sm:gap-6 bg-transparent select-none font-normal">
 
         {/* Navigation Bar */}
         <nav className={`flex items-center justify-between border-b pb-3 gap-3 select-none ${
           isDark ? "border-[#27272a]" : "border-[#e4e4e7]"
         }`}>
           <div className="flex items-center gap-3">
-            <img src="/logo.png" alt="Platform logo" className="h-10 w-10 sm:h-14 sm:w-14 object-contain flex-shrink-0" />
+            <img src="/logo.png" alt="Platform logo" className="h-10 w-10 sm:h-14 sm:w-14 object-contain rounded-full border border-zinc-200 flex-shrink-0" />
             <div>
-              <h1 className="text-xl sm:text-4xl font-extrabold tracking-tight leading-none select-none">
+              <h1 className="text-xl sm:text-3xl font-normal tracking-tight leading-none select-none">
                 Academic Analytics
               </h1>
-              <p className={`text-[10px] sm:text-sm font-normal mt-1 sm:mt-2 select-none ${
+              <p className={`text-[10px] sm:text-xs font-normal mt-1 sm:mt-1.5 select-none ${
                 isDark ? "text-[#a1a1aa]" : "text-[#71717a]"
               }`}>
                 Advanced planning metrics & dynamic performance scoring
@@ -303,11 +303,11 @@ export default function Platform() {
           </div>
           
           <div className="flex items-center gap-2.5">
-            {/* Expanded Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-3">
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center gap-2.5">
               <button
                 onClick={() => setShowFormula(!showFormula)}
-                className={`text-sm sm:text-base font-bold px-5 py-3 rounded-full border transition-all h-[44px] flex items-center justify-center select-none ${
+                className={`text-xs sm:text-sm font-normal px-4 py-2.5 rounded-full border transition-all h-[40px] flex items-center justify-center select-none ${
                   isDark
                     ? "bg-[#18181b] border-[#27272a] text-[#f4f4f5] hover:bg-[#27272a]"
                     : "bg-white border-[#e4e4e7] text-[#1c1d20] hover:bg-[#f4f4f5]"
@@ -317,7 +317,7 @@ export default function Platform() {
               </button>
               <button
                 onClick={() => setIsDark(!isDark)}
-                className={`text-sm sm:text-base font-bold px-5 py-3 rounded-full border transition-all h-[44px] flex items-center justify-center select-none ${
+                className={`text-xs sm:text-sm font-normal px-4 py-2.5 rounded-full border transition-all h-[40px] flex items-center justify-center select-none ${
                   isDark
                     ? "bg-[#18181b] border-[#27272a] text-[#f4f4f5] hover:bg-[#27272a]"
                     : "bg-white border-[#e4e4e7] text-[#1c1d20] hover:bg-[#f4f4f5]"
@@ -327,10 +327,10 @@ export default function Platform() {
               </button>
             </div>
 
-            {/* Compact Mobile Sidebar Menu Hamburger */}
+            {/* Mobile Sidebar Menu Hamburger */}
             <button
               onClick={() => setIsSidebarOpen(true)}
-              className={`md:hidden p-2 font-bold text-xl h-[40px] w-[40px] border rounded-full transition-colors flex items-center justify-center select-none ${
+              className={`md:hidden p-2 font-normal text-xl h-[38px] w-[38px] border rounded-full transition-colors flex items-center justify-center select-none ${
                 isDark ? "border-[#27272a] text-white hover:bg-[#18181b]" : "border-[#e4e4e7] text-black hover:bg-[#f4f4f5]"
               }`}
             >
@@ -339,18 +339,18 @@ export default function Platform() {
           </div>
         </nav>
 
-        {/* Sliding Sidebar Mobile Menu Drawer overlay */}
+        {/* Sliding Sidebar Mobile Menu overlay */}
         {isSidebarOpen && (
-          <div className="fixed inset-0 z-50 flex justify-end bg-black/60 backdrop-blur-sm transition-all smooth-entry select-none">
-            <div className={`w-4/5 sm:w-2/3 h-full p-5 shadow-2xl flex flex-col justify-between border-l select-none ${
+          <div className="fixed inset-0 z-50 flex justify-end bg-black/60 backdrop-blur-sm transition-all smooth-entry select-none font-normal">
+            <div className={`w-4/5 sm:w-2/3 h-full p-4 shadow-2xl flex flex-col justify-between border-l select-none font-normal ${
               isDark ? "bg-[#09090b] text-[#f4f4f5] border-[#27272a]" : "bg-[#fcfcfd] text-[#111111] border-[#e4e4e7]"
             }`}>
-              <div className="flex flex-col gap-4">
-                <div className="flex items-center justify-between border-b pb-3 mb-1">
-                  <h3 className="text-base font-extrabold tracking-tight">Navigation</h3>
+              <div className="flex flex-col gap-3 font-normal">
+                <div className="flex items-center justify-between border-b pb-2.5 mb-1">
+                  <h3 className="text-base font-normal tracking-tight">Navigation</h3>
                   <button
                     onClick={() => setIsSidebarOpen(false)}
-                    className={`h-8 w-8 border rounded-full font-bold flex items-center justify-center ${
+                    className={`h-8 w-8 border rounded-full font-normal flex items-center justify-center ${
                       isDark ? "border-[#27272a] hover:bg-[#18181b]" : "border-[#e4e4e7] hover:bg-[#f4f4f5]"
                     }`}
                   >
@@ -358,7 +358,7 @@ export default function Platform() {
                   </button>
                 </div>
 
-                <div className="flex flex-col gap-1.5">
+                <div className="flex flex-col gap-1 font-normal">
                   {(["PERCENTAGE", "SGPA", "CGPA", "WHAT_IF"] as Mode[]).map((m) => (
                     <button
                       key={m}
@@ -370,7 +370,7 @@ export default function Platform() {
                         setError(null);
                         setIsSidebarOpen(false);
                       }}
-                      className={`w-full text-left py-3 px-4 text-xs font-bold border rounded-full transition-all select-none ${
+                      className={`w-full text-left py-3 px-4 text-xs font-normal border rounded-full transition-all select-none ${
                         mode === m
                           ? isDark
                             ? "bg-[#f4f4f5] text-[#09090b] border-[#f4f4f5]"
@@ -380,18 +380,18 @@ export default function Platform() {
                             : "bg-[#f4f4f5] border-[#e4e4e7] text-[#71717a] hover:bg-[#e4e4e7] hover:text-[#111111]"
                       }`}
                     >
-                      {m === "WHAT_IF" ? "What-If Model" : `${m} Processing`}
+                      {m === "WHAT_IF" ? "What-If Model" : `${m} Tracker`}
                     </button>
                   ))}
                 </div>
 
-                <div className="flex flex-col gap-2.5 border-t pt-3">
+                <div className="flex flex-col gap-2 border-t pt-2.5 font-normal">
                   <button
                     onClick={() => {
                       setShowFormula(!showFormula);
                       setIsSidebarOpen(false);
                     }}
-                    className={`w-full py-2.5 px-4 border text-xs font-bold rounded-full transition-colors text-center ${
+                    className={`w-full py-2.5 px-4 border text-xs font-normal rounded-full transition-colors text-center ${
                       isDark ? "border-[#27272a] bg-[#18181b]" : "border-[#e4e4e7] bg-white"
                     }`}
                   >
@@ -402,7 +402,7 @@ export default function Platform() {
                       setIsDark(!isDark);
                       setIsSidebarOpen(false);
                     }}
-                    className={`w-full py-2.5 px-4 border text-xs font-bold rounded-full transition-colors text-center ${
+                    className={`w-full py-2.5 px-4 border text-xs font-normal rounded-full transition-colors text-center ${
                       isDark ? "border-[#27272a] bg-[#18181b]" : "border-[#e4e4e7] bg-white"
                     }`}
                   >
@@ -411,21 +411,21 @@ export default function Platform() {
                 </div>
               </div>
 
-              <div className="border-t pt-3 text-center">
-                <span className="text-[10px] font-bold uppercase tracking-wider">Academic Hub</span>
+              <div className="border-t pt-2.5 text-center font-normal">
+                <span className="text-[10px] tracking-wider uppercase">Academic Hub</span>
               </div>
             </div>
           </div>
         )}
 
         {showFormula && (
-          <div className={`border rounded-2xl p-5 mb-2 text-sm sm:text-base transition-colors smooth-entry select-none ${
+          <div className={`border rounded-xl p-4 mb-2 text-xs sm:text-sm transition-colors smooth-entry select-none font-normal ${
             isDark ? "border-[#27272a] bg-[#18181b] text-[#f4f4f5]" : "border-[#e4e4e7] bg-white text-[#111111]"
           }`}>
-            <h3 className="font-bold uppercase tracking-wide text-xs sm:text-sm mb-2 sm:mb-3">
+            <h3 className="font-normal uppercase tracking-wide text-xs mb-2">
               Formula Reference
             </h3>
-            <ul className="space-y-1 list-disc list-inside">
+            <ul className="space-y-1 list-disc list-inside font-normal">
               <li>
                 <strong>Percentage:</strong>{" "}
                 <code>(Sum of Module Scores / Total Base Scores) × 100</code>
@@ -446,8 +446,8 @@ export default function Platform() {
           </div>
         )}
 
-        {/* Zoomed Desktop Tab Switcher */}
-        <div className="hidden md:flex flex-wrap gap-3 border-b pb-4 select-none border-transparent">
+        {/* Desktop Tab Switcher */}
+        <div className="hidden md:flex flex-wrap gap-2 border-b pb-3 select-none border-transparent font-normal">
           {(["PERCENTAGE", "SGPA", "CGPA", "WHAT_IF"] as Mode[]).map((m) => (
             <button
               key={m}
@@ -458,7 +458,7 @@ export default function Platform() {
                 setConfidence(null);
                 setError(null);
               }}
-              className={`py-3.5 px-8 rounded-full text-sm sm:text-lg font-bold tracking-wide transition-all border select-none ${
+              className={`py-3 px-6 rounded-full text-xs sm:text-base font-normal tracking-wide transition-all border select-none ${
                 mode === m
                   ? isDark
                     ? "bg-[#f4f4f5] text-[#09090b] border-[#f4f4f5]"
@@ -473,11 +473,11 @@ export default function Platform() {
           ))}
         </div>
 
-        {/* Dual columns with dense mobile / zoomed laptop rules */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-10">
-          <div className="md:col-span-2 flex flex-col justify-between">
-            <div className="mb-3">
-              <h2 className={`text-[10px] sm:text-base font-bold tracking-wider uppercase border-b pb-1 sm:pb-2 mb-4 sm:mb-6 select-none ${
+        {/* Responsive Entry & Output columns */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 font-normal">
+          <div className="md:col-span-2 flex flex-col justify-between font-normal">
+            <div className="mb-3 font-normal">
+              <h2 className={`text-[10px] sm:text-xs font-normal tracking-wider uppercase border-b pb-1 mb-4 select-none ${
                 isDark ? "text-[#71717a] border-[#27272a]" : "text-[#a1a1aa] border-[#e4e4e7]"
               }`}>
                 Entry Panel
@@ -485,11 +485,11 @@ export default function Platform() {
 
               {/* Context inputs for specific modes */}
               {(mode === "CGPA" || mode === "WHAT_IF") && (
-                <div className={`grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 border-b border-dashed pb-4 sm:pb-6 mb-4 sm:mb-6 select-none ${
+                <div className={`grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-5 border-b border-dashed pb-3 sm:pb-4 mb-3 sm:mb-4 select-none ${
                   isDark ? "border-[#27272a]" : "border-[#e4e4e7]"
                 }`}>
                   <div>
-                    <label className={`text-[10px] sm:text-base font-bold uppercase tracking-wide block mb-1.5 sm:mb-2.5 ${
+                    <label className={`text-[10px] sm:text-xs font-normal uppercase tracking-wide block mb-1.5 ${
                       isDark ? "text-[#a1a1aa]" : "text-[#71717a]"
                     }`}>
                       Current CGPA
@@ -498,14 +498,14 @@ export default function Platform() {
                       type="number"
                       value={prevCgpa}
                       onChange={(e) => setPrevCgpa(e.target.value)}
-                      className={`w-full text-sm sm:text-xl font-semibold p-3 sm:p-5 rounded-full border transition-colors bg-transparent ${
+                      className={`w-full text-xs sm:text-base font-normal p-3 rounded-full border transition-colors bg-transparent ${
                         isDark ? "border-[#27272a] focus:border-[#f4f4f5]" : "border-[#e4e4e7] focus:border-[#111111]"
                       }`}
                       placeholder="e.g. 8.4"
                     />
                   </div>
                   <div>
-                    <label className={`text-[10px] sm:text-base font-bold uppercase tracking-wide block mb-1.5 sm:mb-2.5 ${
+                    <label className={`text-[10px] sm:text-xs font-normal uppercase tracking-wide block mb-1.5 ${
                       isDark ? "text-[#a1a1aa]" : "text-[#71717a]"
                     }`}>
                       Current Credits
@@ -514,7 +514,7 @@ export default function Platform() {
                       type="number"
                       value={prevCredits}
                       onChange={(e) => setPrevCredits(e.target.value)}
-                      className={`w-full text-sm sm:text-xl font-semibold p-3 sm:p-5 rounded-full border transition-colors bg-transparent ${
+                      className={`w-full text-xs sm:text-base font-normal p-3 rounded-full border transition-colors bg-transparent ${
                         isDark ? "border-[#27272a] focus:border-[#f4f4f5]" : "border-[#e4e4e7] focus:border-[#111111]"
                       }`}
                       placeholder="e.g. 72"
@@ -523,13 +523,13 @@ export default function Platform() {
                 </div>
               )}
 
-              {/* Goal parameters specifically for What-If planner */}
+              {/* Goal metrics specifically for What-If planner */}
               {mode === "WHAT_IF" && (
-                <div className={`grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 border-b border-dashed pb-4 sm:pb-6 mb-4 sm:mb-6 select-none ${
+                <div className={`grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-5 border-b border-dashed pb-3 sm:pb-4 mb-3 sm:mb-4 select-none font-normal ${
                   isDark ? "border-[#27272a]" : "border-[#e4e4e7]"
                 }`}>
                   <div>
-                    <label className={`text-[10px] sm:text-base font-bold uppercase tracking-wide block mb-1.5 sm:mb-2.5 ${
+                    <label className={`text-[10px] sm:text-xs font-normal uppercase tracking-wide block mb-1.5 ${
                       isDark ? "text-[#a1a1aa]" : "text-[#71717a]"
                     }`}>
                       Target CGPA Goal
@@ -538,14 +538,14 @@ export default function Platform() {
                       type="number"
                       value={targetCgpa}
                       onChange={(e) => setTargetCgpa(e.target.value)}
-                      className={`w-full text-sm sm:text-xl font-semibold p-3 sm:p-5 rounded-full border transition-colors bg-transparent ${
+                      className={`w-full text-xs sm:text-base font-normal p-3 rounded-full border transition-colors bg-transparent ${
                         isDark ? "border-[#27272a] focus:border-[#f4f4f5]" : "border-[#e4e4e7] focus:border-[#111111]"
                       }`}
                       placeholder="e.g. 9.0"
                     />
                   </div>
                   <div>
-                    <label className={`text-[10px] sm:text-base font-bold uppercase tracking-wide block mb-1.5 sm:mb-2.5 ${
+                    <label className={`text-[10px] sm:text-xs font-normal uppercase tracking-wide block mb-1.5 ${
                       isDark ? "text-[#a1a1aa]" : "text-[#71717a]"
                     }`}>
                       Remaining Credits
@@ -554,7 +554,7 @@ export default function Platform() {
                       type="number"
                       value={remainingCredits}
                       onChange={(e) => setRemainingCredits(e.target.value)}
-                      className={`w-full text-sm sm:text-xl font-semibold p-3 sm:p-5 rounded-full border transition-colors bg-transparent ${
+                      className={`w-full text-xs sm:text-base font-normal p-3 rounded-full border transition-colors bg-transparent ${
                         isDark ? "border-[#27272a] focus:border-[#f4f4f5]" : "border-[#e4e4e7] focus:border-[#111111]"
                       }`}
                       placeholder="e.g. 18"
@@ -563,18 +563,18 @@ export default function Platform() {
                 </div>
               )}
 
-              {/* Dynamic Module items rules */}
+              {/* Scroll-isolated Module entry container */}
               {mode !== "WHAT_IF" && (
-                <div className="space-y-2 sm:space-y-4 max-h-[320px] sm:max-h-[380px] overflow-y-auto pr-1 select-none">
-                  {subjects.map((sub, idx) => (
+                <div className="space-y-2 max-h-[290px] sm:max-h-[320px] overflow-y-auto pr-1 select-none font-normal">
+                  {subjects.map((sub) => (
                     <div
                       key={sub.id}
-                      className={`flex items-center justify-between gap-3 sm:gap-5 border-b pb-2 sm:pb-4 ${
+                      className={`flex items-center justify-between gap-2.5 sm:gap-4 border-b pb-2 ${
                         isDark ? "border-[#27272a]" : "border-[#f4f4f5]"
                       }`}
                     >
-                      <div className="flex-1">
-                        <label className="sr-only">Module Title</label>
+                      <div className="flex-1 font-normal">
+                        <label className="sr-only font-normal">Module Title</label>
                         <input
                           type="text"
                           value={sub.name}
@@ -582,14 +582,14 @@ export default function Platform() {
                             handleSubjectChange(sub.id, "name", e.target.value)
                           }
                           placeholder="Module"
-                          className={`w-full text-xs sm:text-xl font-bold p-2.5 sm:p-4 rounded-full border transition-colors bg-transparent select-none ${
+                          className={`w-full text-xs sm:text-base font-normal p-2.5 rounded-full border transition-colors bg-transparent select-none ${
                             isDark ? "border-[#27272a] focus:border-[#f4f4f5]" : "border-[#e4e4e7] focus:border-[#111111]"
                           }`}
                         />
                       </div>
 
                       {mode === "PERCENTAGE" ? (
-                        <div className="w-20 sm:w-36 flex-shrink-0">
+                        <div className="w-16 sm:w-28 flex-shrink-0 font-normal">
                           <label className="sr-only">Marks (/100)</label>
                           <input
                             type="number"
@@ -597,7 +597,7 @@ export default function Platform() {
                             onChange={(e) =>
                               handleSubjectChange(sub.id, "marks", e.target.value)
                             }
-                            className={`w-full text-xs sm:text-xl font-bold p-2.5 sm:p-4 rounded-full border transition-colors text-center bg-transparent ${
+                            className={`w-full text-xs sm:text-base font-normal p-2.5 rounded-full border transition-colors text-center bg-transparent ${
                               isDark ? "border-[#27272a] focus:border-[#f4f4f5]" : "border-[#e4e4e7] focus:border-[#111111]"
                             }`}
                             placeholder="88"
@@ -605,7 +605,7 @@ export default function Platform() {
                         </div>
                       ) : (
                         <>
-                          <div className="w-16 sm:w-28 flex-shrink-0">
+                          <div className="w-14 sm:w-24 flex-shrink-0 font-normal">
                             <label className="sr-only">Credits</label>
                             <input
                               type="number"
@@ -613,20 +613,20 @@ export default function Platform() {
                               onChange={(e) =>
                                 handleSubjectChange(sub.id, "credits", e.target.value)
                               }
-                              className={`w-full text-xs sm:text-xl font-bold p-2.5 sm:p-4 rounded-full border transition-colors text-center bg-transparent ${
+                              className={`w-full text-xs sm:text-base font-normal p-2.5 rounded-full border transition-colors text-center bg-transparent ${
                                 isDark ? "border-[#27272a] focus:border-[#f4f4f5]" : "border-[#e4e4e7] focus:border-[#111111]"
                               }`}
                               placeholder="4"
                             />
                           </div>
-                          <div className="w-20 sm:w-36 flex-shrink-0">
+                          <div className="w-20 sm:w-32 flex-shrink-0 font-normal">
                             <label className="sr-only">Grade</label>
                             <select
                               value={sub.grade}
                               onChange={(e) =>
                                 handleSubjectChange(sub.id, "grade", e.target.value)
                               }
-                              className={`w-full text-xs sm:text-xl font-bold p-2.5 sm:p-4 rounded-full border transition-colors cursor-pointer select-none bg-transparent ${
+                              className={`w-full text-xs sm:text-base font-normal p-2.5 rounded-full border transition-colors cursor-pointer select-none bg-transparent ${
                                 isDark ? "border-[#27272a] focus:border-[#f4f4f5] text-white bg-[#18181b]" : "border-[#e4e4e7] focus:border-[#111111] text-black bg-white"
                               }`}
                             >
@@ -643,10 +643,10 @@ export default function Platform() {
                         </>
                       )}
 
-                      <div className="flex-shrink-0">
+                      <div className="flex-shrink-0 font-normal">
                         <button
                           onClick={() => removeSubject(sub.id)}
-                          className={`border p-1.5 font-bold text-xs sm:text-xl select-none h-[38px] w-[38px] sm:h-[56px] sm:w-[56px] transition-colors rounded-full flex items-center justify-center ${
+                          className={`border p-1.5 font-normal text-xs sm:text-base select-none h-[36px] w-[36px] sm:h-[48px] sm:w-[48px] transition-colors rounded-full flex items-center justify-center ${
                             isDark
                               ? "border-[#27272a] hover:bg-[#27272a] text-[#a1a1aa]"
                               : "border-[#e4e4e7] hover:bg-[#f4f4f5] text-[#71717a]"
@@ -664,7 +664,7 @@ export default function Platform() {
               {mode !== "WHAT_IF" && (
                 <button
                   onClick={addSubject}
-                  className={`w-full border border-dashed rounded-full p-2.5 sm:p-4 font-bold tracking-wide text-[10px] sm:text-sm uppercase transition-colors my-3 sm:my-5 select-none ${
+                  className={`w-full border border-dashed rounded-full p-2.5 sm:p-3.5 font-normal tracking-wide text-[10px] sm:text-xs uppercase transition-colors my-2.5 select-none ${
                     isDark
                       ? "border-[#27272a] hover:bg-[#18181b] text-[#a1a1aa]"
                       : "border-[#e4e4e7] hover:bg-[#f4f4f5] text-[#71717a]"
@@ -675,10 +675,11 @@ export default function Platform() {
               )}
             </div>
 
-            <div>
+            <div className="font-normal">
+              {/* Calculate Button is permanently visible below entry row panel without scrolling */}
               <button
                 onClick={calculateResult}
-                className={`w-full p-3.5 sm:p-5 font-bold rounded-full tracking-wider uppercase transition-all text-xs sm:text-base border flex items-center justify-center select-none ${
+                className={`w-full p-3.5 font-normal rounded-full tracking-wider uppercase transition-all text-xs sm:text-sm border flex items-center justify-center select-none ${
                   isDark
                     ? "bg-[#f4f4f5] border-[#f4f4f5] text-[#09090b] hover:bg-white"
                     : "bg-[#111111] border-[#111111] text-[#fcfcfd] hover:bg-black"
@@ -686,7 +687,7 @@ export default function Platform() {
               >
                 {isProcessing ? (
                   <>
-                    <div className="w-4 h-4 sm:w-5 sm:h-5 mr-2.5 sm:mr-3 rounded-full border-2 border-white/30 border-t-white animate-spin"></div>
+                    <div className="w-4 h-4 mr-2.5 rounded-full border-2 border-white/30 border-t-white animate-spin"></div>
                     Calculating insights...
                   </>
                 ) : (
@@ -695,7 +696,7 @@ export default function Platform() {
               </button>
 
               {error && (
-                <div className={`border rounded-full p-2.5 sm:p-4 mt-3 text-center text-xs sm:text-sm font-semibold ${
+                <div className={`border rounded-full p-2.5 mt-3 text-center text-xs font-normal ${
                   isDark ? "border-[#27272a] bg-[#18181b] text-red-400" : "border-[#e4e4e7] bg-[#fdf2f2] text-red-600"
                 }`}>
                   {error}
@@ -704,48 +705,48 @@ export default function Platform() {
             </div>
           </div>
 
-          {/* Fully Zoomed Output presentation rules for laptops */}
-          <div className="flex flex-col justify-between select-none">
+          {/* Expanded Output analytics columns */}
+          <div className="flex flex-col justify-between select-none font-normal">
             <div>
-              <h2 className={`text-[10px] sm:text-base font-bold tracking-wider uppercase border-b pb-1 mb-4 select-none ${
+              <h2 className={`text-[10px] sm:text-xs font-normal tracking-wider uppercase border-b pb-1 mb-4 select-none ${
                 isDark ? "text-[#71717a] border-[#27272a]" : "text-[#a1a1aa] border-[#e4e4e7]"
               }`}>
                 Analysis Result
               </h2>
 
               {isProcessing ? (
-                <div className={`border p-5 sm:p-8 text-center my-3 select-none rounded-2xl flex flex-col items-center justify-center min-h-[140px] sm:min-h-[180px] smooth-entry ${
+                <div className={`border p-5 text-center my-3 select-none rounded-2xl flex flex-col items-center justify-center min-h-[140px] sm:min-h-[160px] smooth-entry ${
                   isDark ? "border-[#27272a] bg-[#18181b]" : "border-[#e4e4e7] bg-white"
                 }`}>
-                  <div className={`w-8 h-8 sm:w-10 sm:h-10 border-4 spinner-round rounded-full mb-3 ${
+                  <div className={`w-8 h-8 border-4 spinner-round rounded-full mb-3 ${
                     isDark ? "border-[#27272a]" : "border-[#e4e4e7]"
                   }`}></div>
-                  <span className="text-[10px] sm:text-sm font-bold uppercase tracking-wide">
+                  <span className="text-[10px] font-normal uppercase tracking-wide">
                     Calculating
                   </span>
                 </div>
               ) : result ? (
-                <div className={`border p-5 sm:p-8 text-center my-3 select-none smooth-entry rounded-2xl flex flex-col justify-between min-h-[150px] sm:min-h-[190px] ${
+                <div className={`border p-5 text-center my-3 select-none smooth-entry rounded-2xl flex flex-col justify-between min-h-[150px] sm:min-h-[170px] ${
                   isDark ? "border-[#27272a] bg-[#18181b]" : "border-[#e4e4e7] bg-white"
                 }`}>
                   <div>
-                    <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest">
+                    <span className="text-[10px] sm:text-xs font-normal uppercase tracking-widest">
                       Calculated Data
                     </span>
-                    <div className={`text-4xl sm:text-6xl font-extrabold tracking-tight mt-1 sm:mt-2.5 select-none ${
+                    <div className={`text-4xl sm:text-5xl font-normal tracking-tight mt-1 select-none ${
                       isDark ? "text-white" : "text-[#111111]"
                     }`}>
                       {result}
                     </div>
                     {confidence && (
-                      <div className={`text-[10px] sm:text-xs font-bold uppercase px-3.5 sm:px-5 py-1 sm:py-1.5 mt-2.5 sm:mt-3.5 rounded-full border inline-block ${
+                      <div className={`text-[10px] font-normal uppercase px-3.5 py-1 mt-2.5 rounded-full border inline-block ${
                         isDark ? "border-[#27272a] bg-[#18181b] text-[#a1a1aa]" : "border-[#e4e4e7] bg-[#f4f4f5] text-[#71717a]"
                       }`}>
                         Difficulty: {confidence}
                       </div>
                     )}
                     {whatIfBreakdown && (
-                      <p className={`text-[11px] sm:text-sm font-medium leading-relaxed mt-3 sm:mt-4 border-t pt-3 sm:pt-4 border-dashed select-none ${
+                      <p className={`text-[11px] sm:text-xs font-normal leading-relaxed mt-3 border-t pt-3 border-dashed select-none ${
                         isDark ? "border-[#27272a]" : "border-[#e4e4e7]"
                       }`}>
                         {whatIfBreakdown}
@@ -754,7 +755,7 @@ export default function Platform() {
                   </div>
                   <button
                     onClick={copyToClipboard}
-                    className={`text-[10px] sm:text-sm border font-bold px-4 sm:px-6 py-2 sm:py-3 rounded-full mt-4 sm:mt-5 transition-all self-center select-none ${
+                    className={`text-[10px] sm:text-xs border font-normal px-4 py-2 rounded-full mt-4 transition-all self-center select-none ${
                       isDark
                         ? "bg-[#18181b] border-[#27272a] text-[#f4f4f5] hover:bg-[#27272a]"
                         : "bg-white border-[#e4e4e7] text-[#111111] hover:bg-[#f4f4f5]"
@@ -764,7 +765,7 @@ export default function Platform() {
                   </button>
                 </div>
               ) : (
-                <div className={`border border-dashed p-5 sm:p-8 text-center font-bold uppercase text-[10px] sm:text-sm my-3 select-none flex flex-col items-center justify-center min-h-[140px] sm:min-h-[180px] rounded-2xl ${
+                <div className={`border border-dashed p-5 text-center font-normal uppercase text-[10px] sm:text-xs my-3 select-none flex flex-col items-center justify-center min-h-[140px] sm:min-h-[160px] rounded-2xl ${
                   isDark ? "border-[#27272a] text-[#71717a]" : "border-[#e4e4e7] text-[#a1a1aa]"
                 }`}>
                   <span>No active metrics</span>
@@ -772,11 +773,11 @@ export default function Platform() {
               )}
 
               {/* Advanced History Logs */}
-              <div className="mt-4 sm:mt-6">
-                <div className={`flex justify-between items-center border-b pb-1 sm:pb-2 mb-2.5 ${
+              <div className="mt-4">
+                <div className={`flex justify-between items-center border-b pb-1 mb-2.5 ${
                   isDark ? "border-[#27272a]" : "border-[#e4e4e7]"
                 }`}>
-                  <h3 className={`text-[9px] sm:text-xs font-bold uppercase tracking-wide select-none ${
+                  <h3 className={`text-[9px] sm:text-xs font-normal uppercase tracking-wide select-none ${
                     isDark ? "text-[#71717a]" : "text-[#a1a1aa]"
                   }`}>
                     Calculation Logs
@@ -784,7 +785,7 @@ export default function Platform() {
                   {history.length > 0 && (
                     <button
                       onClick={clearHistory}
-                      className={`text-[9px] sm:text-xs font-bold px-3 sm:px-4 py-1 sm:py-1.5 rounded-full border transition-all h-[26px] sm:h-[34px] flex items-center justify-center select-none ${
+                      className={`text-[9px] sm:text-xs font-normal px-3 py-1 rounded-full border transition-all h-[26px] flex items-center justify-center select-none ${
                         isDark
                           ? "bg-[#18181b] border-[#27272a] text-[#f4f4f5] hover:bg-[#27272a]"
                           : "bg-white border-[#e4e4e7] text-[#1c1d20] hover:bg-[#f4f4f5]"
@@ -795,9 +796,9 @@ export default function Platform() {
                   )}
                 </div>
 
-                <div className="space-y-1.5 sm:space-y-2.5 select-none h-[110px] sm:h-[130px] overflow-y-auto pr-0.5">
+                <div className="space-y-1.5 select-none h-[110px] sm:h-[120px] overflow-y-auto pr-0.5 font-normal">
                   {history.length === 0 ? (
-                    <span className={`text-[10px] sm:text-sm italic font-medium ${
+                    <span className={`text-[10px] sm:text-xs italic font-normal ${
                       isDark ? "text-[#71717a]" : "text-[#a1a1aa]"
                     }`}>
                       No recorded logs.
@@ -806,12 +807,12 @@ export default function Platform() {
                     history.map((item) => (
                       <div
                         key={item.id}
-                        className={`border p-2.5 sm:p-4 rounded-xl flex items-center justify-between text-xs sm:text-sm transition-colors ${
+                        className={`border p-2.5 rounded-xl flex items-center justify-between text-xs transition-colors ${
                           isDark ? "border-[#27272a] bg-[#18181b]" : "border-[#f4f4f5] bg-white"
                         }`}
                       >
                         <div className="flex flex-col">
-                          <span className={`font-bold text-[10px] sm:text-base uppercase ${
+                          <span className={`font-normal text-[10px] sm:text-base uppercase ${
                             isDark ? "text-[#f4f4f5]" : "text-[#1c1d20]"
                           }`}>
                             {item.title}
@@ -822,7 +823,7 @@ export default function Platform() {
                             {item.mode} • {item.date}
                           </span>
                         </div>
-                        <span className={`font-bold text-xs sm:text-lg ${
+                        <span className={`font-normal text-xs sm:text-base ${
                           isDark ? "text-[#f4f4f5]" : "text-[#1c1d20]"
                         }`}>{item.result}</span>
                       </div>
@@ -832,27 +833,30 @@ export default function Platform() {
               </div>
             </div>
 
-            {/* Custom Ayush Kathil Branded Developer Footer with Social badges */}
-            <footer className={`text-xs sm:text-base border-t pt-4 sm:pt-6 mt-5 sm:mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 font-bold select-none ${
+            {/* Custom Dual Branded Developer Footer with Ayush Kathil & Ayush Gupta Credit line & social buttons */}
+            <footer className={`text-xs sm:text-sm border-t pt-4 sm:pt-6 mt-4 sm:mt-6 flex flex-col items-center justify-center gap-3 font-normal select-none ${
               isDark ? "border-[#27272a] text-[#71717a]" : "border-[#e4e4e7] text-[#a1a1aa]"
             }`}>
-              <span className={`tracking-wide transition-colors ${
-                isDark ? "text-[#a1a1aa]" : "text-[#111111]"
-              }`}>
-                Developed by Ayush Kathil
-              </span>
+              <div className="text-center font-normal flex flex-col gap-1 leading-normal select-none">
+                <span className={`${isDark ? "text-[#a1a1aa]" : "text-[#111111]"}`}>
+                  Developed by Ayush Kathil
+                </span>
+                <span className={`${isDark ? "text-[#a1a1aa]" : "text-[#111111]"}`}>
+                  Developed by Ayush Gupta
+                </span>
+              </div>
               <div className="flex items-center gap-3">
                 <a
                   href="https://github.com/Ayush-kathil"
                   target="_blank"
                   rel="noreferrer"
-                  className={`text-[11px] sm:text-sm font-bold flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2.5 border rounded-full transition-all select-none hover:opacity-90 ${
+                  className={`text-[11px] sm:text-xs font-normal flex items-center gap-2 px-3.5 py-1.5 sm:px-4 sm:py-2 border rounded-full transition-all select-none hover:opacity-90 ${
                     isDark
                       ? "bg-[#18181b] border-[#27272a] text-white hover:bg-[#27272a]"
                       : "bg-[#24292e] border-[#24292e] text-white"
                   }`}
                 >
-                  <svg className="w-4 h-4 fill-current flex-shrink-0" viewBox="0 0 24 24">
+                  <svg className="w-3.5 h-3.5 fill-current flex-shrink-0" viewBox="0 0 24 24">
                     <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.298 24 12c0-6.627-5.373-12-12-12"/>
                   </svg>
                   <span>GitHub</span>
@@ -861,13 +865,13 @@ export default function Platform() {
                   href="https://www.linkedin.com/in/ayushkathil/"
                   target="_blank"
                   rel="noreferrer"
-                  className={`text-[11px] sm:text-sm font-bold flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2.5 border rounded-full transition-all select-none hover:opacity-90 ${
+                  className={`text-[11px] sm:text-xs font-normal flex items-center gap-2 px-3.5 py-1.5 sm:px-4 sm:py-2 border rounded-full transition-all select-none hover:opacity-90 ${
                     isDark
                       ? "bg-[#18181b] border-[#27272a] text-white hover:bg-[#27272a]"
                       : "bg-[#0077b5] border-[#0077b5] text-white"
                   }`}
                 >
-                  <svg className="w-4 h-4 fill-current flex-shrink-0" viewBox="0 0 24 24">
+                  <svg className="w-3.5 h-3.5 fill-current flex-shrink-0" viewBox="0 0 24 24">
                     <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
                   </svg>
                   <span>LinkedIn</span>
