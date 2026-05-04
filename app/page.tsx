@@ -31,7 +31,7 @@ const gradePoints: { [key: string]: number } = {
   N: 0,
 };
 
-export default function AntigravityDashboard() {
+export default function Dashboard() {
   const [mode, setMode] = useState<Mode>("PERCENTAGE");
   const [subjects, setSubjects] = useState<Subject[]>([
     { id: 1, name: "Course 1", credits: "4", grade: "S", marks: "" },
@@ -49,12 +49,12 @@ export default function AntigravityDashboard() {
   const [showFormula, setShowFormula] = useState<boolean>(false);
 
   useEffect(() => {
-    const savedHistory = localStorage.getItem("grade_history_antigravity");
+    const savedHistory = localStorage.getItem("app_history_performance");
     if (savedHistory) {
       try {
         setHistory(JSON.parse(savedHistory));
       } catch (e) {
-        localStorage.removeItem("grade_history_antigravity");
+        localStorage.removeItem("app_history_performance");
       }
     }
   }, []);
@@ -69,12 +69,12 @@ export default function AntigravityDashboard() {
     };
     const updated = [newItem, ...history].slice(0, 4);
     setHistory(updated);
-    localStorage.setItem("grade_history_antigravity", JSON.stringify(updated));
+    localStorage.setItem("app_history_performance", JSON.stringify(updated));
   };
 
   const clearHistory = () => {
     setHistory([]);
-    localStorage.removeItem("grade_history_antigravity");
+    localStorage.removeItem("app_history_performance");
   };
 
   const addSubject = () => {
@@ -122,7 +122,7 @@ export default function AntigravityDashboard() {
       }
 
       if (!valid) {
-        setError("Please enter valid marks between 0 and 100.");
+        setError("Enter valid marks from 0 to 100.");
         return;
       }
 
@@ -133,7 +133,7 @@ export default function AntigravityDashboard() {
         const formatted = `${percent.toFixed(2)}%`;
         setResult(formatted);
         saveToHistory(`${subjects.length} Subjects`, mode, formatted);
-      }, 600);
+      }, 550);
     } else if (mode === "SGPA") {
       let totalGradePoints = 0;
       let totalCredits = 0;
@@ -163,7 +163,7 @@ export default function AntigravityDashboard() {
         const formatted = sgpa.toFixed(2);
         setResult(formatted);
         saveToHistory(`${subjects.length} Courses SGPA`, mode, formatted);
-      }, 600);
+      }, 550);
     } else if (mode === "CGPA") {
       const pCgpa = parseFloat(prevCgpa);
       const pCredits = parseFloat(prevCredits);
@@ -208,7 +208,7 @@ export default function AntigravityDashboard() {
         const formatted = cgpa.toFixed(2);
         setResult(formatted);
         saveToHistory(`Semester Cumulative`, mode, formatted);
-      }, 600);
+      }, 550);
     } else if (mode === "WHAT_IF") {
       const curCgpa = parseFloat(prevCgpa);
       const curCredits = parseFloat(prevCredits);
@@ -221,7 +221,7 @@ export default function AntigravityDashboard() {
         isNaN(goalCgpa) || goalCgpa < 0 || goalCgpa > 10 ||
         isNaN(remCredits) || remCredits <= 0
       ) {
-        setError("Check parameter values.");
+        setError("Check parameters.");
         return;
       }
 
@@ -241,107 +241,101 @@ export default function AntigravityDashboard() {
         if (avgGradePointRequired < 0) {
           setResult("Goal Achieved!");
           setConfidence("Zero Risk");
-          setWhatIfBreakdown("Goal already accomplished. Aim for passing grades.");
+          setWhatIfBreakdown("Goal achieved. Maintain any passing grades.");
           return;
         }
 
-        const formatted = `Avg SGPA Needed: ${avgGradePointRequired.toFixed(2)}`;
+        const formatted = `Avg SGPA: ${avgGradePointRequired.toFixed(2)}`;
         setResult(formatted);
 
         let breakdown = "";
         let conf = "Low Difficulty";
 
         if (avgGradePointRequired >= 9.0) {
-          breakdown = "High Standing target. Focus primarily on top grade S (10) for future courses.";
-          conf = "Significant Effort";
+          breakdown = "Requires high performance. Target S (10) for upcoming courses.";
+          conf = "High Difficulty";
         } else if (avgGradePointRequired >= 8.0) {
-          breakdown = "Aim for A (9) and B (8) across your upcoming modules.";
-          conf = "Moderate Focus";
+          breakdown = "Standard focus required. Target A (9) and B (8) grades.";
+          conf = "Moderate";
         } else {
-          breakdown = "Maintain a steady C (7) or B (8) across remaining credits.";
-          conf = "Easily Attainable";
+          breakdown = "Maintain C (7) or B (8) across your upcoming modules.";
+          conf = "Easy";
         }
 
         setConfidence(conf);
         setWhatIfBreakdown(breakdown);
         saveToHistory(`Goal: ${goalCgpa} CGPA`, mode, formatted);
-      }, 600);
+      }, 550);
     }
   };
 
   const copyToClipboard = () => {
     if (result) {
-      navigator.clipboard.writeText(`Academic Performance Engine Result: ${result}`);
-      alert("Performance result copied to clipboard!");
+      navigator.clipboard.writeText(`Performance result: ${result}`);
+      alert("Performance result copied!");
     }
   };
 
   return (
-    <main className="min-h-screen bg-[#fbfbfb] text-[#111827] flex flex-col items-center justify-start py-5 px-4 sm:px-12 smooth-entry select-none relative overflow-x-hidden font-sans">
-      <div className="w-full max-w-5xl flex flex-col flex-1 gap-6 bg-transparent relative select-none">
-        {/* Antigravity Elegant Clean Header */}
-        <header className="flex flex-col sm:flex-row items-center justify-between border-b border-slate-200/50 pb-5 gap-4 select-none">
-          <div className="flex items-center gap-3.5">
-            {/* Soft SVG Google Antigravity Style Logo */}
+    <main className="min-h-screen bg-white text-black flex flex-col items-center justify-start py-8 px-4 sm:px-16 smooth-entry select-none font-sans select-none">
+      <div className="w-full max-w-5xl flex flex-col flex-1 gap-8 bg-transparent select-none">
+        <header className="flex flex-col sm:flex-row items-center justify-between border-b-4 border-black pb-6 gap-4">
+          <div className="flex items-center gap-4">
             <svg
-              className="w-10 h-10 stroke-current stroke-2 text-[#4b5563] flex-shrink-0"
+              className="w-12 h-12 stroke-current stroke-[3] text-black flex-shrink-0"
               viewBox="0 0 24 24"
               fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
             >
               <rect x="3" y="3" width="18" height="18" rx="4" />
               <line x1="3" y1="9" x2="21" y2="9" />
               <line x1="9" y1="21" x2="9" y2="9" />
             </svg>
             <div>
-              <h1 className="text-2xl font-bold tracking-tight text-[#111827] leading-tight flex items-center gap-2">
-                Academic Performance Engine
+              <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-black leading-none">
+                Academic Performance
               </h1>
-              <p className="text-xs font-normal text-slate-500 mt-1 select-none">
-                Experience liftoff with the next-gen academic insights platform
+              <p className="text-sm font-medium text-black mt-1 uppercase tracking-wide">
+                Track and plan academic calculations
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             <button
               onClick={() => setShowFormula(!showFormula)}
-              className="text-xs bg-white border border-slate-200 hover:bg-slate-50 text-[#4b5563] font-semibold px-4 py-2 rounded-full transition-all h-[38px] flex items-center justify-center shadow-sm select-none"
+              className="text-xs sm:text-sm bg-white border-2 border-black hover:bg-black hover:text-white text-black font-extrabold px-6 py-3 rounded-full transition-all h-[46px] flex items-center justify-center select-none"
             >
-              {showFormula ? "Hide Logic" : "Explore use cases / Matrix"}
+              {showFormula ? "Hide formulas" : "View formulas"}
             </button>
           </div>
         </header>
 
-        {/* Collapsible computation math insights panel */}
         {showFormula && (
-          <div className="border border-slate-100 rounded-2xl p-4 bg-white/40 mb-2 text-xs text-slate-600 smooth-entry select-none">
-            <h3 className="font-bold text-slate-700 uppercase tracking-wide text-[10px] mb-2">
-              Computation Matrix & Core Insights
+          <div className="border-2 border-black rounded-3xl p-5 bg-white mb-2 text-sm text-black smooth-entry select-none">
+            <h3 className="font-extrabold text-black uppercase tracking-wider text-xs mb-3">
+              Formulas
             </h3>
-            <ul className="space-y-1 list-disc list-inside">
+            <ul className="space-y-1 list-disc list-inside font-bold">
               <li>
-                <strong>Percentage Calculations:</strong>{" "}
+                <strong>Percentage:</strong>{" "}
                 <code>(Sum of Subject Scores / Total Possible Base Scores) × 100</code>
               </li>
               <li>
-                <strong>SGPA Formula:</strong>{" "}
+                <strong>SGPA:</strong>{" "}
                 <code>Σ(Course Credits × Grade Points) / Σ(Total Course Credits)</code>
               </li>
               <li>
-                <strong>CGPA Continuity:</strong>{" "}
-                <code>(Prior CGPA × Prior Credits + Sem Grade points) / Overall Accumulated Credits</code>
+                <strong>CGPA:</strong>{" "}
+                <code>(Prior CGPA × Prior Credits + Sem Grade points) / Overall Credits</code>
               </li>
               <li>
-                <strong>What-If Objective Model:</strong>{" "}
-                <code>(Goal CGPA × Net Target Credits - Prior Points Balance) / Academic Course Credits</code>
+                <strong>What-If:</strong>{" "}
+                <code>(Goal CGPA × Net Credits - Prior Points) / Remaining Credits</code>
               </li>
             </ul>
           </div>
         )}
 
-        {/* Custom rounded-full modes Switcher */}
-        <div className="flex flex-wrap gap-2 border-b border-slate-200/50 pb-4 select-none">
+        <div className="flex flex-wrap gap-3 border-b-4 border-black pb-6 select-none">
           {(["PERCENTAGE", "SGPA", "CGPA", "WHAT_IF"] as Mode[]).map((m) => (
             <button
               key={m}
@@ -352,10 +346,10 @@ export default function AntigravityDashboard() {
                 setConfidence(null);
                 setError(null);
               }}
-              className={`py-2.5 px-5 rounded-full text-xs font-semibold tracking-wide uppercase transition-all flex items-center justify-center border border-slate-200/40 select-none ${
+              className={`py-3 px-6 rounded-full text-xs sm:text-sm font-black tracking-wide uppercase transition-all flex items-center justify-center border-2 border-black select-none ${
                 mode === m
-                  ? "bg-[#374151] text-white shadow-md border-[#374151]"
-                  : "bg-white/50 text-slate-600 hover:bg-slate-50/80"
+                  ? "bg-black text-white"
+                  : "bg-white text-black hover:bg-black/5"
               }`}
             >
               {m === "WHAT_IF" ? "What-If" : m}
@@ -363,85 +357,81 @@ export default function AntigravityDashboard() {
           ))}
         </div>
 
-        {/* Dynamic Multi-Column Immersive workspace */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="md:col-span-2 flex flex-col justify-between">
             <div className="mb-4">
-              <h2 className="text-[11px] font-bold tracking-wider uppercase text-slate-400 border-b border-slate-200/40 pb-1 mb-4 select-none">
-                Data Profile
+              <h2 className="text-xs sm:text-sm font-black tracking-widest uppercase text-black border-b-2 border-black pb-2 mb-5 select-none">
+                Data input
               </h2>
 
-              {/* Advanced Overall Inputs (Context Balance) */}
               {(mode === "CGPA" || mode === "WHAT_IF") && (
-                <div className="grid grid-cols-2 gap-4 border-b border-dashed border-slate-200/50 pb-4 mb-4 select-none">
+                <div className="grid grid-cols-2 gap-5 border-b-2 border-dashed border-black pb-5 mb-5 select-none">
                   <div>
-                    <label className="text-[10px] font-bold uppercase tracking-wide text-slate-500 block mb-1">
+                    <label className="text-xs font-black uppercase tracking-wide text-black block mb-2">
                       Current CGPA
                     </label>
                     <input
                       type="number"
                       value={prevCgpa}
                       onChange={(e) => setPrevCgpa(e.target.value)}
-                      className="w-full text-sm font-semibold p-2.5 rounded-full border border-slate-200/60"
+                      className="w-full text-base font-bold p-3.5 rounded-full border-2 border-black bg-white"
                       placeholder="e.g. 8.4"
                     />
                   </div>
                   <div>
-                    <label className="text-[10px] font-bold uppercase tracking-wide text-slate-500 block mb-1">
+                    <label className="text-xs font-black uppercase tracking-wide text-black block mb-2">
                       Current Credits
                     </label>
                     <input
                       type="number"
                       value={prevCredits}
                       onChange={(e) => setPrevCredits(e.target.value)}
-                      className="w-full text-sm font-semibold p-2.5 rounded-full border border-slate-200/60"
+                      className="w-full text-base font-bold p-3.5 rounded-full border-2 border-black bg-white"
                       placeholder="e.g. 72"
                     />
                   </div>
                 </div>
               )}
 
-              {/* WHAT-IF Specific goal entries */}
               {mode === "WHAT_IF" && (
-                <div className="grid grid-cols-2 gap-4 border-b border-dashed border-slate-200/50 pb-4 mb-4 select-none">
+                <div className="grid grid-cols-2 gap-5 border-b-2 border-dashed border-black pb-5 mb-5 select-none">
                   <div>
-                    <label className="text-[10px] font-bold uppercase tracking-wide text-slate-500 block mb-1">
+                    <label className="text-xs font-black uppercase tracking-wide text-black block mb-2">
                       Target CGPA Goal
                     </label>
                     <input
                       type="number"
                       value={targetCgpa}
                       onChange={(e) => setTargetCgpa(e.target.value)}
-                      className="w-full text-sm font-semibold p-2.5 rounded-full border border-slate-200/60"
+                      className="w-full text-base font-bold p-3.5 rounded-full border-2 border-black bg-white"
                       placeholder="e.g. 9.0"
                     />
                   </div>
                   <div>
-                    <label className="text-[10px] font-bold uppercase tracking-wide text-slate-500 block mb-1">
+                    <label className="text-xs font-black uppercase tracking-wide text-black block mb-2">
                       Remaining Credits
                     </label>
                     <input
                       type="number"
                       value={remainingCredits}
                       onChange={(e) => setRemainingCredits(e.target.value)}
-                      className="w-full text-sm font-semibold p-2.5 rounded-full border border-slate-200/60"
+                      className="w-full text-base font-bold p-3.5 rounded-full border-2 border-black bg-white"
                       placeholder="e.g. 18"
                     />
                   </div>
                 </div>
               )}
 
-              {/* Dynamic Modules Table List */}
               {mode !== "WHAT_IF" && (
-                <div className="space-y-3 max-h-[310px] overflow-y-auto pr-1 select-none">
+                <div className="space-y-4 max-h-[360px] overflow-y-auto pr-1 select-none">
                   {subjects.map((sub, idx) => (
                     <div
                       key={sub.id}
-                      className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 border-b border-slate-100 pb-3"
+                      className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 border-b-2 border-black/10 pb-4"
                     >
                       <div className="flex-1">
-                        <label className="text-[10px] font-bold uppercase tracking-wider block mb-1 text-slate-400">
-                          Course Name
+                        <label className="text-xs font-black uppercase tracking-wider block mb-2 text-black">
+                          Course name
                         </label>
                         <input
                           type="text"
@@ -449,14 +439,14 @@ export default function AntigravityDashboard() {
                           onChange={(e) =>
                             handleSubjectChange(sub.id, "name", e.target.value)
                           }
-                          className="w-full text-sm font-semibold p-2.5 rounded-full border border-slate-200/60 select-none"
+                          className="w-full text-base font-bold p-3.5 rounded-full border-2 border-black select-none bg-white"
                         />
                       </div>
 
                       {mode === "PERCENTAGE" ? (
                         <div className="flex flex-col justify-end">
-                          <label className="text-[10px] font-bold uppercase tracking-wider block mb-1 text-slate-400">
-                            Marks (/100)
+                          <label className="text-xs font-black uppercase tracking-wider block mb-2 text-black">
+                            Marks
                           </label>
                           <input
                             type="number"
@@ -464,14 +454,14 @@ export default function AntigravityDashboard() {
                             onChange={(e) =>
                               handleSubjectChange(sub.id, "marks", e.target.value)
                             }
-                            className="w-full sm:w-24 text-sm font-semibold p-2.5 rounded-full border border-slate-200/60 text-center"
+                            className="w-full sm:w-28 text-base font-bold p-3.5 rounded-full border-2 border-black text-center bg-white"
                             placeholder="88"
                           />
                         </div>
                       ) : (
                         <>
                           <div className="flex flex-col justify-end">
-                            <label className="text-[10px] font-bold uppercase tracking-wider block mb-1 text-slate-400">
+                            <label className="text-xs font-black uppercase tracking-wider block mb-2 text-black">
                               Credits
                             </label>
                             <input
@@ -480,12 +470,12 @@ export default function AntigravityDashboard() {
                               onChange={(e) =>
                                 handleSubjectChange(sub.id, "credits", e.target.value)
                               }
-                              className="w-full sm:w-20 text-sm font-semibold p-2.5 rounded-full border border-slate-200/60 text-center"
+                              className="w-full sm:w-24 text-base font-bold p-3.5 rounded-full border-2 border-black text-center bg-white"
                               placeholder="4"
                             />
                           </div>
                           <div className="flex flex-col justify-end">
-                            <label className="text-[10px] font-bold uppercase tracking-wider block mb-1 text-slate-400">
+                            <label className="text-xs font-black uppercase tracking-wider block mb-2 text-black">
                               Grade
                             </label>
                             <select
@@ -493,7 +483,7 @@ export default function AntigravityDashboard() {
                               onChange={(e) =>
                                 handleSubjectChange(sub.id, "grade", e.target.value)
                               }
-                              className="w-full sm:w-28 text-sm font-semibold p-2.5 rounded-full border border-slate-200/60 bg-white cursor-pointer select-none"
+                              className="w-full sm:w-32 text-base font-bold p-3.5 rounded-full border-2 border-black bg-white cursor-pointer select-none"
                             >
                               <option value="S">S (10)</option>
                               <option value="A">A (9)</option>
@@ -511,8 +501,8 @@ export default function AntigravityDashboard() {
                       <div className="flex items-end justify-end sm:pt-4">
                         <button
                           onClick={() => removeSubject(sub.id)}
-                          className="border border-slate-200/60 text-slate-400 hover:bg-slate-50 p-2 font-bold text-xs select-none h-[42px] w-[42px] transition-colors rounded-full flex items-center justify-center bg-white"
-                          title="Remove Entry"
+                          className="border-2 border-black hover:bg-black hover:text-white p-2 font-black text-base select-none h-[54px] w-[54px] transition-all rounded-full flex items-center justify-center bg-white text-black"
+                          title="Remove course"
                         >
                           ✕
                         </button>
@@ -525,9 +515,9 @@ export default function AntigravityDashboard() {
               {mode !== "WHAT_IF" && (
                 <button
                   onClick={addSubject}
-                  className="w-full border border-dashed border-slate-200 rounded-full hover:bg-slate-50/60 p-2.5 font-bold tracking-wide text-xs uppercase text-slate-500 transition-colors my-4 select-none"
+                  className="w-full border-2 border-dashed border-black rounded-full hover:bg-black/5 p-3.5 font-black text-xs uppercase text-black transition-colors my-5 select-none"
                 >
-                  + Add Course Module
+                  + Add Course
                 </button>
               )}
             </div>
@@ -535,112 +525,107 @@ export default function AntigravityDashboard() {
             <div>
               <button
                 onClick={calculateResult}
-                className="w-full bg-[#374151] text-white hover:bg-[#1f2937] p-3.5 font-bold rounded-full tracking-wider uppercase transition-all text-xs border border-[#374151] shadow-md flex items-center justify-center select-none"
+                className="w-full bg-black text-white hover:bg-black/90 p-4 font-black rounded-full tracking-wider uppercase transition-all text-sm border-2 border-black shadow flex items-center justify-center select-none"
               >
                 {isProcessing ? (
                   <>
-                    <div className="w-4 h-4 mr-2 rounded-full border-2 border-white/30 border-t-white animate-spin"></div>
-                    Calculating insights...
+                    <div className="w-5 h-5 mr-3 rounded-full border-2 border-white/30 border-t-white animate-spin"></div>
+                    Processing...
                   </>
                 ) : (
-                  "Calculate Performance"
+                  "Calculate"
                 )}
               </button>
 
               {error && (
-                <div className="border border-red-100 bg-red-50/50 rounded-full p-3 mt-3 text-center text-xs font-bold text-red-600">
+                <div className="border-2 border-black bg-white rounded-full p-4 mt-4 text-center text-xs font-black text-black">
                   {error}
                 </div>
               )}
             </div>
           </div>
 
-          {/* Precision Analytics Column Workspace */}
           <div className="flex flex-col justify-between select-none">
             <div>
-              <h2 className="text-[11px] font-bold tracking-wider uppercase text-slate-400 border-b border-slate-200/40 pb-1 mb-4 select-none">
-                Direct Analytics
+              <h2 className="text-xs sm:text-sm font-black tracking-widest uppercase text-black border-b-2 border-black pb-2 mb-5 select-none">
+                Analytics
               </h2>
 
               {isProcessing ? (
-                <div className="border border-slate-100 bg-white/60 p-5 text-center my-3 select-none rounded-2xl flex flex-col items-center justify-center min-h-[140px] smooth-entry">
-                  <div className="w-8 h-8 border-4 border-slate-100 spinner-round rounded-full mb-3"></div>
-                  <span className="text-[10px] font-bold text-slate-500 tracking-wide uppercase">
-                    Analyzing Results
+                <div className="border-2 border-black bg-white p-6 text-center my-4 select-none rounded-3xl flex flex-col items-center justify-center min-h-[160px] smooth-entry">
+                  <div className="w-9 h-9 border-4 border-black spinner-round rounded-full mb-4"></div>
+                  <span className="text-xs font-black uppercase">
+                    Analyzing
                   </span>
                 </div>
               ) : result ? (
-                <div className="border border-slate-200/40 bg-white p-5 text-center my-3 select-none smooth-entry rounded-2xl flex flex-col justify-between min-h-[150px] shadow-sm">
+                <div className="border-2 border-black bg-white p-6 text-center my-4 select-none smooth-entry rounded-3xl flex flex-col justify-between min-h-[180px] shadow">
                   <div>
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-[#4b5563]">
-                      Calculation Result
+                    <span className="text-xs font-black uppercase tracking-widest text-black/60">
+                      Outcome
                     </span>
-                    <div className="text-4xl font-black text-[#111827] tracking-tight mt-1">
+                    <div className="text-4xl sm:text-5xl font-black text-black tracking-tight mt-2 select-none">
                       {result}
                     </div>
                     {confidence && (
-                      <div className="text-[9px] font-bold uppercase text-slate-600 bg-slate-50 px-3 py-1 mt-2.5 rounded-full border border-slate-200/60 inline-block">
-                        Confidence: {confidence}
+                      <div className="text-xs font-black uppercase text-black bg-black/5 px-4 py-1.5 mt-3 rounded-full border-2 border-black inline-block">
+                        Risk Level: {confidence}
                       </div>
                     )}
                     {whatIfBreakdown && (
-                      <p className="text-[11px] font-normal text-slate-500 leading-relaxed mt-3 border-t border-slate-100 pt-3 border-dashed select-none">
+                      <p className="text-xs font-bold text-black leading-relaxed mt-4 border-t-2 border-black pt-4 border-dashed select-none">
                         {whatIfBreakdown}
                       </p>
                     )}
                   </div>
                   <button
                     onClick={copyToClipboard}
-                    className="text-[10px] border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 font-bold px-4 py-2 rounded-full mt-4 transition-all self-center shadow-sm select-none"
+                    className="text-xs border-2 border-black bg-white hover:bg-black/5 text-black font-black px-5 py-2.5 rounded-full mt-5 transition-all self-center select-none"
                   >
-                    Copy result
+                    Copy output
                   </button>
                 </div>
               ) : (
-                <div className="border border-dashed border-slate-200/60 p-5 text-center text-slate-300 font-bold uppercase text-[10px] my-3 select-none flex flex-col items-center justify-center min-h-[140px] rounded-2xl">
-                  <span>No computation outcome</span>
-                  <span className="text-[9px] font-normal tracking-wide text-slate-400 mt-1">
-                    Execute metrics above
-                  </span>
+                <div className="border-2 border-dashed border-black p-6 text-center text-black font-black uppercase text-xs my-4 select-none flex flex-col items-center justify-center min-h-[160px] rounded-3xl">
+                  <span>No data</span>
                 </div>
               )}
 
-              {/* Saved computation logs */}
-              <div className="mt-4">
-                <div className="flex justify-between items-center border-b border-slate-200/40 pb-1 mb-2.5">
-                  <h3 className="text-[9px] font-bold uppercase tracking-wide text-slate-400 select-none">
-                    Performance Log
+              <div className="mt-5">
+                <div className="flex justify-between items-center border-b-2 border-black pb-2 mb-3">
+                  <h3 className="text-xs font-black uppercase tracking-wide text-black select-none">
+                    Session history
                   </h3>
                   {history.length > 0 && (
                     <button
                       onClick={clearHistory}
-                      className="text-[9px] bg-white hover:bg-slate-50 border border-slate-200 px-3 py-1 rounded-full font-bold text-slate-500 transition-all select-none h-[28px] flex items-center justify-center"
+                      className="text-xs bg-white hover:bg-black/5 border-2 border-black px-4 py-1.5 rounded-full font-black text-black transition-all select-none h-[34px] flex items-center justify-center"
                     >
-                      Clear Log
+                      Clear
                     </button>
                   )}
                 </div>
 
-                <div className="space-y-1.5 select-none h-[110px] overflow-y-auto pr-0.5">
+                <div className="space-y-2 select-none h-[120px] overflow-y-auto pr-1">
                   {history.length === 0 ? (
-                    <span className="text-[10px] text-slate-400 italic font-medium">
-                      No computational items saved.
+                    <span className="text-xs text-black italic font-bold">
+                      No records.
                     </span>
                   ) : (
                     history.map((item) => (
                       <div
                         key={item.id}
-                        className="border border-slate-100 p-2.5 bg-white rounded-2xl flex items-center justify-between text-xs shadow-sm"
+                        className="border-2 border-black p-3 bg-white rounded-2xl flex items-center justify-between text-xs font-bold shadow"
                       >
                         <div className="flex flex-col">
-                          <span className="font-bold text-[10px] uppercase text-slate-600">
+                          <span className="font-black text-xs uppercase text-black">
                             {item.title}
                           </span>
-                          <span className="text-[8px] text-slate-400">
+                          <span className="text-xs text-black/60">
                             {item.mode} • {item.date}
                           </span>
                         </div>
-                        <span className="font-bold text-slate-800">{item.result}</span>
+                        <span className="font-extrabold text-black text-sm">{item.result}</span>
                       </div>
                     ))
                   )}
@@ -648,8 +633,8 @@ export default function AntigravityDashboard() {
               </div>
             </div>
 
-            <footer className="text-[9px] border-t border-slate-200/50 pt-3 mt-4 text-center text-slate-400 font-bold tracking-widest uppercase">
-              Academic Performance Analytics
+            <footer className="text-xs border-t-2 border-black pt-4 mt-5 text-center text-black font-black tracking-widest uppercase select-none">
+              Performance Tracker
             </footer>
           </div>
         </div>
