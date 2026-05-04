@@ -31,7 +31,7 @@ const gradePoints: { [key: string]: number } = {
   N: 0,
 };
 
-export default function GradeTerminal() {
+export default function ImmersiveDashboard() {
   const [mode, setMode] = useState<Mode>("PERCENTAGE");
   const [subjects, setSubjects] = useState<Subject[]>([
     { id: 1, name: "Course 1", credits: "4", grade: "S", marks: "" },
@@ -42,19 +42,19 @@ export default function GradeTerminal() {
   const [remainingCredits, setRemainingCredits] = useState<string>("");
   const [result, setResult] = useState<string | null>(null);
   const [whatIfBreakdown, setWhatIfBreakdown] = useState<string | null>(null);
+  const [confidence, setConfidence] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [history, setHistory] = useState<HistoryItem[]>([]);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [showFormula, setShowFormula] = useState<boolean>(false);
 
-  // Load history from localStorage on mount
   useEffect(() => {
-    const savedHistory = localStorage.getItem("grade_history_google");
+    const savedHistory = localStorage.getItem("grade_history_immersive");
     if (savedHistory) {
       try {
         setHistory(JSON.parse(savedHistory));
       } catch (e) {
-        localStorage.removeItem("grade_history_google");
+        localStorage.removeItem("grade_history_immersive");
       }
     }
   }, []);
@@ -67,14 +67,14 @@ export default function GradeTerminal() {
       date: new Date().toLocaleDateString(),
       result: res,
     };
-    const updated = [newItem, ...history].slice(0, 5);
+    const updated = [newItem, ...history].slice(0, 4);
     setHistory(updated);
-    localStorage.setItem("grade_history_google", JSON.stringify(updated));
+    localStorage.setItem("grade_history_immersive", JSON.stringify(updated));
   };
 
   const clearHistory = () => {
     setHistory([]);
-    localStorage.removeItem("grade_history_google");
+    localStorage.removeItem("grade_history_immersive");
   };
 
   const addSubject = () => {
@@ -106,6 +106,7 @@ export default function GradeTerminal() {
     setError(null);
     setResult(null);
     setWhatIfBreakdown(null);
+    setConfidence(null);
 
     if (mode === "PERCENTAGE") {
       let totalMarks = 0;
@@ -121,7 +122,7 @@ export default function GradeTerminal() {
       }
 
       if (!valid) {
-        setError("Invalid marks. Please input valid marks between 0 and 100.");
+        setError("Please enter valid marks between 0 and 100.");
         return;
       }
 
@@ -131,8 +132,8 @@ export default function GradeTerminal() {
         const percent = (totalMarks / (subjects.length * 100)) * 100;
         const formatted = `${percent.toFixed(2)}%`;
         setResult(formatted);
-        saveToHistory(`${subjects.length} Course Percentages`, mode, formatted);
-      }, 650);
+        saveToHistory(`${subjects.length} Subjects`, mode, formatted);
+      }, 600);
     } else if (mode === "SGPA") {
       let totalGradePoints = 0;
       let totalCredits = 0;
@@ -151,7 +152,7 @@ export default function GradeTerminal() {
       }
 
       if (!valid || totalCredits === 0) {
-        setError("Invalid entries. Check course credits or select valid grades.");
+        setError("Invalid inputs. Review credits and grades.");
         return;
       }
 
@@ -162,7 +163,7 @@ export default function GradeTerminal() {
         const formatted = sgpa.toFixed(2);
         setResult(formatted);
         saveToHistory(`${subjects.length} Courses SGPA`, mode, formatted);
-      }, 650);
+      }, 600);
     } else if (mode === "CGPA") {
       const pCgpa = parseFloat(prevCgpa);
       const pCredits = parseFloat(prevCredits);
@@ -171,7 +172,7 @@ export default function GradeTerminal() {
       let valid = true;
 
       if (isNaN(pCgpa) || pCgpa < 0 || pCgpa > 10 || isNaN(pCredits) || pCredits < 0) {
-        setError("Invalid previous semester data.");
+        setError("Invalid initial values.");
         return;
       }
 
@@ -188,7 +189,7 @@ export default function GradeTerminal() {
       }
 
       if (!valid) {
-        setError("Invalid input data in your courses list.");
+        setError("Invalid grades or credits entered.");
         return;
       }
 
@@ -199,15 +200,15 @@ export default function GradeTerminal() {
         const overallCredits = pCredits + totalSemCredits;
 
         if (overallCredits === 0) {
-          setError("Total accumulated academic credits cannot be zero.");
+          setError("Credits accumulated cannot be zero.");
           return;
         }
 
         const cgpa = overallGradePoints / overallCredits;
         const formatted = cgpa.toFixed(2);
         setResult(formatted);
-        saveToHistory(`Semester Cumulative Result`, mode, formatted);
-      }, 650);
+        saveToHistory(`Semester Cumulative`, mode, formatted);
+      }, 600);
     } else if (mode === "WHAT_IF") {
       const curCgpa = parseFloat(prevCgpa);
       const curCredits = parseFloat(prevCredits);
@@ -220,7 +221,7 @@ export default function GradeTerminal() {
         isNaN(goalCgpa) || goalCgpa < 0 || goalCgpa > 10 ||
         isNaN(remCredits) || remCredits <= 0
       ) {
-        setError("Invalid parameters. Enter valid numbers.");
+        setError("Check parameter values.");
         return;
       }
 
@@ -234,85 +235,91 @@ export default function GradeTerminal() {
         const avgGradePointRequired = pointsRequired / remCredits;
 
         if (avgGradePointRequired > 10) {
-          setError("Mathematically impossible goal. Requires over a 10.00 avg.");
+          setError("Goal over 10.00 avg required. Impracticable goal.");
           return;
         }
         if (avgGradePointRequired < 0) {
           setResult("Goal Achieved!");
-          setWhatIfBreakdown("Goal already surpassed! Maintain any passing score.");
+          setConfidence("Zero Risk");
+          setWhatIfBreakdown("Goal already accomplished. Aim for passing grades.");
           return;
         }
 
-        const formatted = `Required Avg SGPA: ${avgGradePointRequired.toFixed(2)}`;
+        const formatted = `Avg SGPA Needed: ${avgGradePointRequired.toFixed(2)}`;
         setResult(formatted);
 
-        // Compute predicted optimal grade combinations for recruiter-wowing effect
-        // S = 10, A = 9, B = 8, C = 7, D = 6, E = 5
-        let distribution = "Target grade distribution for remaining courses:";
+        let breakdown = "";
+        let conf = "Low Difficulty";
+
         if (avgGradePointRequired >= 9.0) {
-          distribution = "Top-tier standing. Aim primarily for S (10) and A (9) grades across remaining courses.";
+          breakdown = "High Standing target. Maintain top grade S (10) across remaining subjects.";
+          conf = "Significant Effort Required";
         } else if (avgGradePointRequired >= 8.0) {
-          distribution = "Solid performance needed. Focus on securing A (9) and B (8) grades.";
-        } else if (avgGradePointRequired >= 7.0) {
-          distribution = "Aim for a steady B (8) or C (7) grade average across courses.";
+          breakdown = "Standard good performance needed. Aim for A (9) and B (8) grades.";
+          conf = "Moderate Focus";
         } else {
-          distribution = "Secure C (7) or D (6) grades to stay perfectly on track with your objective.";
+          breakdown = "Maintain a steady C (7) or B (8) across your upcoming credits.";
+          conf = "Easily Attainable";
         }
 
-        setWhatIfBreakdown(distribution);
+        setConfidence(conf);
+        setWhatIfBreakdown(breakdown);
         saveToHistory(`Goal: ${goalCgpa} CGPA`, mode, formatted);
-      }, 650);
+      }, 600);
     }
   };
 
   const copyToClipboard = () => {
     if (result) {
-      navigator.clipboard.writeText(`Academic Insights Engine Result: ${result}`);
-      alert("Result copied to clipboard!");
+      navigator.clipboard.writeText(`Academic Performance Outcome: ${result}`);
+      alert("Performance result copied to clipboard!");
     }
   };
 
   return (
-    <main className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-3 sm:p-6 smooth-entry relative overflow-x-hidden font-sans select-none">
-      <div className="absolute inset-0 pointer-events-none overflow-hidden select-none">
-        <div className="absolute top-[-20%] left-[-20%] w-[500px] h-[500px] bg-blue-400/5 rounded-full blur-[110px]"></div>
+    <main className="min-h-screen bg-slate-50 flex flex-col items-center justify-start py-4 px-4 sm:px-10 smooth-entry select-none relative overflow-x-hidden font-sans">
+      {/* Dynamic Sub-surface Ice Blue Radials */}
+      <div className="absolute inset-0 pointer-events-none select-none">
+        <div className="absolute top-[-25%] left-[-20%] w-[600px] h-[600px] bg-indigo-400/5 rounded-full blur-[130px]"></div>
         <div className="absolute bottom-[-15%] right-[-15%] w-[450px] h-[450px] bg-cyan-400/5 rounded-full blur-[100px]"></div>
       </div>
 
-      <div className="w-full max-w-4xl glass-panel p-5 sm:p-8 bg-white/80 relative select-none">
-        {/* Authoritative Clean Minimal Header */}
-        <header className="flex flex-col sm:flex-row items-center justify-between border-b border-slate-100 pb-4 mb-5 gap-4">
+      <div className="w-full max-w-5xl flex flex-col flex-1 gap-5 bg-transparent relative select-none">
+        {/* Full-Width Non-card Immersive Banner Header */}
+        <header className="flex flex-col sm:flex-row items-center justify-between border-b border-slate-200/60 pb-4 mb-3 gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-11 h-11 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center flex-shrink-0 border border-blue-100 shadow-sm">
+            <div className="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center flex-shrink-0 border border-indigo-100/60">
               <svg className="w-5 h-5 stroke-current stroke-2" viewBox="0 0 24 24" fill="none">
                 <rect x="3" y="3" width="18" height="18" rx="2" />
                 <path d="M3 9h18M9 21V9" />
               </svg>
             </div>
             <div>
-              <h1 className="text-lg font-bold tracking-tight text-slate-800 leading-tight">
-                Academic Performance Engine
+              <h1 className="text-base font-bold tracking-tight text-slate-800 leading-tight">
+                Academic Performance Dashboard
               </h1>
               <p className="text-[10px] font-medium text-slate-400 mt-0.5">
-                Modern Academic Performance Insights, Target Modeler & Scenarios Log
+                Advanced performance analytics, SGPA modeler & prediction scenarios log
               </p>
             </div>
           </div>
-          <button
-            onClick={() => setShowFormula(!showFormula)}
-            className="text-[10px] bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold px-3 py-1.5 rounded-xl transition-all shadow-sm"
-          >
-            {showFormula ? "Hide Formula" : "View Computation Logic"}
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setShowFormula(!showFormula)}
+              className="text-[10px] bg-white border border-slate-200 text-slate-500 hover:bg-slate-50 font-bold px-3 py-1.5 rounded-xl transition-all h-[34px] flex items-center justify-center shadow-sm"
+            >
+              {showFormula ? "Hide Formula" : "View Computation Matrix"}
+            </button>
+          </div>
         </header>
 
         {/* Collapsible computation math insights panel */}
         {showFormula && (
-          <div className="border border-slate-200 rounded-2xl p-4 bg-slate-50/60 mb-5 text-xs text-slate-600 smooth-entry select-none">
-            <h3 className="font-bold text-slate-700 uppercase tracking-wide text-[10px] mb-3">
-              Precision Formula & Computation Matrix
+          <div className="border border-slate-100 rounded-2xl p-4 bg-white/40 mb-3 text-xs text-slate-600 smooth-entry select-none">
+            <h3 className="font-bold text-slate-700 uppercase tracking-wide text-[9px] mb-2 text-indigo-600">
+              Calculation Matrix & Direct Math Insights
             </h3>
-            <ul className="space-y-1.5 list-disc list-inside">
+            <ul className="space-y-1 list-disc list-inside">
               <li>
                 <strong>Percentage Calculations:</strong>{" "}
                 <code>(Sum of Subject Scores / Total Possible Base Scores) × 100</code>
@@ -333,8 +340,8 @@ export default function GradeTerminal() {
           </div>
         )}
 
-        {/* Dynamic Nav Switchers */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-5">
+        {/* Edge-to-edge Mode Switcher tabs */}
+        <div className="flex flex-wrap gap-1 border-b border-slate-200/60 pb-3 select-none">
           {(["PERCENTAGE", "SGPA", "CGPA", "WHAT_IF"] as Mode[]).map((m) => (
             <button
               key={m}
@@ -342,33 +349,31 @@ export default function GradeTerminal() {
                 setMode(m);
                 setResult(null);
                 setWhatIfBreakdown(null);
+                setConfidence(null);
                 setError(null);
               }}
-              className={`py-2.5 px-3 rounded-xl text-[10px] font-bold tracking-wider uppercase transition-all flex flex-col items-center justify-center gap-1 border border-slate-100 ${
+              className={`py-2 px-4 rounded-xl text-[10px] font-bold tracking-wider uppercase transition-all flex items-center justify-center border border-slate-200/40 select-none ${
                 mode === m
-                  ? "bg-blue-600 text-white shadow-md shadow-blue-500/10 border-blue-600"
-                  : "bg-white/60 text-slate-500 hover:bg-slate-50/80"
+                  ? "bg-indigo-600 text-white shadow-md shadow-indigo-500/10 border-indigo-600"
+                  : "bg-white/40 text-slate-500 hover:bg-slate-50/60"
               }`}
             >
-              {m === "WHAT_IF" ? "What-If" : m}
+              {m === "WHAT_IF" ? "What-If Planner" : `${m} Modeler`}
             </button>
           ))}
         </div>
 
-        {/* Flexible Working Interface Panels */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          <div className="md:col-span-2 bg-white/40 border border-slate-100 rounded-3xl p-4 sm:p-6 flex flex-col justify-between">
-            <div>
-              <h2 className="text-[10px] font-bold tracking-wider uppercase text-slate-400 border-b border-slate-100 pb-2 mb-3">
-                {mode === "PERCENTAGE" && "Entry: Courses Marks"}
-                {mode === "SGPA" && "Entry: Term Modules"}
-                {mode === "CGPA" && "Context Balance"}
-                {mode === "WHAT_IF" && "Predict Goal Distribution"}
+        {/* Dynamic Multi-Column Immersive Sizing workspace */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="md:col-span-2 flex flex-col justify-between">
+            <div className="mb-4">
+              <h2 className="text-[10px] font-bold tracking-wider uppercase text-slate-400 border-b border-slate-200/40 pb-1 mb-4 select-none">
+                Data Context Balance
               </h2>
 
-              {/* Advanced dynamic subfields for overall continuity and planners */}
+              {/* Advanced Overall Inputs (Context Balance) */}
               {(mode === "CGPA" || mode === "WHAT_IF") && (
-                <div className="grid grid-cols-2 gap-3 border-b border-dashed border-slate-100 pb-4 mb-4 select-none">
+                <div className="grid grid-cols-2 gap-4 border-b border-dashed border-slate-200/60 pb-4 mb-4 select-none">
                   <div>
                     <label className="text-[9px] font-bold uppercase tracking-wide text-slate-500 block mb-1">
                       Current CGPA
@@ -377,7 +382,7 @@ export default function GradeTerminal() {
                       type="number"
                       value={prevCgpa}
                       onChange={(e) => setPrevCgpa(e.target.value)}
-                      className="w-full text-sm font-semibold p-2 rounded-xl border border-slate-200"
+                      className="w-full text-sm font-semibold p-2 rounded-xl border border-slate-200/60"
                       placeholder="e.g. 8.4"
                     />
                   </div>
@@ -389,16 +394,16 @@ export default function GradeTerminal() {
                       type="number"
                       value={prevCredits}
                       onChange={(e) => setPrevCredits(e.target.value)}
-                      className="w-full text-sm font-semibold p-2 rounded-xl border border-slate-200"
+                      className="w-full text-sm font-semibold p-2 rounded-xl border border-slate-200/60"
                       placeholder="e.g. 72"
                     />
                   </div>
                 </div>
               )}
 
-              {/* Unique Target & Goals Inputs for What-If Goal distributions */}
+              {/* WHAT-IF Specific goal entries */}
               {mode === "WHAT_IF" && (
-                <div className="grid grid-cols-2 gap-3 border-b border-dashed border-slate-100 pb-4 mb-4 select-none">
+                <div className="grid grid-cols-2 gap-4 border-b border-dashed border-slate-200/60 pb-4 mb-4 select-none">
                   <div>
                     <label className="text-[9px] font-bold uppercase tracking-wide text-slate-500 block mb-1">
                       Target CGPA Goal
@@ -407,7 +412,7 @@ export default function GradeTerminal() {
                       type="number"
                       value={targetCgpa}
                       onChange={(e) => setTargetCgpa(e.target.value)}
-                      className="w-full text-sm font-semibold p-2 rounded-xl border border-slate-200"
+                      className="w-full text-sm font-semibold p-2 rounded-xl border border-slate-200/60"
                       placeholder="e.g. 9.0"
                     />
                   </div>
@@ -419,16 +424,16 @@ export default function GradeTerminal() {
                       type="number"
                       value={remainingCredits}
                       onChange={(e) => setRemainingCredits(e.target.value)}
-                      className="w-full text-sm font-semibold p-2 rounded-xl border border-slate-200"
+                      className="w-full text-sm font-semibold p-2 rounded-xl border border-slate-200/60"
                       placeholder="e.g. 18"
                     />
                   </div>
                 </div>
               )}
 
-              {/* Dynamic list of inputs for term results */}
+              {/* Dynamic Modules Table List */}
               {mode !== "WHAT_IF" && (
-                <div className="space-y-3 max-h-[260px] overflow-y-auto pr-1 mb-3 select-none">
+                <div className="space-y-3 max-h-[320px] overflow-y-auto pr-1 select-none">
                   {subjects.map((sub, idx) => (
                     <div
                       key={sub.id}
@@ -436,7 +441,7 @@ export default function GradeTerminal() {
                     >
                       <div className="flex-1">
                         <label className="text-[9px] font-bold uppercase tracking-wider block mb-1 text-slate-400">
-                          Course Name
+                          Course Module Name
                         </label>
                         <input
                           type="text"
@@ -444,7 +449,7 @@ export default function GradeTerminal() {
                           onChange={(e) =>
                             handleSubjectChange(sub.id, "name", e.target.value)
                           }
-                          className="w-full text-sm font-semibold p-2 rounded-xl border border-slate-200 select-none"
+                          className="w-full text-sm font-semibold p-2 rounded-xl border border-slate-200/60 select-none"
                         />
                       </div>
 
@@ -459,7 +464,7 @@ export default function GradeTerminal() {
                             onChange={(e) =>
                               handleSubjectChange(sub.id, "marks", e.target.value)
                             }
-                            className="w-full sm:w-20 text-sm font-semibold p-2 rounded-xl border border-slate-200 text-center"
+                            className="w-full sm:w-20 text-sm font-semibold p-2 rounded-xl border border-slate-200/60 text-center"
                             placeholder="88"
                           />
                         </div>
@@ -475,7 +480,7 @@ export default function GradeTerminal() {
                               onChange={(e) =>
                                 handleSubjectChange(sub.id, "credits", e.target.value)
                               }
-                              className="w-full sm:w-16 text-sm font-semibold p-2 rounded-xl border border-slate-200 text-center"
+                              className="w-full sm:w-16 text-sm font-semibold p-2 rounded-xl border border-slate-200/60 text-center"
                               placeholder="4"
                             />
                           </div>
@@ -506,7 +511,7 @@ export default function GradeTerminal() {
                       <div className="flex items-end justify-end sm:pt-4">
                         <button
                           onClick={() => removeSubject(sub.id)}
-                          className="border border-slate-200 text-slate-400 hover:bg-slate-50 p-2 font-bold text-xs select-none h-[38px] transition-colors rounded-xl flex items-center justify-center bg-white"
+                          className="border border-slate-200/60 text-slate-400 hover:bg-slate-50 p-2 font-bold text-xs select-none h-[38px] transition-colors rounded-xl flex items-center justify-center bg-white"
                           title="Remove Entry"
                         >
                           ✕
@@ -520,9 +525,9 @@ export default function GradeTerminal() {
               {mode !== "WHAT_IF" && (
                 <button
                   onClick={addSubject}
-                  className="w-full border border-dashed border-blue-200 rounded-xl hover:bg-blue-50/40 p-2.5 font-bold tracking-wide text-[10px] uppercase text-blue-600 transition-colors mb-4"
+                  className="w-full border border-dashed border-indigo-200 rounded-xl hover:bg-indigo-50/40 p-2.5 font-bold tracking-wide text-[10px] uppercase text-indigo-600 transition-colors my-4"
                 >
-                  + Add Entry
+                  + Append Entry
                 </button>
               )}
             </div>
@@ -530,15 +535,15 @@ export default function GradeTerminal() {
             <div>
               <button
                 onClick={calculateResult}
-                className="w-full bg-blue-600 text-white hover:bg-blue-700 p-3.5 font-bold rounded-xl tracking-wider uppercase transition-all text-xs border border-blue-600 shadow-md shadow-blue-500/10 flex items-center justify-center"
+                className="w-full bg-indigo-600 text-white hover:bg-indigo-700 p-3.5 font-bold rounded-xl tracking-wider uppercase transition-all text-xs border border-indigo-600 shadow-sm flex items-center justify-center"
               >
                 {isProcessing ? (
                   <>
                     <div className="w-4 h-4 mr-2 rounded-full border-2 border-white/30 border-t-white animate-spin"></div>
-                    Processing Matrix...
+                    Executing Algorithms...
                   </>
                 ) : (
-                  "Execute Calculation"
+                  "Calculate Performance"
                 )}
               </button>
 
@@ -550,77 +555,82 @@ export default function GradeTerminal() {
             </div>
           </div>
 
-          {/* Premium Academic Predictions Board */}
-          <div className="bg-white/40 border border-slate-100 rounded-3xl p-4 sm:p-5 flex flex-col justify-between">
+          {/* Precision Analytics Column Workspace */}
+          <div className="flex flex-col justify-between">
             <div>
-              <h2 className="text-[10px] font-bold tracking-wider uppercase text-slate-400 border-b border-slate-100 pb-2 mb-3">
-                Insights Dashboard
+              <h2 className="text-[10px] font-bold tracking-wider uppercase text-slate-400 border-b border-slate-200/40 pb-1 mb-4 select-none">
+                Workspace Analytics
               </h2>
 
               {isProcessing ? (
                 <div className="border border-slate-100 bg-white/60 p-5 text-center my-3 select-none rounded-2xl flex flex-col items-center justify-center min-h-[140px] smooth-entry">
                   <div className="w-8 h-8 border-4 border-slate-100 spinner-round rounded-full mb-3"></div>
                   <span className="text-[10px] font-bold text-slate-500 tracking-wide uppercase">
-                    Analyzing Parameters
+                    Analyzing Scenario
                   </span>
                 </div>
               ) : result ? (
-                <div className="border border-blue-50 bg-blue-50/30 p-4 text-center my-3 select-none smooth-entry rounded-2xl flex flex-col justify-between min-h-[140px]">
+                <div className="border border-indigo-50/60 bg-indigo-50/20 p-5 text-center my-3 select-none smooth-entry rounded-2xl flex flex-col justify-between min-h-[150px]">
                   <div>
-                    <span className="text-[9px] font-bold uppercase tracking-widest text-blue-400">
-                      Calculated Outcome
+                    <span className="text-[9px] font-bold uppercase tracking-widest text-indigo-400">
+                      Precision Calculation
                     </span>
-                    <div className="text-2xl font-black text-blue-600 tracking-tight mt-1">
+                    <div className="text-3xl font-black text-indigo-600 tracking-tight mt-1 select-none">
                       {result}
                     </div>
+                    {confidence && (
+                      <div className="text-[9px] font-bold uppercase text-indigo-500 bg-indigo-50/50 px-2 py-0.5 mt-2 rounded-full border border-indigo-100/60 inline-block">
+                        Confidence: {confidence}
+                      </div>
+                    )}
                     {whatIfBreakdown && (
-                      <p className="text-[10px] font-semibold text-slate-500 leading-normal mt-2 border-t border-blue-50 pt-2 border-dashed">
+                      <p className="text-[10px] font-semibold text-slate-500 leading-relaxed mt-3 border-t border-indigo-100/40 pt-2 border-dashed">
                         {whatIfBreakdown}
                       </p>
                     )}
                   </div>
                   <button
                     onClick={copyToClipboard}
-                    className="text-[9px] border border-blue-100 bg-white hover:bg-blue-50/40 text-blue-600 font-bold px-3 py-1.5 rounded-xl mt-3 transition-all self-center shadow-sm select-none"
+                    className="text-[9px] border border-indigo-100/60 bg-white hover:bg-indigo-50/40 text-indigo-600 font-bold px-3 py-1.5 rounded-xl mt-3 transition-all self-center shadow-sm select-none"
                   >
-                    Copy Result
+                    Copy Output
                   </button>
                 </div>
               ) : (
-                <div className="border border-dashed border-slate-100 p-5 text-center text-slate-300 font-bold uppercase text-[10px] my-3 select-none flex flex-col items-center justify-center min-h-[140px] rounded-2xl">
-                  <span>No computational output</span>
+                <div className="border border-dashed border-slate-200/60 p-5 text-center text-slate-300 font-bold uppercase text-[9px] my-3 select-none flex flex-col items-center justify-center min-h-[140px] rounded-2xl">
+                  <span>No computation outcome</span>
                   <span className="text-[8px] font-normal tracking-wide text-slate-400 mt-1">
                     Execute metrics above
                   </span>
                 </div>
               )}
 
-              {/* Computations History */}
-              <div className="mt-3">
-                <div className="flex justify-between items-center border-b border-slate-100 pb-1.5 mb-2.5">
+              {/* Persistence computational logs */}
+              <div className="mt-4">
+                <div className="flex justify-between items-center border-b border-slate-200/40 pb-1 mb-2.5">
                   <h3 className="text-[9px] font-bold uppercase tracking-wide text-slate-400 select-none">
-                    Session Log
+                    Computation Session Log
                   </h3>
                   {history.length > 0 && (
                     <button
                       onClick={clearHistory}
-                      className="text-[8px] bg-slate-50 hover:bg-slate-100 border border-slate-200 px-1.5 py-0.5 rounded-lg font-bold text-slate-500 transition-colors"
+                      className="text-[8px] bg-slate-50 hover:bg-slate-100 border border-slate-200 px-1.5 py-0.5 rounded-xl font-bold text-slate-500 transition-colors"
                     >
-                      Clear
+                      Clear Log
                     </button>
                   )}
                 </div>
 
-                <div className="space-y-1.5 select-none h-[130px] overflow-y-auto pr-0.5">
+                <div className="space-y-1.5 select-none h-[110px] overflow-y-auto pr-0.5">
                   {history.length === 0 ? (
                     <span className="text-[9px] text-slate-400 italic">
-                      No computational items saved.
+                      No computational items logged.
                     </span>
                   ) : (
                     history.map((item) => (
                       <div
                         key={item.id}
-                        className="border border-slate-50 p-2 bg-white/60 rounded-xl flex items-center justify-between text-xs"
+                        className="border border-slate-50/60 p-2 bg-white/60 rounded-xl flex items-center justify-between text-xs"
                       >
                         <div className="flex flex-col">
                           <span className="font-bold text-[9px] uppercase text-slate-600">
@@ -638,8 +648,8 @@ export default function GradeTerminal() {
               </div>
             </div>
 
-            <footer className="text-[9px] border-t border-slate-100 pt-3 mt-3 text-center text-slate-400 font-bold tracking-widest uppercase">
-              Insights Workspace Engine
+            <footer className="text-[9px] border-t border-slate-200/60 pt-3 mt-4 text-center text-slate-400 font-bold tracking-widest uppercase select-none">
+              Modern Performance Workspace Engine
             </footer>
           </div>
         </div>
