@@ -283,31 +283,23 @@ export default function Platform() {
       isDark ? "bg-[#09090b] text-[#f4f4f5]" : "bg-[#fcfcfd] text-[#111111]"
     }`}>
       <div className="w-full max-w-6xl flex flex-col flex-1 gap-4 sm:gap-8 bg-transparent select-none">
-        
-        {/* Rounded Top-Centered Logo Circle */}
-        <div className="flex flex-col items-center justify-center select-none pt-2">
-          <div className={`h-16 w-16 sm:h-20 sm:w-20 rounded-full border-2 flex items-center justify-center transition-all select-none ${
-            isDark ? "border-[#27272a] bg-[#18181b] text-white" : "border-[#e4e4e7] bg-white text-black"
-          }`}>
-            <span className="text-3xl sm:text-4xl font-black leading-none select-none">
-              ▲
-            </span>
-          </div>
-        </div>
 
         {/* Navigation Bar */}
         <nav className={`flex items-center justify-between border-b pb-3 gap-3 select-none ${
           isDark ? "border-[#27272a]" : "border-[#e4e4e7]"
         }`}>
-          <div>
-            <h1 className="text-xl sm:text-4xl font-extrabold tracking-tight leading-none select-none">
-              Academic Analytics
-            </h1>
-            <p className={`text-[10px] sm:text-sm font-normal mt-1 sm:mt-2 select-none ${
-              isDark ? "text-[#a1a1aa]" : "text-[#71717a]"
-            }`}>
-              Advanced planning metrics & dynamic performance scoring
-            </p>
+          <div className="flex items-center gap-3">
+            <img src="/logo.png" alt="Platform logo" className="h-10 w-10 sm:h-14 sm:w-14 object-contain flex-shrink-0" />
+            <div>
+              <h1 className="text-xl sm:text-4xl font-extrabold tracking-tight leading-none select-none">
+                Academic Analytics
+              </h1>
+              <p className={`text-[10px] sm:text-sm font-normal mt-1 sm:mt-2 select-none ${
+                isDark ? "text-[#a1a1aa]" : "text-[#71717a]"
+              }`}>
+                Advanced planning metrics & dynamic performance scoring
+              </p>
+            </div>
           </div>
           
           <div className="flex items-center gap-2.5">
@@ -531,7 +523,7 @@ export default function Platform() {
                 </div>
               )}
 
-              {/* Goal metrics specifically for What-If planner */}
+              {/* Goal parameters specifically for What-If planner */}
               {mode === "WHAT_IF" && (
                 <div className={`grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 border-b border-dashed pb-4 sm:pb-6 mb-4 sm:mb-6 select-none ${
                   isDark ? "border-[#27272a]" : "border-[#e4e4e7]"
@@ -840,7 +832,7 @@ export default function Platform() {
               </div>
             </div>
 
-            {/* Custom Ayush Kathil Branded Developer Footer with Linked/Socials */}
+            {/* Custom Ayush Kathil Branded Developer Footer with Social badges */}
             <footer className={`text-xs sm:text-base border-t pt-4 sm:pt-6 mt-5 sm:mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 font-bold select-none ${
               isDark ? "border-[#27272a] text-[#71717a]" : "border-[#e4e4e7] text-[#a1a1aa]"
             }`}>
