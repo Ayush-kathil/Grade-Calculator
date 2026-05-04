@@ -279,39 +279,43 @@ export default function Platform() {
   };
 
   return (
-    <div className={`min-h-screen flex flex-col items-center justify-start py-4 sm:py-6 px-3 sm:px-12 smooth-entry transition-colors duration-300 select-none ${
+    <div className={`min-h-screen flex flex-col items-center justify-start py-4 sm:py-8 px-3 sm:px-16 smooth-entry transition-colors duration-300 select-none ${
       isDark ? "bg-[#09090b] text-[#f4f4f5]" : "bg-[#fcfcfd] text-[#111111]"
     }`}>
-      <div className="w-full max-w-5xl flex flex-col flex-1 gap-4 sm:gap-6 bg-transparent select-none">
+      <div className="w-full max-w-6xl flex flex-col flex-1 gap-4 sm:gap-8 bg-transparent select-none">
         
+        {/* Rounded Top-Centered Logo Circle */}
+        <div className="flex flex-col items-center justify-center select-none pt-2">
+          <div className={`h-16 w-16 sm:h-20 sm:w-20 rounded-full border-2 flex items-center justify-center transition-all select-none ${
+            isDark ? "border-[#27272a] bg-[#18181b] text-white" : "border-[#e4e4e7] bg-white text-black"
+          }`}>
+            <span className="text-3xl sm:text-4xl font-black leading-none select-none">
+              ▲
+            </span>
+          </div>
+        </div>
+
         {/* Navigation Bar */}
         <nav className={`flex items-center justify-between border-b pb-3 gap-3 select-none ${
           isDark ? "border-[#27272a]" : "border-[#e4e4e7]"
         }`}>
-          <div className="flex items-center gap-2.5">
-            <span className={`text-3xl font-extrabold flex-shrink-0 leading-none select-none ${
-              isDark ? "text-white" : "text-black"
+          <div>
+            <h1 className="text-xl sm:text-4xl font-extrabold tracking-tight leading-none select-none">
+              Academic Analytics
+            </h1>
+            <p className={`text-[10px] sm:text-sm font-normal mt-1 sm:mt-2 select-none ${
+              isDark ? "text-[#a1a1aa]" : "text-[#71717a]"
             }`}>
-              ▲
-            </span>
-            <div>
-              <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight leading-none">
-                Academic Hub
-              </h1>
-              <p className={`text-[10px] sm:text-xs font-normal mt-1 select-none ${
-                isDark ? "text-[#a1a1aa]" : "text-[#71717a]"
-              }`}>
-                Visual analytical planning interface
-              </p>
-            </div>
+              Advanced planning metrics & dynamic performance scoring
+            </p>
           </div>
           
           <div className="flex items-center gap-2.5">
-            {/* Desktop Navigation Items */}
-            <div className="hidden md:flex items-center gap-2.5">
+            {/* Expanded Desktop Navigation */}
+            <div className="hidden md:flex items-center gap-3">
               <button
                 onClick={() => setShowFormula(!showFormula)}
-                className={`text-xs font-semibold px-4 py-2 rounded-full border transition-all h-[36px] flex items-center justify-center select-none ${
+                className={`text-sm sm:text-base font-bold px-5 py-3 rounded-full border transition-all h-[44px] flex items-center justify-center select-none ${
                   isDark
                     ? "bg-[#18181b] border-[#27272a] text-[#f4f4f5] hover:bg-[#27272a]"
                     : "bg-white border-[#e4e4e7] text-[#1c1d20] hover:bg-[#f4f4f5]"
@@ -321,17 +325,17 @@ export default function Platform() {
               </button>
               <button
                 onClick={() => setIsDark(!isDark)}
-                className={`text-xs font-semibold px-4 py-2 rounded-full border transition-all h-[36px] flex items-center justify-center select-none ${
+                className={`text-sm sm:text-base font-bold px-5 py-3 rounded-full border transition-all h-[44px] flex items-center justify-center select-none ${
                   isDark
                     ? "bg-[#18181b] border-[#27272a] text-[#f4f4f5] hover:bg-[#27272a]"
                     : "bg-white border-[#e4e4e7] text-[#1c1d20] hover:bg-[#f4f4f5]"
                 }`}
               >
-                {isDark ? "Light" : "Dark"}
+                {isDark ? "Light theme" : "Dark theme"}
               </button>
             </div>
 
-            {/* Mobile Sidebar Hamburger Menu */}
+            {/* Compact Mobile Sidebar Menu Hamburger */}
             <button
               onClick={() => setIsSidebarOpen(true)}
               className={`md:hidden p-2 font-bold text-xl h-[40px] w-[40px] border rounded-full transition-colors flex items-center justify-center select-none ${
@@ -343,7 +347,7 @@ export default function Platform() {
           </div>
         </nav>
 
-        {/* Sliding Sidebar Menu overlay */}
+        {/* Sliding Sidebar Mobile Menu Drawer overlay */}
         {isSidebarOpen && (
           <div className="fixed inset-0 z-50 flex justify-end bg-black/60 backdrop-blur-sm transition-all smooth-entry select-none">
             <div className={`w-4/5 sm:w-2/3 h-full p-5 shadow-2xl flex flex-col justify-between border-l select-none ${
@@ -384,7 +388,7 @@ export default function Platform() {
                             : "bg-[#f4f4f5] border-[#e4e4e7] text-[#71717a] hover:bg-[#e4e4e7] hover:text-[#111111]"
                       }`}
                     >
-                      {m === "WHAT_IF" ? "What-If Prediction" : `${m} Processing`}
+                      {m === "WHAT_IF" ? "What-If Model" : `${m} Processing`}
                     </button>
                   ))}
                 </div>
@@ -423,10 +427,10 @@ export default function Platform() {
         )}
 
         {showFormula && (
-          <div className={`border rounded-xl p-4 mb-2 text-xs transition-colors smooth-entry select-none ${
+          <div className={`border rounded-2xl p-5 mb-2 text-sm sm:text-base transition-colors smooth-entry select-none ${
             isDark ? "border-[#27272a] bg-[#18181b] text-[#f4f4f5]" : "border-[#e4e4e7] bg-white text-[#111111]"
           }`}>
-            <h3 className="font-bold uppercase tracking-wide text-xs mb-2">
+            <h3 className="font-bold uppercase tracking-wide text-xs sm:text-sm mb-2 sm:mb-3">
               Formula Reference
             </h3>
             <ul className="space-y-1 list-disc list-inside">
@@ -450,8 +454,8 @@ export default function Platform() {
           </div>
         )}
 
-        {/* Desktop Navigation switches */}
-        <div className="hidden md:flex flex-wrap gap-2 border-b pb-3 select-none border-transparent">
+        {/* Zoomed Desktop Tab Switcher */}
+        <div className="hidden md:flex flex-wrap gap-3 border-b pb-4 select-none border-transparent">
           {(["PERCENTAGE", "SGPA", "CGPA", "WHAT_IF"] as Mode[]).map((m) => (
             <button
               key={m}
@@ -462,7 +466,7 @@ export default function Platform() {
                 setConfidence(null);
                 setError(null);
               }}
-              className={`py-2 px-4 rounded-full text-xs font-bold tracking-wide transition-all border select-none ${
+              className={`py-3.5 px-8 rounded-full text-sm sm:text-lg font-bold tracking-wide transition-all border select-none ${
                 mode === m
                   ? isDark
                     ? "bg-[#f4f4f5] text-[#09090b] border-[#f4f4f5]"
@@ -477,23 +481,23 @@ export default function Platform() {
           ))}
         </div>
 
-        {/* Dual columns with dense layout optimization */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Dual columns with dense mobile / zoomed laptop rules */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-10">
           <div className="md:col-span-2 flex flex-col justify-between">
             <div className="mb-3">
-              <h2 className={`text-[10px] font-bold tracking-wider uppercase border-b pb-1 mb-4 select-none ${
+              <h2 className={`text-[10px] sm:text-base font-bold tracking-wider uppercase border-b pb-1 sm:pb-2 mb-4 sm:mb-6 select-none ${
                 isDark ? "text-[#71717a] border-[#27272a]" : "text-[#a1a1aa] border-[#e4e4e7]"
               }`}>
                 Entry Panel
               </h2>
 
-              {/* Context inputs */}
+              {/* Context inputs for specific modes */}
               {(mode === "CGPA" || mode === "WHAT_IF") && (
-                <div className={`grid grid-cols-1 sm:grid-cols-2 gap-4 border-b border-dashed pb-4 mb-4 select-none ${
+                <div className={`grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 border-b border-dashed pb-4 sm:pb-6 mb-4 sm:mb-6 select-none ${
                   isDark ? "border-[#27272a]" : "border-[#e4e4e7]"
                 }`}>
                   <div>
-                    <label className={`text-[10px] font-bold uppercase tracking-wide block mb-1.5 ${
+                    <label className={`text-[10px] sm:text-base font-bold uppercase tracking-wide block mb-1.5 sm:mb-2.5 ${
                       isDark ? "text-[#a1a1aa]" : "text-[#71717a]"
                     }`}>
                       Current CGPA
@@ -502,14 +506,14 @@ export default function Platform() {
                       type="number"
                       value={prevCgpa}
                       onChange={(e) => setPrevCgpa(e.target.value)}
-                      className={`w-full text-sm font-semibold p-3 rounded-full border transition-colors bg-transparent ${
+                      className={`w-full text-sm sm:text-xl font-semibold p-3 sm:p-5 rounded-full border transition-colors bg-transparent ${
                         isDark ? "border-[#27272a] focus:border-[#f4f4f5]" : "border-[#e4e4e7] focus:border-[#111111]"
                       }`}
                       placeholder="e.g. 8.4"
                     />
                   </div>
                   <div>
-                    <label className={`text-[10px] font-bold uppercase tracking-wide block mb-1.5 ${
+                    <label className={`text-[10px] sm:text-base font-bold uppercase tracking-wide block mb-1.5 sm:mb-2.5 ${
                       isDark ? "text-[#a1a1aa]" : "text-[#71717a]"
                     }`}>
                       Current Credits
@@ -518,7 +522,7 @@ export default function Platform() {
                       type="number"
                       value={prevCredits}
                       onChange={(e) => setPrevCredits(e.target.value)}
-                      className={`w-full text-sm font-semibold p-3 rounded-full border transition-colors bg-transparent ${
+                      className={`w-full text-sm sm:text-xl font-semibold p-3 sm:p-5 rounded-full border transition-colors bg-transparent ${
                         isDark ? "border-[#27272a] focus:border-[#f4f4f5]" : "border-[#e4e4e7] focus:border-[#111111]"
                       }`}
                       placeholder="e.g. 72"
@@ -527,13 +531,13 @@ export default function Platform() {
                 </div>
               )}
 
-              {/* Goal parameters specifically for What-If planner */}
+              {/* Goal metrics specifically for What-If planner */}
               {mode === "WHAT_IF" && (
-                <div className={`grid grid-cols-1 sm:grid-cols-2 gap-4 border-b border-dashed pb-4 mb-4 select-none ${
+                <div className={`grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 border-b border-dashed pb-4 sm:pb-6 mb-4 sm:mb-6 select-none ${
                   isDark ? "border-[#27272a]" : "border-[#e4e4e7]"
                 }`}>
                   <div>
-                    <label className={`text-[10px] font-bold uppercase tracking-wide block mb-1.5 ${
+                    <label className={`text-[10px] sm:text-base font-bold uppercase tracking-wide block mb-1.5 sm:mb-2.5 ${
                       isDark ? "text-[#a1a1aa]" : "text-[#71717a]"
                     }`}>
                       Target CGPA Goal
@@ -542,14 +546,14 @@ export default function Platform() {
                       type="number"
                       value={targetCgpa}
                       onChange={(e) => setTargetCgpa(e.target.value)}
-                      className={`w-full text-sm font-semibold p-3 rounded-full border transition-colors bg-transparent ${
+                      className={`w-full text-sm sm:text-xl font-semibold p-3 sm:p-5 rounded-full border transition-colors bg-transparent ${
                         isDark ? "border-[#27272a] focus:border-[#f4f4f5]" : "border-[#e4e4e7] focus:border-[#111111]"
                       }`}
                       placeholder="e.g. 9.0"
                     />
                   </div>
                   <div>
-                    <label className={`text-[10px] font-bold uppercase tracking-wide block mb-1.5 ${
+                    <label className={`text-[10px] sm:text-base font-bold uppercase tracking-wide block mb-1.5 sm:mb-2.5 ${
                       isDark ? "text-[#a1a1aa]" : "text-[#71717a]"
                     }`}>
                       Remaining Credits
@@ -558,7 +562,7 @@ export default function Platform() {
                       type="number"
                       value={remainingCredits}
                       onChange={(e) => setRemainingCredits(e.target.value)}
-                      className={`w-full text-sm font-semibold p-3 rounded-full border transition-colors bg-transparent ${
+                      className={`w-full text-sm sm:text-xl font-semibold p-3 sm:p-5 rounded-full border transition-colors bg-transparent ${
                         isDark ? "border-[#27272a] focus:border-[#f4f4f5]" : "border-[#e4e4e7] focus:border-[#111111]"
                       }`}
                       placeholder="e.g. 18"
@@ -567,13 +571,13 @@ export default function Platform() {
                 </div>
               )}
 
-              {/* Course Items Table with ultra-compact line spacing */}
+              {/* Dynamic Module items rules */}
               {mode !== "WHAT_IF" && (
-                <div className="space-y-2 max-h-[320px] overflow-y-auto pr-1 select-none">
+                <div className="space-y-2 sm:space-y-4 max-h-[320px] sm:max-h-[380px] overflow-y-auto pr-1 select-none">
                   {subjects.map((sub, idx) => (
                     <div
                       key={sub.id}
-                      className={`flex items-center justify-between gap-3 border-b pb-2 ${
+                      className={`flex items-center justify-between gap-3 sm:gap-5 border-b pb-2 sm:pb-4 ${
                         isDark ? "border-[#27272a]" : "border-[#f4f4f5]"
                       }`}
                     >
@@ -586,14 +590,14 @@ export default function Platform() {
                             handleSubjectChange(sub.id, "name", e.target.value)
                           }
                           placeholder="Module"
-                          className={`w-full text-xs font-bold p-2.5 rounded-full border transition-colors bg-transparent select-none ${
+                          className={`w-full text-xs sm:text-xl font-bold p-2.5 sm:p-4 rounded-full border transition-colors bg-transparent select-none ${
                             isDark ? "border-[#27272a] focus:border-[#f4f4f5]" : "border-[#e4e4e7] focus:border-[#111111]"
                           }`}
                         />
                       </div>
 
                       {mode === "PERCENTAGE" ? (
-                        <div className="w-20 sm:w-28 flex-shrink-0">
+                        <div className="w-20 sm:w-36 flex-shrink-0">
                           <label className="sr-only">Marks (/100)</label>
                           <input
                             type="number"
@@ -601,7 +605,7 @@ export default function Platform() {
                             onChange={(e) =>
                               handleSubjectChange(sub.id, "marks", e.target.value)
                             }
-                            className={`w-full text-xs font-bold p-2.5 rounded-full border transition-colors text-center bg-transparent ${
+                            className={`w-full text-xs sm:text-xl font-bold p-2.5 sm:p-4 rounded-full border transition-colors text-center bg-transparent ${
                               isDark ? "border-[#27272a] focus:border-[#f4f4f5]" : "border-[#e4e4e7] focus:border-[#111111]"
                             }`}
                             placeholder="88"
@@ -609,7 +613,7 @@ export default function Platform() {
                         </div>
                       ) : (
                         <>
-                          <div className="w-16 sm:w-24 flex-shrink-0">
+                          <div className="w-16 sm:w-28 flex-shrink-0">
                             <label className="sr-only">Credits</label>
                             <input
                               type="number"
@@ -617,20 +621,20 @@ export default function Platform() {
                               onChange={(e) =>
                                 handleSubjectChange(sub.id, "credits", e.target.value)
                               }
-                              className={`w-full text-xs font-bold p-2.5 rounded-full border transition-colors text-center bg-transparent ${
+                              className={`w-full text-xs sm:text-xl font-bold p-2.5 sm:p-4 rounded-full border transition-colors text-center bg-transparent ${
                                 isDark ? "border-[#27272a] focus:border-[#f4f4f5]" : "border-[#e4e4e7] focus:border-[#111111]"
                               }`}
                               placeholder="4"
                             />
                           </div>
-                          <div className="w-20 sm:w-28 flex-shrink-0">
+                          <div className="w-20 sm:w-36 flex-shrink-0">
                             <label className="sr-only">Grade</label>
                             <select
                               value={sub.grade}
                               onChange={(e) =>
                                 handleSubjectChange(sub.id, "grade", e.target.value)
                               }
-                              className={`w-full text-xs font-bold p-2.5 rounded-full border transition-colors cursor-pointer select-none bg-transparent ${
+                              className={`w-full text-xs sm:text-xl font-bold p-2.5 sm:p-4 rounded-full border transition-colors cursor-pointer select-none bg-transparent ${
                                 isDark ? "border-[#27272a] focus:border-[#f4f4f5] text-white bg-[#18181b]" : "border-[#e4e4e7] focus:border-[#111111] text-black bg-white"
                               }`}
                             >
@@ -650,7 +654,7 @@ export default function Platform() {
                       <div className="flex-shrink-0">
                         <button
                           onClick={() => removeSubject(sub.id)}
-                          className={`border p-1.5 font-bold text-xs select-none h-[38px] w-[38px] transition-colors rounded-full flex items-center justify-center ${
+                          className={`border p-1.5 font-bold text-xs sm:text-xl select-none h-[38px] w-[38px] sm:h-[56px] sm:w-[56px] transition-colors rounded-full flex items-center justify-center ${
                             isDark
                               ? "border-[#27272a] hover:bg-[#27272a] text-[#a1a1aa]"
                               : "border-[#e4e4e7] hover:bg-[#f4f4f5] text-[#71717a]"
@@ -668,7 +672,7 @@ export default function Platform() {
               {mode !== "WHAT_IF" && (
                 <button
                   onClick={addSubject}
-                  className={`w-full border border-dashed rounded-full p-2.5 font-bold tracking-wide text-[10px] uppercase transition-colors my-3 select-none ${
+                  className={`w-full border border-dashed rounded-full p-2.5 sm:p-4 font-bold tracking-wide text-[10px] sm:text-sm uppercase transition-colors my-3 sm:my-5 select-none ${
                     isDark
                       ? "border-[#27272a] hover:bg-[#18181b] text-[#a1a1aa]"
                       : "border-[#e4e4e7] hover:bg-[#f4f4f5] text-[#71717a]"
@@ -682,7 +686,7 @@ export default function Platform() {
             <div>
               <button
                 onClick={calculateResult}
-                className={`w-full p-3.5 font-bold rounded-full tracking-wider uppercase transition-all text-xs border flex items-center justify-center select-none ${
+                className={`w-full p-3.5 sm:p-5 font-bold rounded-full tracking-wider uppercase transition-all text-xs sm:text-base border flex items-center justify-center select-none ${
                   isDark
                     ? "bg-[#f4f4f5] border-[#f4f4f5] text-[#09090b] hover:bg-white"
                     : "bg-[#111111] border-[#111111] text-[#fcfcfd] hover:bg-black"
@@ -690,7 +694,7 @@ export default function Platform() {
               >
                 {isProcessing ? (
                   <>
-                    <div className="w-4 h-4 mr-2.5 rounded-full border-2 border-white/30 border-t-white animate-spin"></div>
+                    <div className="w-4 h-4 sm:w-5 sm:h-5 mr-2.5 sm:mr-3 rounded-full border-2 border-white/30 border-t-white animate-spin"></div>
                     Calculating insights...
                   </>
                 ) : (
@@ -699,7 +703,7 @@ export default function Platform() {
               </button>
 
               {error && (
-                <div className={`border rounded-full p-2.5 mt-3 text-center text-xs font-semibold ${
+                <div className={`border rounded-full p-2.5 sm:p-4 mt-3 text-center text-xs sm:text-sm font-semibold ${
                   isDark ? "border-[#27272a] bg-[#18181b] text-red-400" : "border-[#e4e4e7] bg-[#fdf2f2] text-red-600"
                 }`}>
                   {error}
@@ -708,48 +712,48 @@ export default function Platform() {
             </div>
           </div>
 
-          {/* Expanded Summary Output panel */}
+          {/* Fully Zoomed Output presentation rules for laptops */}
           <div className="flex flex-col justify-between select-none">
             <div>
-              <h2 className={`text-[10px] font-bold tracking-wider uppercase border-b pb-1 mb-4 select-none ${
+              <h2 className={`text-[10px] sm:text-base font-bold tracking-wider uppercase border-b pb-1 mb-4 select-none ${
                 isDark ? "text-[#71717a] border-[#27272a]" : "text-[#a1a1aa] border-[#e4e4e7]"
               }`}>
                 Analysis Result
               </h2>
 
               {isProcessing ? (
-                <div className={`border p-5 text-center my-3 select-none rounded-2xl flex flex-col items-center justify-center min-h-[140px] smooth-entry ${
+                <div className={`border p-5 sm:p-8 text-center my-3 select-none rounded-2xl flex flex-col items-center justify-center min-h-[140px] sm:min-h-[180px] smooth-entry ${
                   isDark ? "border-[#27272a] bg-[#18181b]" : "border-[#e4e4e7] bg-white"
                 }`}>
-                  <div className={`w-8 h-8 border-4 spinner-round rounded-full mb-3 ${
+                  <div className={`w-8 h-8 sm:w-10 sm:h-10 border-4 spinner-round rounded-full mb-3 ${
                     isDark ? "border-[#27272a]" : "border-[#e4e4e7]"
                   }`}></div>
-                  <span className="text-[10px] font-bold uppercase tracking-wide">
+                  <span className="text-[10px] sm:text-sm font-bold uppercase tracking-wide">
                     Calculating
                   </span>
                 </div>
               ) : result ? (
-                <div className={`border p-5 text-center my-3 select-none smooth-entry rounded-2xl flex flex-col justify-between min-h-[150px] ${
+                <div className={`border p-5 sm:p-8 text-center my-3 select-none smooth-entry rounded-2xl flex flex-col justify-between min-h-[150px] sm:min-h-[190px] ${
                   isDark ? "border-[#27272a] bg-[#18181b]" : "border-[#e4e4e7] bg-white"
                 }`}>
                   <div>
-                    <span className="text-[10px] font-bold uppercase tracking-widest">
+                    <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest">
                       Calculated Data
                     </span>
-                    <div className={`text-4xl font-extrabold tracking-tight mt-1 select-none ${
+                    <div className={`text-4xl sm:text-6xl font-extrabold tracking-tight mt-1 sm:mt-2.5 select-none ${
                       isDark ? "text-white" : "text-[#111111]"
                     }`}>
                       {result}
                     </div>
                     {confidence && (
-                      <div className={`text-[10px] font-bold uppercase px-3.5 py-1 mt-2.5 rounded-full border inline-block ${
+                      <div className={`text-[10px] sm:text-xs font-bold uppercase px-3.5 sm:px-5 py-1 sm:py-1.5 mt-2.5 sm:mt-3.5 rounded-full border inline-block ${
                         isDark ? "border-[#27272a] bg-[#18181b] text-[#a1a1aa]" : "border-[#e4e4e7] bg-[#f4f4f5] text-[#71717a]"
                       }`}>
                         Difficulty: {confidence}
                       </div>
                     )}
                     {whatIfBreakdown && (
-                      <p className={`text-[11px] font-medium leading-relaxed mt-3 border-t pt-3 border-dashed select-none ${
+                      <p className={`text-[11px] sm:text-sm font-medium leading-relaxed mt-3 sm:mt-4 border-t pt-3 sm:pt-4 border-dashed select-none ${
                         isDark ? "border-[#27272a]" : "border-[#e4e4e7]"
                       }`}>
                         {whatIfBreakdown}
@@ -758,29 +762,29 @@ export default function Platform() {
                   </div>
                   <button
                     onClick={copyToClipboard}
-                    className={`text-[10px] border font-bold px-4 py-2 rounded-full mt-4 transition-all self-center select-none ${
+                    className={`text-[10px] sm:text-sm border font-bold px-4 sm:px-6 py-2 sm:py-3 rounded-full mt-4 sm:mt-5 transition-all self-center select-none ${
                       isDark
                         ? "bg-[#18181b] border-[#27272a] text-[#f4f4f5] hover:bg-[#27272a]"
                         : "bg-white border-[#e4e4e7] text-[#111111] hover:bg-[#f4f4f5]"
                     }`}
                   >
-                    Copy performance
+                    Copy output
                   </button>
                 </div>
               ) : (
-                <div className={`border border-dashed p-5 text-center font-bold uppercase text-[10px] my-3 select-none flex flex-col items-center justify-center min-h-[140px] rounded-2xl ${
+                <div className={`border border-dashed p-5 sm:p-8 text-center font-bold uppercase text-[10px] sm:text-sm my-3 select-none flex flex-col items-center justify-center min-h-[140px] sm:min-h-[180px] rounded-2xl ${
                   isDark ? "border-[#27272a] text-[#71717a]" : "border-[#e4e4e7] text-[#a1a1aa]"
                 }`}>
                   <span>No active metrics</span>
                 </div>
               )}
 
-              {/* Advanced History logs panel */}
-              <div className="mt-4">
-                <div className={`flex justify-between items-center border-b pb-1 mb-2.5 ${
+              {/* Advanced History Logs */}
+              <div className="mt-4 sm:mt-6">
+                <div className={`flex justify-between items-center border-b pb-1 sm:pb-2 mb-2.5 ${
                   isDark ? "border-[#27272a]" : "border-[#e4e4e7]"
                 }`}>
-                  <h3 className={`text-[9px] font-bold uppercase tracking-wide select-none ${
+                  <h3 className={`text-[9px] sm:text-xs font-bold uppercase tracking-wide select-none ${
                     isDark ? "text-[#71717a]" : "text-[#a1a1aa]"
                   }`}>
                     Calculation Logs
@@ -788,7 +792,7 @@ export default function Platform() {
                   {history.length > 0 && (
                     <button
                       onClick={clearHistory}
-                      className={`text-[9px] font-bold px-3 py-1 rounded-full border transition-all h-[26px] flex items-center justify-center select-none ${
+                      className={`text-[9px] sm:text-xs font-bold px-3 sm:px-4 py-1 sm:py-1.5 rounded-full border transition-all h-[26px] sm:h-[34px] flex items-center justify-center select-none ${
                         isDark
                           ? "bg-[#18181b] border-[#27272a] text-[#f4f4f5] hover:bg-[#27272a]"
                           : "bg-white border-[#e4e4e7] text-[#1c1d20] hover:bg-[#f4f4f5]"
@@ -799,9 +803,9 @@ export default function Platform() {
                   )}
                 </div>
 
-                <div className="space-y-1.5 select-none h-[110px] overflow-y-auto pr-0.5">
+                <div className="space-y-1.5 sm:space-y-2.5 select-none h-[110px] sm:h-[130px] overflow-y-auto pr-0.5">
                   {history.length === 0 ? (
-                    <span className={`text-[10px] italic font-medium ${
+                    <span className={`text-[10px] sm:text-sm italic font-medium ${
                       isDark ? "text-[#71717a]" : "text-[#a1a1aa]"
                     }`}>
                       No recorded logs.
@@ -810,23 +814,23 @@ export default function Platform() {
                     history.map((item) => (
                       <div
                         key={item.id}
-                        className={`border p-2.5 rounded-xl flex items-center justify-between text-xs transition-colors ${
+                        className={`border p-2.5 sm:p-4 rounded-xl flex items-center justify-between text-xs sm:text-sm transition-colors ${
                           isDark ? "border-[#27272a] bg-[#18181b]" : "border-[#f4f4f5] bg-white"
                         }`}
                       >
                         <div className="flex flex-col">
-                          <span className={`font-bold text-[10px] uppercase ${
+                          <span className={`font-bold text-[10px] sm:text-base uppercase ${
                             isDark ? "text-[#f4f4f5]" : "text-[#1c1d20]"
                           }`}>
                             {item.title}
                           </span>
-                          <span className={`text-[8px] ${
+                          <span className={`text-[8px] sm:text-xs ${
                             isDark ? "text-[#71717a]" : "text-[#a1a1aa]"
                           }`}>
                             {item.mode} • {item.date}
                           </span>
                         </div>
-                        <span className={`font-bold text-xs ${
+                        <span className={`font-bold text-xs sm:text-lg ${
                           isDark ? "text-[#f4f4f5]" : "text-[#1c1d20]"
                         }`}>{item.result}</span>
                       </div>
@@ -836,10 +840,47 @@ export default function Platform() {
               </div>
             </div>
 
-            <footer className={`text-[9px] border-t pt-3 mt-4 text-center font-bold tracking-widest uppercase ${
+            {/* Custom Ayush Kathil Branded Developer Footer with Linked/Socials */}
+            <footer className={`text-xs sm:text-base border-t pt-4 sm:pt-6 mt-5 sm:mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 font-bold select-none ${
               isDark ? "border-[#27272a] text-[#71717a]" : "border-[#e4e4e7] text-[#a1a1aa]"
             }`}>
-              Performance Analytics
+              <span className={`tracking-wide transition-colors ${
+                isDark ? "text-[#a1a1aa]" : "text-[#111111]"
+              }`}>
+                Developed by Ayush Kathil
+              </span>
+              <div className="flex items-center gap-3">
+                <a
+                  href="https://github.com/Ayush-kathil"
+                  target="_blank"
+                  rel="noreferrer"
+                  className={`text-[11px] sm:text-sm font-bold flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2.5 border rounded-full transition-all select-none hover:opacity-90 ${
+                    isDark
+                      ? "bg-[#18181b] border-[#27272a] text-white hover:bg-[#27272a]"
+                      : "bg-[#24292e] border-[#24292e] text-white"
+                  }`}
+                >
+                  <svg className="w-4 h-4 fill-current flex-shrink-0" viewBox="0 0 24 24">
+                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.298 24 12c0-6.627-5.373-12-12-12"/>
+                  </svg>
+                  <span>GitHub</span>
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/ayushkathil/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className={`text-[11px] sm:text-sm font-bold flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2.5 border rounded-full transition-all select-none hover:opacity-90 ${
+                    isDark
+                      ? "bg-[#18181b] border-[#27272a] text-white hover:bg-[#27272a]"
+                      : "bg-[#0077b5] border-[#0077b5] text-white"
+                  }`}
+                >
+                  <svg className="w-4 h-4 fill-current flex-shrink-0" viewBox="0 0 24 24">
+                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                  </svg>
+                  <span>LinkedIn</span>
+                </a>
+              </div>
             </footer>
           </div>
         </div>
