@@ -8,7 +8,7 @@ body {
 }
 
 .smooth-entry {
-  animation: fadeInSlide 0.22s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: fadeInSlide 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 @keyframes fadeInSlide {
