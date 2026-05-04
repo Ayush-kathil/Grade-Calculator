@@ -4,6 +4,9 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Academic Analytics Platform",
   description: "Dynamic academic analytics, performance modeling and scenarios tracking.",
+  verification: {
+    google: "ZXGRCtJpGtAqvXp92Huc6pV5pN7veR5B9Ulxc6Wp_XY",
+  },
 };
 
 export default function RootLayout({
