@@ -273,12 +273,43 @@ export default function Platform() {
     }
   };
 
-  const generatePdf = () => {
+  const generatePdf = async () => {
     if (!result) return;
     const doc = new jsPDF();
 
+    const getBase64Image = (url: string): Promise<string> => {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.src = url;
+        img.crossOrigin = "Anonymous";
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          canvas.width = img.width;
+          canvas.height = img.height;
+          const ctx = canvas.getContext("2d");
+          if (ctx) {
+            ctx.drawImage(img, 0, 0);
+            resolve(canvas.toDataURL("image/png"));
+          } else {
+            resolve("");
+          }
+        };
+        img.onerror = () => resolve("");
+      });
+    };
+
+    const logoBase64 = await getBase64Image("/Logo.png");
+
     doc.setFillColor(30, 30, 30);
     doc.rect(0, 0, 210, 16, "F");
+
+    if (logoBase64) {
+      try {
+        doc.addImage(logoBase64, "PNG", 182, 3, 10, 10);
+      } catch (e) {
+        // Fallback for any image format handling
+      }
+    }
     
     doc.setFont("Helvetica", "bold");
     doc.setFontSize(14);
@@ -373,7 +404,7 @@ export default function Platform() {
           isDark ? "border-[#27272a]" : "border-[#e4e4e7]"
         }`}>
           <div className="flex items-center gap-3">
-            <img src="/Logo.jpeg" alt="Platform logo" className="h-10 w-10 sm:h-14 sm:w-14 object-contain rounded-full border border-zinc-200 flex-shrink-0" />
+            <img src="/Logo.png" alt="Platform logo" className="h-10 w-10 sm:h-14 sm:w-14 object-contain flex-shrink-0" />
             <div>
               <h1 className="text-xl sm:text-3xl font-normal tracking-tight leading-none select-none">
                 Academic Analytics
