@@ -36,7 +36,7 @@ export default function Platform() {
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
   const [mode, setMode] = useState<Mode>("PERCENTAGE");
   const [subjects, setSubjects] = useState<Subject[]>([
-    { id: 1, name: "Module 1", credits: "4", grade: "S", marks: "" },
+    { id: 1, name: "Mod 1", credits: "4", grade: "S", marks: "" },
   ]);
   const [prevCgpa, setPrevCgpa] = useState<string>("");
   const [prevCredits, setPrevCredits] = useState<string>("");
@@ -83,7 +83,7 @@ export default function Platform() {
     const newId = subjects.length ? Math.max(...subjects.map((s) => s.id)) + 1 : 1;
     setSubjects([
       ...subjects,
-      { id: newId, name: `Module ${newId}`, credits: "4", grade: "A", marks: "" },
+      { id: newId, name: `Mod ${newId}`, credits: "4", grade: "A", marks: "" },
     ]);
   };
 
@@ -279,40 +279,39 @@ export default function Platform() {
   };
 
   return (
-    <div className={`min-h-screen flex flex-col items-center justify-start py-6 px-4 sm:px-16 smooth-entry transition-colors duration-300 select-none ${
+    <div className={`min-h-screen flex flex-col items-center justify-start py-4 sm:py-6 px-3 sm:px-12 smooth-entry transition-colors duration-300 select-none ${
       isDark ? "bg-[#09090b] text-[#f4f4f5]" : "bg-[#fcfcfd] text-[#111111]"
     }`}>
-      <div className="w-full max-w-5xl flex flex-col flex-1 gap-6 bg-transparent select-none">
+      <div className="w-full max-w-5xl flex flex-col flex-1 gap-4 sm:gap-6 bg-transparent select-none">
         
         {/* Navigation Bar */}
-        <nav className={`flex items-center justify-between border-b pb-4 gap-4 select-none ${
+        <nav className={`flex items-center justify-between border-b pb-3 gap-3 select-none ${
           isDark ? "border-[#27272a]" : "border-[#e4e4e7]"
         }`}>
-          <div className="flex items-center gap-3">
-            {/* The beautiful Next.js Logo Symbol */}
-            <span className={`text-4xl font-extrabold flex-shrink-0 leading-none select-none ${
+          <div className="flex items-center gap-2.5">
+            <span className={`text-3xl font-extrabold flex-shrink-0 leading-none select-none ${
               isDark ? "text-white" : "text-black"
             }`}>
               ▲
             </span>
             <div>
-              <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight leading-none">
+              <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight leading-none">
                 Academic Hub
               </h1>
-              <p className={`text-xs font-normal mt-1.5 select-none ${
+              <p className={`text-[10px] sm:text-xs font-normal mt-1 select-none ${
                 isDark ? "text-[#a1a1aa]" : "text-[#71717a]"
               }`}>
-                Next.js Visual analytical planning interface
+                Visual analytical planning interface
               </p>
             </div>
           </div>
           
-          <div className="flex items-center gap-3">
-            {/* Full Desktop navigation items */}
-            <div className="hidden md:flex items-center gap-3">
+          <div className="flex items-center gap-2.5">
+            {/* Desktop Navigation Items */}
+            <div className="hidden md:flex items-center gap-2.5">
               <button
                 onClick={() => setShowFormula(!showFormula)}
-                className={`text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-full border transition-all h-[42px] flex items-center justify-center select-none ${
+                className={`text-xs font-semibold px-4 py-2 rounded-full border transition-all h-[36px] flex items-center justify-center select-none ${
                   isDark
                     ? "bg-[#18181b] border-[#27272a] text-[#f4f4f5] hover:bg-[#27272a]"
                     : "bg-white border-[#e4e4e7] text-[#1c1d20] hover:bg-[#f4f4f5]"
@@ -322,7 +321,7 @@ export default function Platform() {
               </button>
               <button
                 onClick={() => setIsDark(!isDark)}
-                className={`text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-full border transition-all h-[42px] flex items-center justify-center select-none ${
+                className={`text-xs font-semibold px-4 py-2 rounded-full border transition-all h-[36px] flex items-center justify-center select-none ${
                   isDark
                     ? "bg-[#18181b] border-[#27272a] text-[#f4f4f5] hover:bg-[#27272a]"
                     : "bg-white border-[#e4e4e7] text-[#1c1d20] hover:bg-[#f4f4f5]"
@@ -332,10 +331,10 @@ export default function Platform() {
               </button>
             </div>
 
-            {/* Mobile-only hamburger drawer button */}
+            {/* Mobile Sidebar Hamburger Menu */}
             <button
               onClick={() => setIsSidebarOpen(true)}
-              className={`md:hidden p-3 font-bold text-2xl h-[46px] w-[46px] border rounded-full transition-colors flex items-center justify-center select-none ${
+              className={`md:hidden p-2 font-bold text-xl h-[40px] w-[40px] border rounded-full transition-colors flex items-center justify-center select-none ${
                 isDark ? "border-[#27272a] text-white hover:bg-[#18181b]" : "border-[#e4e4e7] text-black hover:bg-[#f4f4f5]"
               }`}
             >
@@ -344,18 +343,18 @@ export default function Platform() {
           </div>
         </nav>
 
-        {/* Sliding Sidebar Mobile Drawer Drawer overlay */}
+        {/* Sliding Sidebar Menu overlay */}
         {isSidebarOpen && (
           <div className="fixed inset-0 z-50 flex justify-end bg-black/60 backdrop-blur-sm transition-all smooth-entry select-none">
-            <div className={`w-4/5 sm:w-2/3 h-full p-6 shadow-2xl flex flex-col justify-between border-l select-none ${
+            <div className={`w-4/5 sm:w-2/3 h-full p-5 shadow-2xl flex flex-col justify-between border-l select-none ${
               isDark ? "bg-[#09090b] text-[#f4f4f5] border-[#27272a]" : "bg-[#fcfcfd] text-[#111111] border-[#e4e4e7]"
             }`}>
-              <div className="flex flex-col gap-5">
-                <div className="flex items-center justify-between border-b pb-4 mb-2">
-                  <h3 className="text-lg font-extrabold tracking-tight">Navigation</h3>
+              <div className="flex flex-col gap-4">
+                <div className="flex items-center justify-between border-b pb-3 mb-1">
+                  <h3 className="text-base font-extrabold tracking-tight">Navigation</h3>
                   <button
                     onClick={() => setIsSidebarOpen(false)}
-                    className={`h-9 w-9 border rounded-full font-bold flex items-center justify-center ${
+                    className={`h-8 w-8 border rounded-full font-bold flex items-center justify-center ${
                       isDark ? "border-[#27272a] hover:bg-[#18181b]" : "border-[#e4e4e7] hover:bg-[#f4f4f5]"
                     }`}
                   >
@@ -363,7 +362,7 @@ export default function Platform() {
                   </button>
                 </div>
 
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-1.5">
                   {(["PERCENTAGE", "SGPA", "CGPA", "WHAT_IF"] as Mode[]).map((m) => (
                     <button
                       key={m}
@@ -375,7 +374,7 @@ export default function Platform() {
                         setError(null);
                         setIsSidebarOpen(false);
                       }}
-                      className={`w-full text-left py-3.5 px-5 text-sm font-bold border rounded-full transition-all select-none ${
+                      className={`w-full text-left py-3 px-4 text-xs font-bold border rounded-full transition-all select-none ${
                         mode === m
                           ? isDark
                             ? "bg-[#f4f4f5] text-[#09090b] border-[#f4f4f5]"
@@ -390,13 +389,13 @@ export default function Platform() {
                   ))}
                 </div>
 
-                <div className="flex flex-col gap-3 border-t pt-4">
+                <div className="flex flex-col gap-2.5 border-t pt-3">
                   <button
                     onClick={() => {
                       setShowFormula(!showFormula);
                       setIsSidebarOpen(false);
                     }}
-                    className={`w-full py-3 px-5 border text-sm font-bold rounded-full transition-colors text-center ${
+                    className={`w-full py-2.5 px-4 border text-xs font-bold rounded-full transition-colors text-center ${
                       isDark ? "border-[#27272a] bg-[#18181b]" : "border-[#e4e4e7] bg-white"
                     }`}
                   >
@@ -407,7 +406,7 @@ export default function Platform() {
                       setIsDark(!isDark);
                       setIsSidebarOpen(false);
                     }}
-                    className={`w-full py-3 px-5 border text-sm font-bold rounded-full transition-colors text-center ${
+                    className={`w-full py-2.5 px-4 border text-xs font-bold rounded-full transition-colors text-center ${
                       isDark ? "border-[#27272a] bg-[#18181b]" : "border-[#e4e4e7] bg-white"
                     }`}
                   >
@@ -416,18 +415,18 @@ export default function Platform() {
                 </div>
               </div>
 
-              <div className="border-t pt-4 text-center">
-                <span className="text-xs font-bold uppercase tracking-wider">Academic Hub</span>
+              <div className="border-t pt-3 text-center">
+                <span className="text-[10px] font-bold uppercase tracking-wider">Academic Hub</span>
               </div>
             </div>
           </div>
         )}
 
         {showFormula && (
-          <div className={`border rounded-2xl p-5 mb-2 text-sm transition-colors smooth-entry select-none ${
+          <div className={`border rounded-xl p-4 mb-2 text-xs transition-colors smooth-entry select-none ${
             isDark ? "border-[#27272a] bg-[#18181b] text-[#f4f4f5]" : "border-[#e4e4e7] bg-white text-[#111111]"
           }`}>
-            <h3 className="font-bold uppercase tracking-wide text-xs mb-3">
+            <h3 className="font-bold uppercase tracking-wide text-xs mb-2">
               Formula Reference
             </h3>
             <ul className="space-y-1 list-disc list-inside">
@@ -451,8 +450,8 @@ export default function Platform() {
           </div>
         )}
 
-        {/* Big Desktop navigation switches */}
-        <div className="hidden md:flex flex-wrap gap-2 border-b pb-4 select-none border-transparent">
+        {/* Desktop Navigation switches */}
+        <div className="hidden md:flex flex-wrap gap-2 border-b pb-3 select-none border-transparent">
           {(["PERCENTAGE", "SGPA", "CGPA", "WHAT_IF"] as Mode[]).map((m) => (
             <button
               key={m}
@@ -463,7 +462,7 @@ export default function Platform() {
                 setConfidence(null);
                 setError(null);
               }}
-              className={`py-3 px-6 rounded-full text-xs font-bold tracking-wide transition-all border select-none ${
+              className={`py-2 px-4 rounded-full text-xs font-bold tracking-wide transition-all border select-none ${
                 mode === m
                   ? isDark
                     ? "bg-[#f4f4f5] text-[#09090b] border-[#f4f4f5]"
@@ -478,11 +477,11 @@ export default function Platform() {
           ))}
         </div>
 
-        {/* Dynamic Dual columns with responsive larger elements */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {/* Dual columns with dense layout optimization */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="md:col-span-2 flex flex-col justify-between">
-            <div className="mb-4">
-              <h2 className={`text-xs font-bold tracking-wider uppercase border-b pb-1 mb-5 select-none ${
+            <div className="mb-3">
+              <h2 className={`text-[10px] font-bold tracking-wider uppercase border-b pb-1 mb-4 select-none ${
                 isDark ? "text-[#71717a] border-[#27272a]" : "text-[#a1a1aa] border-[#e4e4e7]"
               }`}>
                 Entry Panel
@@ -490,11 +489,11 @@ export default function Platform() {
 
               {/* Context inputs */}
               {(mode === "CGPA" || mode === "WHAT_IF") && (
-                <div className={`grid grid-cols-1 sm:grid-cols-2 gap-5 border-b border-dashed pb-5 mb-5 select-none ${
+                <div className={`grid grid-cols-1 sm:grid-cols-2 gap-4 border-b border-dashed pb-4 mb-4 select-none ${
                   isDark ? "border-[#27272a]" : "border-[#e4e4e7]"
                 }`}>
                   <div>
-                    <label className={`text-xs font-bold uppercase tracking-wide block mb-2 ${
+                    <label className={`text-[10px] font-bold uppercase tracking-wide block mb-1.5 ${
                       isDark ? "text-[#a1a1aa]" : "text-[#71717a]"
                     }`}>
                       Current CGPA
@@ -503,14 +502,14 @@ export default function Platform() {
                       type="number"
                       value={prevCgpa}
                       onChange={(e) => setPrevCgpa(e.target.value)}
-                      className={`w-full text-base font-semibold p-4 rounded-full border transition-colors bg-transparent ${
+                      className={`w-full text-sm font-semibold p-3 rounded-full border transition-colors bg-transparent ${
                         isDark ? "border-[#27272a] focus:border-[#f4f4f5]" : "border-[#e4e4e7] focus:border-[#111111]"
                       }`}
                       placeholder="e.g. 8.4"
                     />
                   </div>
                   <div>
-                    <label className={`text-xs font-bold uppercase tracking-wide block mb-2 ${
+                    <label className={`text-[10px] font-bold uppercase tracking-wide block mb-1.5 ${
                       isDark ? "text-[#a1a1aa]" : "text-[#71717a]"
                     }`}>
                       Current Credits
@@ -519,7 +518,7 @@ export default function Platform() {
                       type="number"
                       value={prevCredits}
                       onChange={(e) => setPrevCredits(e.target.value)}
-                      className={`w-full text-base font-semibold p-4 rounded-full border transition-colors bg-transparent ${
+                      className={`w-full text-sm font-semibold p-3 rounded-full border transition-colors bg-transparent ${
                         isDark ? "border-[#27272a] focus:border-[#f4f4f5]" : "border-[#e4e4e7] focus:border-[#111111]"
                       }`}
                       placeholder="e.g. 72"
@@ -528,13 +527,13 @@ export default function Platform() {
                 </div>
               )}
 
-              {/* Goal metrics specifically for What-If planner */}
+              {/* Goal parameters specifically for What-If planner */}
               {mode === "WHAT_IF" && (
-                <div className={`grid grid-cols-1 sm:grid-cols-2 gap-5 border-b border-dashed pb-5 mb-5 select-none ${
+                <div className={`grid grid-cols-1 sm:grid-cols-2 gap-4 border-b border-dashed pb-4 mb-4 select-none ${
                   isDark ? "border-[#27272a]" : "border-[#e4e4e7]"
                 }`}>
                   <div>
-                    <label className={`text-xs font-bold uppercase tracking-wide block mb-2 ${
+                    <label className={`text-[10px] font-bold uppercase tracking-wide block mb-1.5 ${
                       isDark ? "text-[#a1a1aa]" : "text-[#71717a]"
                     }`}>
                       Target CGPA Goal
@@ -543,14 +542,14 @@ export default function Platform() {
                       type="number"
                       value={targetCgpa}
                       onChange={(e) => setTargetCgpa(e.target.value)}
-                      className={`w-full text-base font-semibold p-4 rounded-full border transition-colors bg-transparent ${
+                      className={`w-full text-sm font-semibold p-3 rounded-full border transition-colors bg-transparent ${
                         isDark ? "border-[#27272a] focus:border-[#f4f4f5]" : "border-[#e4e4e7] focus:border-[#111111]"
                       }`}
                       placeholder="e.g. 9.0"
                     />
                   </div>
                   <div>
-                    <label className={`text-xs font-bold uppercase tracking-wide block mb-2 ${
+                    <label className={`text-[10px] font-bold uppercase tracking-wide block mb-1.5 ${
                       isDark ? "text-[#a1a1aa]" : "text-[#71717a]"
                     }`}>
                       Remaining Credits
@@ -559,7 +558,7 @@ export default function Platform() {
                       type="number"
                       value={remainingCredits}
                       onChange={(e) => setRemainingCredits(e.target.value)}
-                      className={`w-full text-base font-semibold p-4 rounded-full border transition-colors bg-transparent ${
+                      className={`w-full text-sm font-semibold p-3 rounded-full border transition-colors bg-transparent ${
                         isDark ? "border-[#27272a] focus:border-[#f4f4f5]" : "border-[#e4e4e7] focus:border-[#111111]"
                       }`}
                       placeholder="e.g. 18"
@@ -568,48 +567,41 @@ export default function Platform() {
                 </div>
               )}
 
-              {/* Dynamic course items with touch optimized inputs */}
+              {/* Course Items Table with ultra-compact line spacing */}
               {mode !== "WHAT_IF" && (
-                <div className="space-y-4 max-h-[350px] overflow-y-auto pr-1 select-none">
+                <div className="space-y-2 max-h-[320px] overflow-y-auto pr-1 select-none">
                   {subjects.map((sub, idx) => (
                     <div
                       key={sub.id}
-                      className={`flex flex-col sm:flex-row items-stretch sm:items-center gap-4 border-b pb-4 ${
+                      className={`flex items-center justify-between gap-3 border-b pb-2 ${
                         isDark ? "border-[#27272a]" : "border-[#f4f4f5]"
                       }`}
                     >
                       <div className="flex-1">
-                        <label className={`text-xs font-bold uppercase tracking-wider block mb-2 ${
-                          isDark ? "text-[#a1a1aa]" : "text-[#71717a]"
-                        }`}>
-                          Module Title
-                        </label>
+                        <label className="sr-only">Module Title</label>
                         <input
                           type="text"
                           value={sub.name}
                           onChange={(e) =>
                             handleSubjectChange(sub.id, "name", e.target.value)
                           }
-                          className={`w-full text-base font-semibold p-4 rounded-full border transition-colors bg-transparent select-none ${
+                          placeholder="Module"
+                          className={`w-full text-xs font-bold p-2.5 rounded-full border transition-colors bg-transparent select-none ${
                             isDark ? "border-[#27272a] focus:border-[#f4f4f5]" : "border-[#e4e4e7] focus:border-[#111111]"
                           }`}
                         />
                       </div>
 
                       {mode === "PERCENTAGE" ? (
-                        <div className="flex flex-col justify-end">
-                          <label className={`text-xs font-bold uppercase tracking-wider block mb-2 ${
-                            isDark ? "text-[#a1a1aa]" : "text-[#71717a]"
-                          }`}>
-                            Marks (/100)
-                          </label>
+                        <div className="w-20 sm:w-28 flex-shrink-0">
+                          <label className="sr-only">Marks (/100)</label>
                           <input
                             type="number"
                             value={sub.marks}
                             onChange={(e) =>
                               handleSubjectChange(sub.id, "marks", e.target.value)
                             }
-                            className={`w-full sm:w-28 text-base font-semibold p-4 rounded-full border transition-colors text-center bg-transparent ${
+                            className={`w-full text-xs font-bold p-2.5 rounded-full border transition-colors text-center bg-transparent ${
                               isDark ? "border-[#27272a] focus:border-[#f4f4f5]" : "border-[#e4e4e7] focus:border-[#111111]"
                             }`}
                             placeholder="88"
@@ -617,36 +609,28 @@ export default function Platform() {
                         </div>
                       ) : (
                         <>
-                          <div className="flex flex-col justify-end">
-                            <label className={`text-xs font-bold uppercase tracking-wider block mb-2 ${
-                              isDark ? "text-[#a1a1aa]" : "text-[#71717a]"
-                            }`}>
-                              Credits
-                            </label>
+                          <div className="w-16 sm:w-24 flex-shrink-0">
+                            <label className="sr-only">Credits</label>
                             <input
                               type="number"
                               value={sub.credits}
                               onChange={(e) =>
                                 handleSubjectChange(sub.id, "credits", e.target.value)
                               }
-                              className={`w-full sm:w-24 text-base font-semibold p-4 rounded-full border transition-colors text-center bg-transparent ${
+                              className={`w-full text-xs font-bold p-2.5 rounded-full border transition-colors text-center bg-transparent ${
                                 isDark ? "border-[#27272a] focus:border-[#f4f4f5]" : "border-[#e4e4e7] focus:border-[#111111]"
                               }`}
                               placeholder="4"
                             />
                           </div>
-                          <div className="flex flex-col justify-end">
-                            <label className={`text-xs font-bold uppercase tracking-wider block mb-2 ${
-                              isDark ? "text-[#a1a1aa]" : "text-[#71717a]"
-                            }`}>
-                              Grade
-                            </label>
+                          <div className="w-20 sm:w-28 flex-shrink-0">
+                            <label className="sr-only">Grade</label>
                             <select
                               value={sub.grade}
                               onChange={(e) =>
                                 handleSubjectChange(sub.id, "grade", e.target.value)
                               }
-                              className={`w-full sm:w-32 text-base font-semibold p-4 rounded-full border transition-colors cursor-pointer select-none bg-transparent ${
+                              className={`w-full text-xs font-bold p-2.5 rounded-full border transition-colors cursor-pointer select-none bg-transparent ${
                                 isDark ? "border-[#27272a] focus:border-[#f4f4f5] text-white bg-[#18181b]" : "border-[#e4e4e7] focus:border-[#111111] text-black bg-white"
                               }`}
                             >
@@ -663,10 +647,10 @@ export default function Platform() {
                         </>
                       )}
 
-                      <div className="flex items-end justify-end sm:pt-4">
+                      <div className="flex-shrink-0">
                         <button
                           onClick={() => removeSubject(sub.id)}
-                          className={`border p-2 font-bold text-base select-none h-[54px] w-[54px] transition-colors rounded-full flex items-center justify-center ${
+                          className={`border p-1.5 font-bold text-xs select-none h-[38px] w-[38px] transition-colors rounded-full flex items-center justify-center ${
                             isDark
                               ? "border-[#27272a] hover:bg-[#27272a] text-[#a1a1aa]"
                               : "border-[#e4e4e7] hover:bg-[#f4f4f5] text-[#71717a]"
@@ -684,7 +668,7 @@ export default function Platform() {
               {mode !== "WHAT_IF" && (
                 <button
                   onClick={addSubject}
-                  className={`w-full border border-dashed rounded-full p-3 font-bold tracking-wide text-xs uppercase transition-colors my-4 select-none ${
+                  className={`w-full border border-dashed rounded-full p-2.5 font-bold tracking-wide text-[10px] uppercase transition-colors my-3 select-none ${
                     isDark
                       ? "border-[#27272a] hover:bg-[#18181b] text-[#a1a1aa]"
                       : "border-[#e4e4e7] hover:bg-[#f4f4f5] text-[#71717a]"
@@ -698,7 +682,7 @@ export default function Platform() {
             <div>
               <button
                 onClick={calculateResult}
-                className={`w-full p-4 font-bold rounded-full tracking-wider uppercase transition-all text-xs sm:text-sm border flex items-center justify-center select-none ${
+                className={`w-full p-3.5 font-bold rounded-full tracking-wider uppercase transition-all text-xs border flex items-center justify-center select-none ${
                   isDark
                     ? "bg-[#f4f4f5] border-[#f4f4f5] text-[#09090b] hover:bg-white"
                     : "bg-[#111111] border-[#111111] text-[#fcfcfd] hover:bg-black"
@@ -706,7 +690,7 @@ export default function Platform() {
               >
                 {isProcessing ? (
                   <>
-                    <div className="w-5 h-5 mr-3 rounded-full border-2 border-white/30 border-t-white animate-spin"></div>
+                    <div className="w-4 h-4 mr-2.5 rounded-full border-2 border-white/30 border-t-white animate-spin"></div>
                     Calculating insights...
                   </>
                 ) : (
@@ -715,7 +699,7 @@ export default function Platform() {
               </button>
 
               {error && (
-                <div className={`border rounded-full p-3 mt-4 text-center text-xs font-semibold ${
+                <div className={`border rounded-full p-2.5 mt-3 text-center text-xs font-semibold ${
                   isDark ? "border-[#27272a] bg-[#18181b] text-red-400" : "border-[#e4e4e7] bg-[#fdf2f2] text-red-600"
                 }`}>
                   {error}
@@ -727,45 +711,45 @@ export default function Platform() {
           {/* Expanded Summary Output panel */}
           <div className="flex flex-col justify-between select-none">
             <div>
-              <h2 className={`text-xs font-bold tracking-wider uppercase border-b pb-1 mb-5 select-none ${
+              <h2 className={`text-[10px] font-bold tracking-wider uppercase border-b pb-1 mb-4 select-none ${
                 isDark ? "text-[#71717a] border-[#27272a]" : "text-[#a1a1aa] border-[#e4e4e7]"
               }`}>
                 Analysis Result
               </h2>
 
               {isProcessing ? (
-                <div className={`border p-6 text-center my-4 select-none rounded-2xl flex flex-col items-center justify-center min-h-[160px] smooth-entry ${
+                <div className={`border p-5 text-center my-3 select-none rounded-2xl flex flex-col items-center justify-center min-h-[140px] smooth-entry ${
                   isDark ? "border-[#27272a] bg-[#18181b]" : "border-[#e4e4e7] bg-white"
                 }`}>
-                  <div className={`w-9 h-9 border-4 spinner-round rounded-full mb-4 ${
+                  <div className={`w-8 h-8 border-4 spinner-round rounded-full mb-3 ${
                     isDark ? "border-[#27272a]" : "border-[#e4e4e7]"
                   }`}></div>
-                  <span className="text-xs font-bold uppercase tracking-wide">
+                  <span className="text-[10px] font-bold uppercase tracking-wide">
                     Calculating
                   </span>
                 </div>
               ) : result ? (
-                <div className={`border p-6 text-center my-4 select-none smooth-entry rounded-2xl flex flex-col justify-between min-h-[170px] ${
+                <div className={`border p-5 text-center my-3 select-none smooth-entry rounded-2xl flex flex-col justify-between min-h-[150px] ${
                   isDark ? "border-[#27272a] bg-[#18181b]" : "border-[#e4e4e7] bg-white"
                 }`}>
                   <div>
-                    <span className="text-xs font-bold uppercase tracking-widest">
+                    <span className="text-[10px] font-bold uppercase tracking-widest">
                       Calculated Data
                     </span>
-                    <div className={`text-5xl font-extrabold tracking-tight mt-1.5 select-none ${
+                    <div className={`text-4xl font-extrabold tracking-tight mt-1 select-none ${
                       isDark ? "text-white" : "text-[#111111]"
                     }`}>
                       {result}
                     </div>
                     {confidence && (
-                      <div className={`text-xs font-bold uppercase px-4 py-1 mt-3 rounded-full border inline-block ${
+                      <div className={`text-[10px] font-bold uppercase px-3.5 py-1 mt-2.5 rounded-full border inline-block ${
                         isDark ? "border-[#27272a] bg-[#18181b] text-[#a1a1aa]" : "border-[#e4e4e7] bg-[#f4f4f5] text-[#71717a]"
                       }`}>
                         Difficulty: {confidence}
                       </div>
                     )}
                     {whatIfBreakdown && (
-                      <p className={`text-xs font-medium leading-relaxed mt-4 border-t pt-4 border-dashed select-none ${
+                      <p className={`text-[11px] font-medium leading-relaxed mt-3 border-t pt-3 border-dashed select-none ${
                         isDark ? "border-[#27272a]" : "border-[#e4e4e7]"
                       }`}>
                         {whatIfBreakdown}
@@ -774,7 +758,7 @@ export default function Platform() {
                   </div>
                   <button
                     onClick={copyToClipboard}
-                    className={`text-xs border font-bold px-5 py-2.5 rounded-full mt-5 transition-all self-center select-none ${
+                    className={`text-[10px] border font-bold px-4 py-2 rounded-full mt-4 transition-all self-center select-none ${
                       isDark
                         ? "bg-[#18181b] border-[#27272a] text-[#f4f4f5] hover:bg-[#27272a]"
                         : "bg-white border-[#e4e4e7] text-[#111111] hover:bg-[#f4f4f5]"
@@ -784,7 +768,7 @@ export default function Platform() {
                   </button>
                 </div>
               ) : (
-                <div className={`border border-dashed p-6 text-center font-bold uppercase text-xs my-4 select-none flex flex-col items-center justify-center min-h-[150px] rounded-2xl ${
+                <div className={`border border-dashed p-5 text-center font-bold uppercase text-[10px] my-3 select-none flex flex-col items-center justify-center min-h-[140px] rounded-2xl ${
                   isDark ? "border-[#27272a] text-[#71717a]" : "border-[#e4e4e7] text-[#a1a1aa]"
                 }`}>
                   <span>No active metrics</span>
@@ -792,11 +776,11 @@ export default function Platform() {
               )}
 
               {/* Advanced History logs panel */}
-              <div className="mt-5">
-                <div className={`flex justify-between items-center border-b pb-2 mb-3 ${
+              <div className="mt-4">
+                <div className={`flex justify-between items-center border-b pb-1 mb-2.5 ${
                   isDark ? "border-[#27272a]" : "border-[#e4e4e7]"
                 }`}>
-                  <h3 className={`text-xs font-bold uppercase tracking-wide select-none ${
+                  <h3 className={`text-[9px] font-bold uppercase tracking-wide select-none ${
                     isDark ? "text-[#71717a]" : "text-[#a1a1aa]"
                   }`}>
                     Calculation Logs
@@ -804,7 +788,7 @@ export default function Platform() {
                   {history.length > 0 && (
                     <button
                       onClick={clearHistory}
-                      className={`text-xs font-bold px-4 py-1.5 rounded-full border transition-all h-[32px] flex items-center justify-center select-none ${
+                      className={`text-[9px] font-bold px-3 py-1 rounded-full border transition-all h-[26px] flex items-center justify-center select-none ${
                         isDark
                           ? "bg-[#18181b] border-[#27272a] text-[#f4f4f5] hover:bg-[#27272a]"
                           : "bg-white border-[#e4e4e7] text-[#1c1d20] hover:bg-[#f4f4f5]"
@@ -815,9 +799,9 @@ export default function Platform() {
                   )}
                 </div>
 
-                <div className="space-y-2 select-none h-[120px] overflow-y-auto pr-0.5">
+                <div className="space-y-1.5 select-none h-[110px] overflow-y-auto pr-0.5">
                   {history.length === 0 ? (
-                    <span className={`text-xs italic font-medium ${
+                    <span className={`text-[10px] italic font-medium ${
                       isDark ? "text-[#71717a]" : "text-[#a1a1aa]"
                     }`}>
                       No recorded logs.
@@ -826,23 +810,23 @@ export default function Platform() {
                     history.map((item) => (
                       <div
                         key={item.id}
-                        className={`border p-3 rounded-xl flex items-center justify-between text-xs transition-colors ${
+                        className={`border p-2.5 rounded-xl flex items-center justify-between text-xs transition-colors ${
                           isDark ? "border-[#27272a] bg-[#18181b]" : "border-[#f4f4f5] bg-white"
                         }`}
                       >
                         <div className="flex flex-col">
-                          <span className={`font-bold text-xs uppercase ${
+                          <span className={`font-bold text-[10px] uppercase ${
                             isDark ? "text-[#f4f4f5]" : "text-[#1c1d20]"
                           }`}>
                             {item.title}
                           </span>
-                          <span className={`text-xs ${
+                          <span className={`text-[8px] ${
                             isDark ? "text-[#71717a]" : "text-[#a1a1aa]"
                           }`}>
                             {item.mode} • {item.date}
                           </span>
                         </div>
-                        <span className={`font-bold text-sm ${
+                        <span className={`font-bold text-xs ${
                           isDark ? "text-[#f4f4f5]" : "text-[#1c1d20]"
                         }`}>{item.result}</span>
                       </div>
@@ -852,7 +836,7 @@ export default function Platform() {
               </div>
             </div>
 
-            <footer className={`text-xs border-t pt-4 mt-5 text-center font-bold tracking-widest uppercase ${
+            <footer className={`text-[9px] border-t pt-3 mt-4 text-center font-bold tracking-widest uppercase ${
               isDark ? "border-[#27272a] text-[#71717a]" : "border-[#e4e4e7] text-[#a1a1aa]"
             }`}>
               Performance Analytics
