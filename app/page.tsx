@@ -31,7 +31,7 @@ const gradePoints: { [key: string]: number } = {
   N: 0,
 };
 
-export default function ImmersiveDashboard() {
+export default function AntigravityDashboard() {
   const [mode, setMode] = useState<Mode>("PERCENTAGE");
   const [subjects, setSubjects] = useState<Subject[]>([
     { id: 1, name: "Course 1", credits: "4", grade: "S", marks: "" },
@@ -49,12 +49,12 @@ export default function ImmersiveDashboard() {
   const [showFormula, setShowFormula] = useState<boolean>(false);
 
   useEffect(() => {
-    const savedHistory = localStorage.getItem("grade_history_immersive");
+    const savedHistory = localStorage.getItem("grade_history_antigravity");
     if (savedHistory) {
       try {
         setHistory(JSON.parse(savedHistory));
       } catch (e) {
-        localStorage.removeItem("grade_history_immersive");
+        localStorage.removeItem("grade_history_antigravity");
       }
     }
   }, []);
@@ -69,12 +69,12 @@ export default function ImmersiveDashboard() {
     };
     const updated = [newItem, ...history].slice(0, 4);
     setHistory(updated);
-    localStorage.setItem("grade_history_immersive", JSON.stringify(updated));
+    localStorage.setItem("grade_history_antigravity", JSON.stringify(updated));
   };
 
   const clearHistory = () => {
     setHistory([]);
-    localStorage.removeItem("grade_history_immersive");
+    localStorage.removeItem("grade_history_antigravity");
   };
 
   const addSubject = () => {
@@ -252,13 +252,13 @@ export default function ImmersiveDashboard() {
         let conf = "Low Difficulty";
 
         if (avgGradePointRequired >= 9.0) {
-          breakdown = "High Standing target. Maintain top grade S (10) across remaining subjects.";
-          conf = "Significant Effort Required";
+          breakdown = "High Standing target. Focus primarily on top grade S (10) for future courses.";
+          conf = "Significant Effort";
         } else if (avgGradePointRequired >= 8.0) {
-          breakdown = "Standard good performance needed. Aim for A (9) and B (8) grades.";
+          breakdown = "Aim for A (9) and B (8) across your upcoming modules.";
           conf = "Moderate Focus";
         } else {
-          breakdown = "Maintain a steady C (7) or B (8) across your upcoming credits.";
+          breakdown = "Maintain a steady C (7) or B (8) across remaining credits.";
           conf = "Easily Attainable";
         }
 
@@ -271,53 +271,53 @@ export default function ImmersiveDashboard() {
 
   const copyToClipboard = () => {
     if (result) {
-      navigator.clipboard.writeText(`Academic Performance Outcome: ${result}`);
+      navigator.clipboard.writeText(`Academic Performance Engine Result: ${result}`);
       alert("Performance result copied to clipboard!");
     }
   };
 
   return (
-    <main className="min-h-screen bg-slate-50 flex flex-col items-center justify-start py-4 px-4 sm:px-10 smooth-entry select-none relative overflow-x-hidden font-sans">
-      {/* Dynamic Sub-surface Ice Blue Radials */}
-      <div className="absolute inset-0 pointer-events-none select-none">
-        <div className="absolute top-[-25%] left-[-20%] w-[600px] h-[600px] bg-indigo-400/5 rounded-full blur-[130px]"></div>
-        <div className="absolute bottom-[-15%] right-[-15%] w-[450px] h-[450px] bg-cyan-400/5 rounded-full blur-[100px]"></div>
-      </div>
-
-      <div className="w-full max-w-5xl flex flex-col flex-1 gap-5 bg-transparent relative select-none">
-        {/* Full-Width Non-card Immersive Banner Header */}
-        <header className="flex flex-col sm:flex-row items-center justify-between border-b border-slate-200/60 pb-4 mb-3 gap-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center flex-shrink-0 border border-indigo-100/60">
-              <svg className="w-5 h-5 stroke-current stroke-2" viewBox="0 0 24 24" fill="none">
-                <rect x="3" y="3" width="18" height="18" rx="2" />
-                <path d="M3 9h18M9 21V9" />
-              </svg>
-            </div>
+    <main className="min-h-screen bg-[#fbfbfb] text-[#111827] flex flex-col items-center justify-start py-5 px-4 sm:px-12 smooth-entry select-none relative overflow-x-hidden font-sans">
+      <div className="w-full max-w-5xl flex flex-col flex-1 gap-6 bg-transparent relative select-none">
+        {/* Antigravity Elegant Clean Header */}
+        <header className="flex flex-col sm:flex-row items-center justify-between border-b border-slate-200/50 pb-5 gap-4 select-none">
+          <div className="flex items-center gap-3.5">
+            {/* Soft SVG Google Antigravity Style Logo */}
+            <svg
+              className="w-10 h-10 stroke-current stroke-2 text-[#4b5563] flex-shrink-0"
+              viewBox="0 0 24 24"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <rect x="3" y="3" width="18" height="18" rx="4" />
+              <line x1="3" y1="9" x2="21" y2="9" />
+              <line x1="9" y1="21" x2="9" y2="9" />
+            </svg>
             <div>
-              <h1 className="text-base font-bold tracking-tight text-slate-800 leading-tight">
-                Academic Performance Dashboard
+              <h1 className="text-2xl font-bold tracking-tight text-[#111827] leading-tight flex items-center gap-2">
+                Academic Performance Engine
               </h1>
-              <p className="text-[10px] font-medium text-slate-400 mt-0.5">
-                Advanced performance analytics, SGPA modeler & prediction scenarios log
+              <p className="text-xs font-normal text-slate-500 mt-1 select-none">
+                Experience liftoff with the next-gen academic insights platform
               </p>
             </div>
           </div>
           <div className="flex items-center gap-3">
             <button
               onClick={() => setShowFormula(!showFormula)}
-              className="text-[10px] bg-white border border-slate-200 text-slate-500 hover:bg-slate-50 font-bold px-3 py-1.5 rounded-xl transition-all h-[34px] flex items-center justify-center shadow-sm"
+              className="text-xs bg-white border border-slate-200 hover:bg-slate-50 text-[#4b5563] font-semibold px-4 py-2 rounded-full transition-all h-[38px] flex items-center justify-center shadow-sm select-none"
             >
-              {showFormula ? "Hide Formula" : "View Computation Matrix"}
+              {showFormula ? "Hide Logic" : "Explore use cases / Matrix"}
             </button>
           </div>
         </header>
 
         {/* Collapsible computation math insights panel */}
         {showFormula && (
-          <div className="border border-slate-100 rounded-2xl p-4 bg-white/40 mb-3 text-xs text-slate-600 smooth-entry select-none">
-            <h3 className="font-bold text-slate-700 uppercase tracking-wide text-[9px] mb-2 text-indigo-600">
-              Calculation Matrix & Direct Math Insights
+          <div className="border border-slate-100 rounded-2xl p-4 bg-white/40 mb-2 text-xs text-slate-600 smooth-entry select-none">
+            <h3 className="font-bold text-slate-700 uppercase tracking-wide text-[10px] mb-2">
+              Computation Matrix & Core Insights
             </h3>
             <ul className="space-y-1 list-disc list-inside">
               <li>
@@ -340,8 +340,8 @@ export default function ImmersiveDashboard() {
           </div>
         )}
 
-        {/* Edge-to-edge Mode Switcher tabs */}
-        <div className="flex flex-wrap gap-1 border-b border-slate-200/60 pb-3 select-none">
+        {/* Custom rounded-full modes Switcher */}
+        <div className="flex flex-wrap gap-2 border-b border-slate-200/50 pb-4 select-none">
           {(["PERCENTAGE", "SGPA", "CGPA", "WHAT_IF"] as Mode[]).map((m) => (
             <button
               key={m}
@@ -352,49 +352,49 @@ export default function ImmersiveDashboard() {
                 setConfidence(null);
                 setError(null);
               }}
-              className={`py-2 px-4 rounded-xl text-[10px] font-bold tracking-wider uppercase transition-all flex items-center justify-center border border-slate-200/40 select-none ${
+              className={`py-2.5 px-5 rounded-full text-xs font-semibold tracking-wide uppercase transition-all flex items-center justify-center border border-slate-200/40 select-none ${
                 mode === m
-                  ? "bg-indigo-600 text-white shadow-md shadow-indigo-500/10 border-indigo-600"
-                  : "bg-white/40 text-slate-500 hover:bg-slate-50/60"
+                  ? "bg-[#374151] text-white shadow-md border-[#374151]"
+                  : "bg-white/50 text-slate-600 hover:bg-slate-50/80"
               }`}
             >
-              {m === "WHAT_IF" ? "What-If Planner" : `${m} Modeler`}
+              {m === "WHAT_IF" ? "What-If" : m}
             </button>
           ))}
         </div>
 
-        {/* Dynamic Multi-Column Immersive Sizing workspace */}
+        {/* Dynamic Multi-Column Immersive workspace */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="md:col-span-2 flex flex-col justify-between">
             <div className="mb-4">
-              <h2 className="text-[10px] font-bold tracking-wider uppercase text-slate-400 border-b border-slate-200/40 pb-1 mb-4 select-none">
-                Data Context Balance
+              <h2 className="text-[11px] font-bold tracking-wider uppercase text-slate-400 border-b border-slate-200/40 pb-1 mb-4 select-none">
+                Data Profile
               </h2>
 
               {/* Advanced Overall Inputs (Context Balance) */}
               {(mode === "CGPA" || mode === "WHAT_IF") && (
-                <div className="grid grid-cols-2 gap-4 border-b border-dashed border-slate-200/60 pb-4 mb-4 select-none">
+                <div className="grid grid-cols-2 gap-4 border-b border-dashed border-slate-200/50 pb-4 mb-4 select-none">
                   <div>
-                    <label className="text-[9px] font-bold uppercase tracking-wide text-slate-500 block mb-1">
+                    <label className="text-[10px] font-bold uppercase tracking-wide text-slate-500 block mb-1">
                       Current CGPA
                     </label>
                     <input
                       type="number"
                       value={prevCgpa}
                       onChange={(e) => setPrevCgpa(e.target.value)}
-                      className="w-full text-sm font-semibold p-2 rounded-xl border border-slate-200/60"
+                      className="w-full text-sm font-semibold p-2.5 rounded-full border border-slate-200/60"
                       placeholder="e.g. 8.4"
                     />
                   </div>
                   <div>
-                    <label className="text-[9px] font-bold uppercase tracking-wide text-slate-500 block mb-1">
+                    <label className="text-[10px] font-bold uppercase tracking-wide text-slate-500 block mb-1">
                       Current Credits
                     </label>
                     <input
                       type="number"
                       value={prevCredits}
                       onChange={(e) => setPrevCredits(e.target.value)}
-                      className="w-full text-sm font-semibold p-2 rounded-xl border border-slate-200/60"
+                      className="w-full text-sm font-semibold p-2.5 rounded-full border border-slate-200/60"
                       placeholder="e.g. 72"
                     />
                   </div>
@@ -403,28 +403,28 @@ export default function ImmersiveDashboard() {
 
               {/* WHAT-IF Specific goal entries */}
               {mode === "WHAT_IF" && (
-                <div className="grid grid-cols-2 gap-4 border-b border-dashed border-slate-200/60 pb-4 mb-4 select-none">
+                <div className="grid grid-cols-2 gap-4 border-b border-dashed border-slate-200/50 pb-4 mb-4 select-none">
                   <div>
-                    <label className="text-[9px] font-bold uppercase tracking-wide text-slate-500 block mb-1">
+                    <label className="text-[10px] font-bold uppercase tracking-wide text-slate-500 block mb-1">
                       Target CGPA Goal
                     </label>
                     <input
                       type="number"
                       value={targetCgpa}
                       onChange={(e) => setTargetCgpa(e.target.value)}
-                      className="w-full text-sm font-semibold p-2 rounded-xl border border-slate-200/60"
+                      className="w-full text-sm font-semibold p-2.5 rounded-full border border-slate-200/60"
                       placeholder="e.g. 9.0"
                     />
                   </div>
                   <div>
-                    <label className="text-[9px] font-bold uppercase tracking-wide text-slate-500 block mb-1">
+                    <label className="text-[10px] font-bold uppercase tracking-wide text-slate-500 block mb-1">
                       Remaining Credits
                     </label>
                     <input
                       type="number"
                       value={remainingCredits}
                       onChange={(e) => setRemainingCredits(e.target.value)}
-                      className="w-full text-sm font-semibold p-2 rounded-xl border border-slate-200/60"
+                      className="w-full text-sm font-semibold p-2.5 rounded-full border border-slate-200/60"
                       placeholder="e.g. 18"
                     />
                   </div>
@@ -433,15 +433,15 @@ export default function ImmersiveDashboard() {
 
               {/* Dynamic Modules Table List */}
               {mode !== "WHAT_IF" && (
-                <div className="space-y-3 max-h-[320px] overflow-y-auto pr-1 select-none">
+                <div className="space-y-3 max-h-[310px] overflow-y-auto pr-1 select-none">
                   {subjects.map((sub, idx) => (
                     <div
                       key={sub.id}
                       className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 border-b border-slate-100 pb-3"
                     >
                       <div className="flex-1">
-                        <label className="text-[9px] font-bold uppercase tracking-wider block mb-1 text-slate-400">
-                          Course Module Name
+                        <label className="text-[10px] font-bold uppercase tracking-wider block mb-1 text-slate-400">
+                          Course Name
                         </label>
                         <input
                           type="text"
@@ -449,13 +449,13 @@ export default function ImmersiveDashboard() {
                           onChange={(e) =>
                             handleSubjectChange(sub.id, "name", e.target.value)
                           }
-                          className="w-full text-sm font-semibold p-2 rounded-xl border border-slate-200/60 select-none"
+                          className="w-full text-sm font-semibold p-2.5 rounded-full border border-slate-200/60 select-none"
                         />
                       </div>
 
                       {mode === "PERCENTAGE" ? (
                         <div className="flex flex-col justify-end">
-                          <label className="text-[9px] font-bold uppercase tracking-wider block mb-1 text-slate-400">
+                          <label className="text-[10px] font-bold uppercase tracking-wider block mb-1 text-slate-400">
                             Marks (/100)
                           </label>
                           <input
@@ -464,14 +464,14 @@ export default function ImmersiveDashboard() {
                             onChange={(e) =>
                               handleSubjectChange(sub.id, "marks", e.target.value)
                             }
-                            className="w-full sm:w-20 text-sm font-semibold p-2 rounded-xl border border-slate-200/60 text-center"
+                            className="w-full sm:w-24 text-sm font-semibold p-2.5 rounded-full border border-slate-200/60 text-center"
                             placeholder="88"
                           />
                         </div>
                       ) : (
                         <>
                           <div className="flex flex-col justify-end">
-                            <label className="text-[9px] font-bold uppercase tracking-wider block mb-1 text-slate-400">
+                            <label className="text-[10px] font-bold uppercase tracking-wider block mb-1 text-slate-400">
                               Credits
                             </label>
                             <input
@@ -480,12 +480,12 @@ export default function ImmersiveDashboard() {
                               onChange={(e) =>
                                 handleSubjectChange(sub.id, "credits", e.target.value)
                               }
-                              className="w-full sm:w-16 text-sm font-semibold p-2 rounded-xl border border-slate-200/60 text-center"
+                              className="w-full sm:w-20 text-sm font-semibold p-2.5 rounded-full border border-slate-200/60 text-center"
                               placeholder="4"
                             />
                           </div>
                           <div className="flex flex-col justify-end">
-                            <label className="text-[9px] font-bold uppercase tracking-wider block mb-1 text-slate-400">
+                            <label className="text-[10px] font-bold uppercase tracking-wider block mb-1 text-slate-400">
                               Grade
                             </label>
                             <select
@@ -493,7 +493,7 @@ export default function ImmersiveDashboard() {
                               onChange={(e) =>
                                 handleSubjectChange(sub.id, "grade", e.target.value)
                               }
-                              className="w-full sm:w-24 text-sm font-semibold p-2 rounded-xl border border-slate-200 bg-white cursor-pointer select-none"
+                              className="w-full sm:w-28 text-sm font-semibold p-2.5 rounded-full border border-slate-200/60 bg-white cursor-pointer select-none"
                             >
                               <option value="S">S (10)</option>
                               <option value="A">A (9)</option>
@@ -511,7 +511,7 @@ export default function ImmersiveDashboard() {
                       <div className="flex items-end justify-end sm:pt-4">
                         <button
                           onClick={() => removeSubject(sub.id)}
-                          className="border border-slate-200/60 text-slate-400 hover:bg-slate-50 p-2 font-bold text-xs select-none h-[38px] transition-colors rounded-xl flex items-center justify-center bg-white"
+                          className="border border-slate-200/60 text-slate-400 hover:bg-slate-50 p-2 font-bold text-xs select-none h-[42px] w-[42px] transition-colors rounded-full flex items-center justify-center bg-white"
                           title="Remove Entry"
                         >
                           ✕
@@ -525,9 +525,9 @@ export default function ImmersiveDashboard() {
               {mode !== "WHAT_IF" && (
                 <button
                   onClick={addSubject}
-                  className="w-full border border-dashed border-indigo-200 rounded-xl hover:bg-indigo-50/40 p-2.5 font-bold tracking-wide text-[10px] uppercase text-indigo-600 transition-colors my-4"
+                  className="w-full border border-dashed border-slate-200 rounded-full hover:bg-slate-50/60 p-2.5 font-bold tracking-wide text-xs uppercase text-slate-500 transition-colors my-4 select-none"
                 >
-                  + Append Entry
+                  + Add Course Module
                 </button>
               )}
             </div>
@@ -535,12 +535,12 @@ export default function ImmersiveDashboard() {
             <div>
               <button
                 onClick={calculateResult}
-                className="w-full bg-indigo-600 text-white hover:bg-indigo-700 p-3.5 font-bold rounded-xl tracking-wider uppercase transition-all text-xs border border-indigo-600 shadow-sm flex items-center justify-center"
+                className="w-full bg-[#374151] text-white hover:bg-[#1f2937] p-3.5 font-bold rounded-full tracking-wider uppercase transition-all text-xs border border-[#374151] shadow-md flex items-center justify-center select-none"
               >
                 {isProcessing ? (
                   <>
                     <div className="w-4 h-4 mr-2 rounded-full border-2 border-white/30 border-t-white animate-spin"></div>
-                    Executing Algorithms...
+                    Calculating insights...
                   </>
                 ) : (
                   "Calculate Performance"
@@ -548,7 +548,7 @@ export default function ImmersiveDashboard() {
               </button>
 
               {error && (
-                <div className="border border-red-100 bg-red-50/50 rounded-xl p-3 mt-3 text-[11px] font-bold text-red-600">
+                <div className="border border-red-100 bg-red-50/50 rounded-full p-3 mt-3 text-center text-xs font-bold text-red-600">
                   {error}
                 </div>
               )}
@@ -556,65 +556,65 @@ export default function ImmersiveDashboard() {
           </div>
 
           {/* Precision Analytics Column Workspace */}
-          <div className="flex flex-col justify-between">
+          <div className="flex flex-col justify-between select-none">
             <div>
-              <h2 className="text-[10px] font-bold tracking-wider uppercase text-slate-400 border-b border-slate-200/40 pb-1 mb-4 select-none">
-                Workspace Analytics
+              <h2 className="text-[11px] font-bold tracking-wider uppercase text-slate-400 border-b border-slate-200/40 pb-1 mb-4 select-none">
+                Direct Analytics
               </h2>
 
               {isProcessing ? (
                 <div className="border border-slate-100 bg-white/60 p-5 text-center my-3 select-none rounded-2xl flex flex-col items-center justify-center min-h-[140px] smooth-entry">
                   <div className="w-8 h-8 border-4 border-slate-100 spinner-round rounded-full mb-3"></div>
                   <span className="text-[10px] font-bold text-slate-500 tracking-wide uppercase">
-                    Analyzing Scenario
+                    Analyzing Results
                   </span>
                 </div>
               ) : result ? (
-                <div className="border border-indigo-50/60 bg-indigo-50/20 p-5 text-center my-3 select-none smooth-entry rounded-2xl flex flex-col justify-between min-h-[150px]">
+                <div className="border border-slate-200/40 bg-white p-5 text-center my-3 select-none smooth-entry rounded-2xl flex flex-col justify-between min-h-[150px] shadow-sm">
                   <div>
-                    <span className="text-[9px] font-bold uppercase tracking-widest text-indigo-400">
-                      Precision Calculation
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-[#4b5563]">
+                      Calculation Result
                     </span>
-                    <div className="text-3xl font-black text-indigo-600 tracking-tight mt-1 select-none">
+                    <div className="text-4xl font-black text-[#111827] tracking-tight mt-1">
                       {result}
                     </div>
                     {confidence && (
-                      <div className="text-[9px] font-bold uppercase text-indigo-500 bg-indigo-50/50 px-2 py-0.5 mt-2 rounded-full border border-indigo-100/60 inline-block">
+                      <div className="text-[9px] font-bold uppercase text-slate-600 bg-slate-50 px-3 py-1 mt-2.5 rounded-full border border-slate-200/60 inline-block">
                         Confidence: {confidence}
                       </div>
                     )}
                     {whatIfBreakdown && (
-                      <p className="text-[10px] font-semibold text-slate-500 leading-relaxed mt-3 border-t border-indigo-100/40 pt-2 border-dashed">
+                      <p className="text-[11px] font-normal text-slate-500 leading-relaxed mt-3 border-t border-slate-100 pt-3 border-dashed select-none">
                         {whatIfBreakdown}
                       </p>
                     )}
                   </div>
                   <button
                     onClick={copyToClipboard}
-                    className="text-[9px] border border-indigo-100/60 bg-white hover:bg-indigo-50/40 text-indigo-600 font-bold px-3 py-1.5 rounded-xl mt-3 transition-all self-center shadow-sm select-none"
+                    className="text-[10px] border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 font-bold px-4 py-2 rounded-full mt-4 transition-all self-center shadow-sm select-none"
                   >
-                    Copy Output
+                    Copy result
                   </button>
                 </div>
               ) : (
-                <div className="border border-dashed border-slate-200/60 p-5 text-center text-slate-300 font-bold uppercase text-[9px] my-3 select-none flex flex-col items-center justify-center min-h-[140px] rounded-2xl">
+                <div className="border border-dashed border-slate-200/60 p-5 text-center text-slate-300 font-bold uppercase text-[10px] my-3 select-none flex flex-col items-center justify-center min-h-[140px] rounded-2xl">
                   <span>No computation outcome</span>
-                  <span className="text-[8px] font-normal tracking-wide text-slate-400 mt-1">
+                  <span className="text-[9px] font-normal tracking-wide text-slate-400 mt-1">
                     Execute metrics above
                   </span>
                 </div>
               )}
 
-              {/* Persistence computational logs */}
+              {/* Saved computation logs */}
               <div className="mt-4">
                 <div className="flex justify-between items-center border-b border-slate-200/40 pb-1 mb-2.5">
                   <h3 className="text-[9px] font-bold uppercase tracking-wide text-slate-400 select-none">
-                    Computation Session Log
+                    Performance Log
                   </h3>
                   {history.length > 0 && (
                     <button
                       onClick={clearHistory}
-                      className="text-[8px] bg-slate-50 hover:bg-slate-100 border border-slate-200 px-1.5 py-0.5 rounded-xl font-bold text-slate-500 transition-colors"
+                      className="text-[9px] bg-white hover:bg-slate-50 border border-slate-200 px-3 py-1 rounded-full font-bold text-slate-500 transition-all select-none h-[28px] flex items-center justify-center"
                     >
                       Clear Log
                     </button>
@@ -623,17 +623,17 @@ export default function ImmersiveDashboard() {
 
                 <div className="space-y-1.5 select-none h-[110px] overflow-y-auto pr-0.5">
                   {history.length === 0 ? (
-                    <span className="text-[9px] text-slate-400 italic">
-                      No computational items logged.
+                    <span className="text-[10px] text-slate-400 italic font-medium">
+                      No computational items saved.
                     </span>
                   ) : (
                     history.map((item) => (
                       <div
                         key={item.id}
-                        className="border border-slate-50/60 p-2 bg-white/60 rounded-xl flex items-center justify-between text-xs"
+                        className="border border-slate-100 p-2.5 bg-white rounded-2xl flex items-center justify-between text-xs shadow-sm"
                       >
                         <div className="flex flex-col">
-                          <span className="font-bold text-[9px] uppercase text-slate-600">
+                          <span className="font-bold text-[10px] uppercase text-slate-600">
                             {item.title}
                           </span>
                           <span className="text-[8px] text-slate-400">
@@ -648,8 +648,8 @@ export default function ImmersiveDashboard() {
               </div>
             </div>
 
-            <footer className="text-[9px] border-t border-slate-200/60 pt-3 mt-4 text-center text-slate-400 font-bold tracking-widest uppercase select-none">
-              Modern Performance Workspace Engine
+            <footer className="text-[9px] border-t border-slate-200/50 pt-3 mt-4 text-center text-slate-400 font-bold tracking-widest uppercase">
+              Academic Performance Analytics
             </footer>
           </div>
         </div>
