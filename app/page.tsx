@@ -373,7 +373,7 @@ export default function Platform() {
           isDark ? "border-[#27272a]" : "border-[#e4e4e7]"
         }`}>
           <div className="flex items-center gap-3">
-            <img src="/logo.png" alt="Platform logo" className="h-10 w-10 sm:h-14 sm:w-14 object-contain rounded-full border border-zinc-200 flex-shrink-0" />
+            <img src="/Logo.jpeg" alt="Platform logo" className="h-10 w-10 sm:h-14 sm:w-14 object-contain rounded-full border border-zinc-200 flex-shrink-0" />
             <div>
               <h1 className="text-xl sm:text-3xl font-normal tracking-tight leading-none select-none">
                 Academic Analytics
